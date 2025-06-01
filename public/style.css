@@ -1,0 +1,246 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: #666666;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #2e7d32;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+nav a {
+    color: #666666;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav a:hover {
+    background-color: #2e7d32;
+    color: #fff;
+}
+
+.hero {
+    background-color: #f0f8f0;
+    text-align: center;
+    padding: 50px 0;
+}
+
+.hero h1 {
+    color: #2e7d32;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.cta-button {
+    background-color: #ffd700;
+    color: #333;
+    padding: 12px 25px;
+    text-decoration: none;
+    font-size: 1.1em;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #e5c000;
+}
+
+.featured {
+    padding: 40px 0;
+}
+
+.featured .container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.feature-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.feature-card h2 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.feature-link {
+    color: #2e7d32;
+    display: inline-block;
+    margin-top: 15px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.feature-link:hover {
+    color: #1b5e20;
+}
+
+footer {
+    background-color: #f8f8f8;
+    border-top: 1px solid #ddd;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.9em;
+}
+
+/* Halaman Login */
+.login-page {
+    background: url('background.jpg') no-repeat center center/cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-section {
+    padding: 40px 20px;
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
+    padding: 40px 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.login-container h2 {
+    margin-bottom: 25px;
+    color: #fff;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.login-container input::placeholder {
+    color: #eee;
+}
+
+.login-button {
+    width: 100%;
+    background-color: #c8e6c9; /* hijau muda */
+    color: #2e7d32;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #a5d6a7;
+}
+
+.register-link {
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+.register-link a {
+    color: #c8e6c9;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* Tampilan Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    header .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    nav {
+        width: 100%;
+        text-align: center;
+    }
+
+    nav a {
+        display: block;
+        margin: 5px 0;
+    }
+
+    .hero {
+        padding: 30px 0;
+    }
+
+    .hero h1 {
+        font-size: 2em;
+    }
+
+    .hero p {
+        font-size: 1em;
+    }
+
+    .featured .container {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-card {
+        padding: 15px;
+    }
+}
