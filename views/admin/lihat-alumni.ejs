@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.0/dist/full.css" rel="stylesheet" />
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            greenSoft: '#F0F8F0',
+                            greenFTI: '#166534',
+                        },
+                    },
+                },
+                daisyui: { themes: ['light'] },
+            };
+        </script>
+        <title>Lihat Alumni - Portal Alumni FTI</title>
+    </head>
+    <body class="bg-greenSoft min-h-screen">
+        <!-- Navbar -->
+        <%- include('admin-partials/navbar') %>
+
+        <!-- Section: Daftar Alumni -->
+        <section class="py-12 px-6 max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold text-greenFTI text-center mb-10">Lihat Alumni</h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <% if (alumni && alumni.length > 0) { %> <% alumni.forEach(a => { %>
+                <div class="bg-white p-6 rounded-xl shadow text-center">
+                    <img src="<%= a.foto %>" alt="Foto <%= a.nama %>" class="w-24 h-24 mx-auto mb-4 rounded-full bg-gray-200" />
+                    <h3 class="text-lg font-semibold text-greenFTI"><%= a.nama %></h3>
+                    <p class="text-sm text-gray-600"><%= a.jurusan %> - Lulus <%= a.tahun %></p>
+                    <p class="text-sm text-gray-700 mt-2"><%= a.pekerjaan %></p>
+                </div>
+                <% }) %> <% } else { %>
+                <p class="text-center col-span-full text-gray-500">Belum ada data alumni.</p>
+                <% } %>
+            </div>
+        </section>
+        <!-- Footer -->
+        <%- include('admin-partials/footer') %>
+    </body>
+</html>

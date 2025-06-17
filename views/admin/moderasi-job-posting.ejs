@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moderasi Job Posting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body class="bg-gradient-to-br from-green-50 to-green-100 min-h-screen p--1">
+    <!-- Navbar --><%- include('admin-partials/navbar') %> <section>
+      <!-- Moderasi Job Posting -->
+      <div class="text-center mt-10">
+        <h2 class="text-3xl font-bold text-green-700">Moderasi Job Posting</h2>
+      </div>
+      <div class="flex justify-around mt-10">
+        <!-- Card 1 -->
+        <div class="card w-80 bg-white shadow-md rounded-lg p-8">
+          <h3 class="text-xl font-semibold mb-2">Judul Lowongan</h3>
+          <p class="mb-2">Perusahaan</p>
+          <p class="mb-4 text-gray-600">Tanggal Pengajuan</p>
+          <div class="flex space-x-3">
+            <!-- Tombol Tolak -->
+            <button class="btn btn-sm btn-error text-white px-3 py--1" onclick="rejectJob()">Tolak</button>
+            <!-- Tombol Setujui -->
+            <button class="btn btn-sm btn-warning text-white px-3 py--1" onclick="approveJob()">Setujui</button>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="card w-80 bg-white shadow-md rounded-lg p-8">
+          <h3 class="text-xl font-semibold mb-2">Judul Lowongan</h3>
+          <p class="mb-2">Perusahaan</p>
+          <p class="mb-4 text-gray-600">Tanggal Pengajuan</p>
+          <div class="flex space-x-3">
+            <!-- Tombol Tolak -->
+            <button class="btn btn-sm btn-error text-white px-3 py--1" onclick="rejectJob()">Tolak</button>
+            <!-- Tombol Setujui -->
+            <button class="btn btn-sm btn-warning text-white px-3 py--1" onclick="approveJob()">Setujui</button>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="card w-80 bg-white shadow-md rounded-lg p-8">
+          <h3 class="text-xl font-semibold mb-2">Judul Lowongan</h3>
+          <p class="mb-2">Perusahaan</p>
+          <p class="mb-4 text-gray-600">Tanggal Pengajuan</p>
+          <div class="flex space-x-3">
+            <!-- Tombol Tolak -->
+            <button class="btn btn-sm btn-error text-white px-3 py--1" onclick="rejectJob()">Tolak</button>
+            <!-- Tombol Setujui -->
+            <button class="btn btn-sm btn-warning text-white px-3 py--1" onclick="approveJob()">Setujui</button>
+          </div>
+        </div>
+    </section>
+    <!-- JavaScript -->
+    <script>
+      // Fungsi untuk menyetujui lowongan
+      function approveJob() {
+        alert("Lowongan disetujui!");
+      }
+      // Fungsi untuk menolak lowongan
+      function rejectJob() {
+        alert("Lowongan ditolak!");
+      }
+    </script><%- include('admin-partials/footer') %>
+  </body>
+</html>

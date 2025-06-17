@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Portal Alumni FTI</title>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            .navbar-brand {
+                color: #22c55e;
+                font-weight: bold;
+                font-size: 1.25rem;
+            }
+            .modal-content {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                max-width: 600px;
+                width: 95%;
+                margin: 0 auto;
+            }
+            .form-section {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+            .table-section {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                margin-top: 2rem;
+            }
+        </style>
+    </head>
+    <body class="bg-gray-50">
+        <!-- Navbar -->
+        <div class="navbar bg-white shadow-md px-6">
+            <div class="flex-1">
+                <a class="font-bold text-green-700 text-lg">Portal Alumni FTI</a>
+            </div>
+            <ul class="menu menu-horizontal px-1 text-sm">
+                <li><a>Beranda</a></li>
+                <li><a>Profil Alumni</a></li>
+                <li><a>Lowongan Pekerjaan</a></li>
+                <li><a>Informasi</a></li>
+                <li><a>Kritik & Saran</a></li>
+                <li><a>Login</a></li>
+            </ul>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="hero min-h-32 bg-gradient-to-r from-green-100 to-blue-100">
+            <div class="hero-content text-center">
+                <div class="max-w-md">
+                    <h1 class="text-3xl font-bold text-gray-800">Portal Alumni FTI</h1>
+                    <p class="py-2 text-gray-600">Fakultas Teknologi Informasi</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Main Content Area -->
+                <div class="lg:col-span-2">
+                    <!-- Information Card -->
+                    <div class="card bg-white shadow-lg">
+                        <div class="card-body">
+                            <h2 class="card-title text-2xl font-bold text-gray-800 mb-4">INFORMASI PEMBAYARAN IURAN TAHUN 2024</h2>
+
+                            <div class="bg-gray-100 p-4 rounded-lg mb-6">
+                                <p class="text-sm text-gray-700 mb-3">Program ini akan dilaksanakan di seluruh lokasi SPIL pada bulan Agustus 2025.</p>
+
+                                <p class="text-sm text-gray-700 mb-4">
+                                    Sesuai surat Ketua Umum Pengurus Pusat AAI nomor S-008/AAI/2024 tanggal 6 November 2024 hal Informasi Pembayaran Iuran Analis Anggaran Indonesia (AAI) Tahun 2024, terdapat beberapa penyesuaian terkait
+                                    pembayaran iuran anggota, sebagai berikut:
+                                </p>
+
+                                <div class="space-y-2">
+                                    <p class="text-sm text-gray-700">
+                                        • Anggota AAI diberikan keringanan pembayaran iuran keanggotaan mulai tahun 2024, semula Rp60.000,00 (enam puluh ribu rupiah) per tahun menjadi hanya sebesar Rp50.000,00 (lima puluh ribu rupiah) per
+                                        tahun.
+                                    </p>
+
+                                    <p class="text-sm text-gray-700">• Keputusan lebih lanjut terkait iuran anggota AAI pada periode tahun berikutnya akan dimusyawarahkan melalui rapat pengurus AAI.</p>
+                                </div>
+                            </div>
+
+                            <!-- Comments Section -->
+                            <div class="divider"></div>
+                            <h3 class="text-lg font-semibold mb-4">Komentar</h3>
+
+                            <!-- Sample Comments -->
+                            <div class="space-y-4 mb-6" id="comments-container">
+                                <div class="flex gap-3">
+                                    <div class="avatar placeholder">
+                                        <div class="bg-neutral text-neutral-content rounded-full w-10">
+                                            <span class="text-xs">N</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="text-sm font-medium text-gray-800">Nama</div>
+                                        <div class="text-xs text-gray-500">Komentar</div>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-3">
+                                    <div class="avatar placeholder">
+                                        <div class="bg-neutral text-neutral-content rounded-full w-10">
+                                            <span class="text-xs">N</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="text-sm font-medium text-gray-800">Nama</div>
+                                        <div class="text-xs text-gray-500">Komentar</div>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-3">
+                                    <div class="avatar placeholder">
+                                        <div class="bg-neutral text-neutral-content rounded-full w-10">
+                                            <span class="text-xs">N</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="text-sm font-medium text-gray-800">Nama</div>
+                                        <div class="text-xs text-gray-500">Komentar</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Comment Form -->
+                            <div class="flex gap-3">
+                                <input type="text" placeholder="tulis komentar" class="input input-bordered flex-1" id="comment-input" />
+                                <button class="btn btn-warning" onclick="addComment()">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="card bg-white shadow-lg">
+                        <div class="card-body">
+                            <h3 class="card-title text-lg font-bold text-gray-800 mb-4">KATEGORI</h3>
+                            <div class="bg-gray-100 h-32 rounded-lg flex items-center justify-center">
+                                <p class="text-gray-500 text-sm">Konten kategori akan ditampilkan di sini</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Info Card -->
+                    <div class="card bg-white shadow-lg mt-6">
+                        <div class="card-body">
+                            <h3 class="card-title text-lg font-bold text-gray-800 mb-4">Informasi Terkini</h3>
+                            <div class="space-y-3">
+                                <div class="p-3 bg-blue-50 rounded-lg">
+                                    <h4 class="font-medium text-sm text-blue-800">Pembayaran Iuran 2024</h4>
+                                    <p class="text-xs text-blue-600 mt-1">Iuran anggota diturunkan menjadi Rp50.000</p>
+                                </div>
+                                <div class="p-3 bg-green-50 rounded-lg">
+                                    <h4 class="font-medium text-sm text-green-800">Program SPIL</h4>
+                                    <p class="text-xs text-green-600 mt-1">Akan dilaksanakan Agustus 2025</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer footer-center p-10 bg-primary text-primary-content mt-12">
+            <aside>
+                <i class="fas fa-graduation-cap text-4xl mb-4"></i>
+                <p class="font-semibold text-lg">Portal Alumni FTI</p>
+                <p>Fakultas Teknologi Informasi</p>
+                <p class="mt-2">Copyright © 2024 - All rights reserved</p>
+            </aside>
+        </footer>
+
+        <script>
+            // JavaScript functionality
+            let commentCounter = 1;
+
+            function addComment() {
+                const commentInput = document.getElementById('comment-input');
+                const commentText = commentInput.value.trim();
+
+                if (commentText === '') {
+                    alert('Silakan masukkan komentar terlebih dahulu!');
+                    return;
+                }
+
+                const commentsContainer = document.getElementById('comments-container');
+
+                // Create new comment element
+                const newComment = document.createElement('div');
+                newComment.className = 'flex gap-3';
+
+                newComment.innerHTML = `
+                <div class="avatar placeholder">
+                    <div class="bg-neutral text-neutral-content rounded-full w-10">
+                        <span class="text-xs">U${commentCounter}</span>
+                    </div>
+                </div>
+                <div class="flex-1">
+                    <div class="text-sm font-medium text-gray-800">User ${commentCounter}</div>
+                    <div class="text-xs text-gray-500">${commentText}</div>
+                    <div class="text-xs text-gray-400 mt-1">${new Date().toLocaleString('id-ID')}</div>
+                </div>
+            `;
+
+                // Add the new comment to the container
+                commentsContainer.appendChild(newComment);
+
+                // Clear the input
+                commentInput.value = '';
+
+                // Increment counter
+                commentCounter++;
+
+                // Show success message
+                showNotification('Komentar berhasil ditambahkan!', 'success');
+            }
+
+            function showNotification(message, type) {
+                // Create notification
+                const notification = document.createElement('div');
+                notification.className = `alert alert-${type} fixed top-4 right-4 w-auto z-50 transition-all duration-300`;
+                notification.innerHTML = `
+                <span>${message}</span>
+                <button class="btn btn-sm btn-ghost" onclick="this.parentElement.remove()">×</button>
+            `;
+
+                document.body.appendChild(notification);
+
+                // Auto remove after 3 seconds
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 3000);
+            }
+
+            // Add enter key support for comment input
+            document.getElementById('comment-input').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    addComment();
+                }
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                        });
+                    }
+                });
+            });
+
+            // Add loading animation for login button
+            document.querySelector('.btn-primary').addEventListener('click', function () {
+                this.classList.add('loading');
+                setTimeout(() => {
+                    this.classList.remove('loading');
+                    showNotification('Fitur login akan segera tersedia!', 'info');
+                }, 1000);
+            });
+        </script>
+    </body>
+</html>

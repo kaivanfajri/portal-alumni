@@ -1,0 +1,50 @@
+{
+    "name": "portal-alumni",
+    "version": "1.0.0",
+    "description": "Sistem Portal Alumni",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "nodemon server.js",
+        "db:migrate": "npx prisma migrate dev",
+        "db:generate": "npx prisma generate",
+        "db:studio": "npx prisma studio",
+        "db:seed": "node database/seed.js",
+        "db:reset": "npx prisma migrate reset",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "alumni",
+        "portal",
+        "nodejs",
+        "express",
+        "mysql",
+        "prisma"
+    ],
+    "author": "Kelompok 11 PWEB",
+    "license": "MIT",
+    "dependencies": {
+        "@prisma/client": "^5.7.1",
+        "bcryptjs": "^2.4.3",
+        "connect-mysql": "^3.0.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "ejs": "^3.1.9",
+        "express": "^4.18.2",
+        "express-rate-limit": "^7.1.5",
+        "express-session": "^1.17.3",
+        "express-validator": "^7.0.1",
+        "helmet": "^7.1.0",
+        "jsonwebtoken": "^9.0.2",
+        "multer": "^1.4.5-lts.1",
+        "mysql2": "^3.6.5",
+        "nodemailer": "^6.9.7",
+        "prisma": "^5.7.1"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.2"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}

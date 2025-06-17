@@ -1,0 +1,475 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  password        String
+  role            UserRole  @default(ALUMNI)
+  isActive        Boolean   @default(true)
+  emailVerified   Boolean   @default(false)
+  resetToken      String?
+  resetTokenExp   DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  alumni          Alumni?
+  admin           Admin?
+  sessions        Session[]
+  notifications   Notification[]
+
+  @@map("users")
+}
+
+model Alumni {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  nim             String    @unique
+  fullName        String
+  graduationYear  Int
+  major           String
+  phoneNumber     String?
+  currentJob      String?
+  company         String?
+  address         String?   @db.Text
+  profilePicture  String?
+  bio             String?   @db.Text
+  linkedIn        String?
+  instagram       String?
+  facebook        String?
+  isPublic        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobPosts        JobPost[]
+  articles        Article[]
+  comments        Comment[]
+  forumPosts      ForumPost[]
+  forumReplies    ForumReply[]
+  bookmarks       Bookmark[]
+  tracerStudies   TracerStudy[]
+  achievements    Achievement[]
+  eventRegistrations EventRegistration[]
+
+  @@map("alumni")
+}
+
+model Admin {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  fullName        String
+  profilePicture  String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("admins")
+}
+
+model Session {
+  id              String    @id @default(cuid())
+  userId          String
+  token           String    @unique
+  expiresAt       DateTime
+  createdAt       DateTime  @default(now())
+
+  // Relations
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model JobPost {
+  id              String    @id @default(cuid())
+  alumniId        String
+  title           String
+  company         String
+  location        String
+  jobType         JobType
+  salary          String?
+  description     String    @db.Text
+  requirements    String    @db.Text
+  applyUrl        String
+  isActive        Boolean   @default(true)
+  status          PostStatus @default(PENDING)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  alumni          Alumni    @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+  bookmarks       Bookmark[]
+
+  @@map("job_posts")
+}
+
+model Article {
+  id              String    @id @default(cuid())
+  alumniId        String
+  title           String
+  slug            String    @unique
+  content         String    @db.LongText
+  thumbnail       String?
+  category        String
+  tags            String?
+  views           Int       @default(0)
+  status          PostStatus @default(PENDING)
+  publishedAt     DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  alumni          Alumni    @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+  comments        Comment[]
+
+  @@map("articles")
+}
+
+model Comment {
+  id              String    @id @default(cuid())
+  alumniId        String
+  articleId       String
+  content         String    @db.Text
+  parentId        String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  alumni          Alumni    @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+  article         Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  parent          Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies         Comment[] @relation("CommentReplies")
+
+  @@map("comments")
+}
+
+model ForumPost {
+  id              String    @id @default(cuid())
+  alumniId        String
+  title           String
+  content         String    @db.Text
+  category        String
+  tags            String?
+  views           Int       @default(0)
+  isPinned        Boolean   @default(false)
+  status          PostStatus @default(PENDING)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  alumni          Alumni    @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+  replies         ForumReply[]
+
+  @@map("forum_posts")
+}
+
+model ForumReply {
+  id              String    @id @default(cuid())
+  alumniId        String
+  forumPostId     String
+  content         String    @db.Text
+  parentId        String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  alumni          Alumni    @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+  forumPost       ForumPost @relation(fields: [forumPostId], references: [id], onDelete: Cascade)
+  parent          ForumReply? @relation("ReplyToReply", fields: [parentId], references: [id])
+  replies         ForumReply[] @relation("ReplyToReply")
+
+  @@map("forum_replies")
+}
+
+model Event {
+  id              String    @id @default(cuid())
+  title           String
+  description     String    @db.Text
+  startDate       DateTime
+  endDate         DateTime
+  location        String
+  eventType       EventType
+  maxParticipants Int?
+  registrationFee Decimal?  @db.Decimal(10,2)
+  thumbnail       String?
+  isPublic        Boolean   @default(true)
+  status          EventStatus @default(ACTIVE)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  registrations   EventRegistration[]
+
+  @@map("events")
+}
+
+model EventRegistration {
+  id              String    @id @default(cuid())
+  alumniId        String
+  eventId         String
+  status          RegistrationStatus @default(REGISTERED)
+  registeredAt    DateTime  @default(now())
+
+  // Relations
+  alumni          Alumni    @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+  event           Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([alumniId, eventId])
+  @@map("event_registrations")
+}
+
+model News {
+  id              String    @id @default(cuid())
+  title           String
+  slug            String    @unique
+  content         String    @db.LongText
+  thumbnail       String?
+  category        NewsCategory
+  tags            String?
+  views           Int       @default(0)
+  isFeatured      Boolean   @default(false)
+  publishedAt     DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("news")
+}
+
+model Gallery {
+  id              String    @id @default(cuid())
+  title           String
+  description     String?   @db.Text
+  images          String    @db.Text // JSON array of image URLs
+  category        String
+  eventDate       DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("galleries")
+}
+
+model FAQ {
+  id              String    @id @default(cuid())
+  question        String    @db.Text
+  answer          String    @db.Text
+  category        String
+  order           Int       @default(0)
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("faqs")
+}
+
+model Contact {
+  id              String    @id @default(cuid())
+  name            String
+  email           String
+  subject         String
+  message         String    @db.Text
+  status          ContactStatus @default(PENDING)
+  response        String?   @db.Text
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("contacts")
+}
+
+model Bookmark {
+  id              String    @id @default(cuid())
+  alumniId        String
+  jobPostId       String
+  createdAt       DateTime  @default(now())
+
+  // Relations
+  alumni          Alumni    @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+  jobPost         JobPost   @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+
+  @@unique([alumniId, jobPostId])
+  @@map("bookmarks")
+}
+
+model TracerStudy {
+  id              String    @id @default(cuid())
+  alumniId        String
+  currentStatus   WorkStatus
+  jobTitle        String?
+  company         String?
+  salary          String?
+  workLocation    String?
+  relevanceToMajor RelevanceLevel?
+  furtherStudy    Boolean   @default(false)
+  studyProgram    String?
+  studyInstitution String?
+  suggestions     String?   @db.Text
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  alumni          Alumni    @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+
+  @@map("tracer_studies")
+}
+
+model Achievement {
+  id              String    @id @default(cuid())
+  alumniId        String
+  title           String
+  description     String    @db.Text
+  category        String
+  achievedAt      DateTime
+  certificate     String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  alumni          Alumni    @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+
+  @@map("achievements")
+}
+
+model Notification {
+  id              String    @id @default(cuid())
+  userId          String
+  title           String
+  message         String    @db.Text
+  type            NotificationType
+  isRead          Boolean   @default(false)
+  actionUrl       String?
+  createdAt       DateTime  @default(now())
+
+  // Relations
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model ServiceRequest {
+  id              String    @id @default(cuid())
+  alumniId        String
+  type            ServiceType
+  title           String
+  description     String    @db.Text
+  attachments     String?   @db.Text // JSON array
+  status          RequestStatus @default(PENDING)
+  adminNote       String?   @db.Text
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("service_requests")
+}
+
+// Enums
+enum UserRole {
+  ALUMNI
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERNSHIP
+  FREELANCE
+}
+
+enum PostStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  DRAFT
+}
+
+enum EventType {
+  SEMINAR
+  WORKSHOP
+  REUNION
+  NETWORKING
+  WEBINAR
+  OTHER
+}
+
+enum EventStatus {
+  ACTIVE
+  CANCELLED
+  COMPLETED
+  POSTPONED
+}
+
+enum RegistrationStatus {
+  REGISTERED
+  CONFIRMED
+  CANCELLED
+  ATTENDED
+}
+
+enum NewsCategory {
+  ANNOUNCEMENT
+  SCHOLARSHIP
+  EVENT
+  ACHIEVEMENT
+  GENERAL
+}
+
+enum ContactStatus {
+  PENDING
+  RESPONDED
+  CLOSED
+}
+
+enum WorkStatus {
+  WORKING
+  UNEMPLOYED
+  ENTREPRENEUR
+  FURTHER_STUDY
+  OTHER
+}
+
+enum RelevanceLevel {
+  VERY_RELEVANT
+  RELEVANT
+  LESS_RELEVANT
+  NOT_RELEVANT
+}
+
+enum NotificationType {
+  GENERAL
+  EVENT
+  JOB
+  ARTICLE
+  FORUM
+  SYSTEM
+}
+
+enum ServiceType {
+  JOB_POSTING
+  ARTICLE_SUBMISSION
+  FORUM_POST
+  EVENT_PROPOSAL
+  OTHER
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  PROCESSING
+}

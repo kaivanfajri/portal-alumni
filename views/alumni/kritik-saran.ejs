@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Portal Alumni FTI - Kritik dan Saran Aplikasi</title>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            .navbar-brand {
+                color: #22c55e;
+                font-weight: bold;
+                font-size: 1.25rem;
+            }
+            .modal-content {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                max-width: 600px;
+                width: 95%;
+                margin: 0 auto;
+            }
+            .form-section {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+            .table-section {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                margin-top: 2rem;
+            }
+        </style>
+    </head>
+    <body class="bg-gray-50">
+        <!-- Navbar -->
+        <div class="navbar bg-white shadow-md px-6">
+            <div class="flex-1">
+                <a class="font-bold text-green-700 text-lg">Portal Alumni FTI</a>
+            </div>
+            <ul class="menu menu-horizontal px-1 text-sm">
+                <li><a>Beranda</a></li>
+                <li><a>Profil Alumni</a></li>
+                <li><a>Lowongan Pekerjaan</a></li>
+                <li><a>Informasi</a></li>
+                <li><a class="font-semibold text-green-800">Kritik & Saran</a></li>
+                <li><a>Login</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="min-h-screen bg-gray-100 p-6">
+            <div class="container mx-auto max-w-4xl">
+                <!-- Form Section -->
+                <div class="form-section">
+                    <div class="card bg-white">
+                        <div class="card-body p-8">
+                            <h2 class="card-title text-2xl font-bold text-center text-gray-800 mb-8">Kritik dan Saran Aplikasi</h2>
+
+                            <form id="kritikSaranForm" class="space-y-6">
+                                <!-- Nama (Opsional) -->
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text font-semibold text-gray-700">Nama (Opsional) :</span>
+                                    </label>
+                                    <input type="text" id="nama" class="input input-bordered w-full focus:border-green-500 focus:ring-2 focus:ring-green-200" placeholder="Masukkan nama Anda (opsional)" />
+                                </div>
+
+                                <!-- Email (Opsional) -->
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text font-semibold text-gray-700">Email (Opsional) :</span>
+                                    </label>
+                                    <input type="email" id="email" class="input input-bordered w-full focus:border-green-500 focus:ring-2 focus:ring-green-200" placeholder="Masukkan email Anda (opsional)" />
+                                </div>
+
+                                <!-- Jenis Masukan -->
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text font-semibold text-gray-700">Jenis Masukan :</span>
+                                    </label>
+                                    <select id="jenisMasukan" class="select select-bordered w-full focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                                        <option value="">Pilih jenis masukan</option>
+                                        <option value="Kritik">Kritik</option>
+                                        <option value="Saran">Saran</option>
+                                        <option value="Bug Report">Bug Report</option>
+                                        <option value="Feature Request">Feature Request</option>
+                                        <option value="Keluhan">Keluhan</option>
+                                        <option value="Pujian">Pujian</option>
+                                    </select>
+                                </div>
+
+                                <!-- Pesan -->
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text font-semibold text-gray-700">Pesan :</span>
+                                    </label>
+                                    <textarea
+                                        id="pesan"
+                                        class="textarea textarea-bordered h-32 w-full focus:border-green-500 focus:ring-2 focus:ring-green-200"
+                                        placeholder="Tuliskan kritik, saran, atau masukan Anda mengenai aplikasi ini..."
+                                        required></textarea>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="pt-4">
+                                    <button type="submit" class="btn bg-yellow-400 hover:bg-yellow-500 border-yellow-400 text-black font-semibold w-full py-3 text-base">Kirim</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table Section -->
+                <div class="table-section">
+                    <div class="card bg-white">
+                        <div class="card-body p-8">
+                            <h2 class="card-title text-xl font-bold text-gray-800 mb-6">Riwayat Kritik dan Saran</h2>
+
+                            <!-- Filter -->
+                            <div class="flex flex-col md:flex-row gap-4 mb-6">
+                                <div class="form-control flex-1">
+                                    <input type="text" id="searchInput" placeholder="Cari berdasarkan nama atau pesan..." class="input input-bordered w-full focus:border-green-500 focus:ring-2 focus:ring-green-200" />
+                                </div>
+                                <div class="form-control">
+                                    <select id="filterJenis" class="select select-bordered focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                                        <option value="">Semua Jenis</option>
+                                        <option value="Kritik">Kritik</option>
+                                        <option value="Saran">Saran</option>
+                                        <option value="Bug Report">Bug Report</option>
+                                        <option value="Feature Request">Feature Request</option>
+                                        <option value="Keluhan">Keluhan</option>
+                                        <option value="Pujian">Pujian</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Cards List -->
+                            <div id="feedbackContainer" class="space-y-4">
+                                <!-- Data akan diisi oleh JavaScript -->
+                            </div>
+
+                            <!-- Pagination -->
+                            <div class="flex justify-between items-center mt-6">
+                                <div class="text-sm text-gray-600">Menampilkan <span id="showingInfo" class="font-semibold">0</span> data</div>
+                                <div class="btn-group">
+                                    <button id="prevPage" class="btn btn-sm">«</button>
+                                    <button class="btn btn-sm btn-active bg-green-500 text-white" id="currentPage">1</button>
+                                    <button id="nextPage" class="btn btn-sm">»</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Container -->
+        <div id="toastContainer" class="toast toast-top toast-end"></div>
+
+        <script>
+            // Data storage untuk menyimpan feedback
+            let feedbackData = [
+                {
+                    id: 1,
+                    nama: 'Ahmad Rizki',
+                    email: 'ahmad.rizki@email.com',
+                    jenisMasukan: 'Saran',
+                    pesan: 'Aplikasi sudah bagus, tapi mohon ditambahkan fitur notifikasi untuk lowongan kerja baru.',
+                    tanggal: '2024-06-10',
+                    status: 'Ditinjau',
+                },
+                {
+                    id: 2,
+                    nama: 'Siti Marlina',
+                    email: 'siti.marlina@email.com',
+                    jenisMasukan: 'Bug Report',
+                    pesan: 'Ada bug pada halaman profil alumni, gambar tidak bisa diupload dengan format PNG.',
+                    tanggal: '2024-06-08',
+                    status: 'Dalam Proses',
+                },
+                {
+                    id: 3,
+                    nama: 'Anonim',
+                    email: '',
+                    jenisMasukan: 'Kritik',
+                    pesan: 'Interface aplikasi masih terlihat kuno, perlu di-update agar lebih modern.',
+                    tanggal: '2024-06-05',
+                    status: 'Selesai',
+                },
+            ];
+
+            let currentPage = 1;
+            const itemsPerPage = 5;
+
+            // Initialize
+            document.addEventListener('DOMContentLoaded', function () {
+                renderFeedback();
+                setupEventListeners();
+            });
+
+            function setupEventListeners() {
+                // Form submission
+                document.getElementById('kritikSaranForm').addEventListener('submit', handleSubmit);
+
+                // Search and filter
+                document.getElementById('searchInput').addEventListener('input', handleSearch);
+                document.getElementById('filterJenis').addEventListener('change', handleFilter);
+
+                // Pagination
+                document.getElementById('prevPage').addEventListener('click', () => changePage(-1));
+                document.getElementById('nextPage').addEventListener('click', () => changePage(1));
+
+                // Input focus effects
+                document.querySelectorAll('input, textarea, select').forEach((element) => {
+                    element.addEventListener('focus', function () {
+                        this.parentNode.classList.add('focused');
+                    });
+
+                    element.addEventListener('blur', function () {
+                        this.parentNode.classList.remove('focused');
+                    });
+                });
+            }
+
+            function handleSubmit(e) {
+                e.preventDefault();
+
+                const formData = getFormData();
+
+                if (!validateForm(formData)) {
+                    showToast('Mohon isi pesan dan pilih jenis masukan!', 'error');
+                    return;
+                }
+
+                addFeedback(formData);
+                showToast('Kritik dan saran berhasil dikirim! Terima kasih atas masukan Anda.', 'success');
+
+                clearForm();
+                renderFeedback();
+            }
+
+            function handleSearch() {
+                currentPage = 1;
+                renderFeedback();
+            }
+
+            function handleFilter() {
+                currentPage = 1;
+                renderFeedback();
+            }
+
+            function getFormData() {
+                return {
+                    nama: document.getElementById('nama').value.trim() || 'Anonim',
+                    email: document.getElementById('email').value.trim(),
+                    jenisMasukan: document.getElementById('jenisMasukan').value,
+                    pesan: document.getElementById('pesan').value.trim(),
+                    tanggal: new Date().toISOString().split('T')[0],
+                    status: 'Baru',
+                };
+            }
+
+            function validateForm(data) {
+                return data.pesan && data.jenisMasukan;
+            }
+
+            function addFeedback(data) {
+                const newId = Math.max(...feedbackData.map((item) => item.id), 0) + 1;
+                feedbackData.unshift({ id: newId, ...data });
+            }
+
+            function clearForm() {
+                document.getElementById('kritikSaranForm').reset();
+            }
+
+            function renderFeedback() {
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                const filterJenis = document.getElementById('filterJenis').value;
+
+                let filteredData = feedbackData.filter((item) => {
+                    const matchSearch = item.nama.toLowerCase().includes(searchTerm) || item.pesan.toLowerCase().includes(searchTerm);
+                    const matchFilter = !filterJenis || item.jenisMasukan === filterJenis;
+                    return matchSearch && matchFilter;
+                });
+
+                const startIndex = (currentPage - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const paginatedData = filteredData.slice(startIndex, endIndex);
+
+                const container = document.getElementById('feedbackContainer');
+                container.innerHTML = '';
+
+                if (paginatedData.length === 0) {
+                    container.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <p>Tidak ada data kritik dan saran ditemukan.</p>
+                    </div>
+                `;
+                } else {
+                    paginatedData.forEach((item) => {
+                        const feedbackCard = createFeedbackCard(item);
+                        container.appendChild(feedbackCard);
+                    });
+                }
+
+                updatePaginationInfo(filteredData.length);
+            }
+
+            function createFeedbackCard(item) {
+                const card = document.createElement('div');
+                card.className = 'card bg-gray-50 border border-gray-200';
+                card.innerHTML = `
+                <div class="card-body p-4">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">${item.nama}</h3>
+                            <p class="text-sm text-gray-500">${item.email || 'Email tidak disediakan'}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="badge ${getBadgeClass(item.jenisMasukan)} text-white text-xs">${item.jenisMasukan}</span>
+                            <p class="text-xs text-gray-500 mt-1">${formatDate(item.tanggal)}</p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <p class="text-gray-700 text-sm leading-relaxed">${item.pesan}</p>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="badge ${getStatusBadgeClass(item.status)} badge-outline text-xs">${item.status}</span>
+                        <button onclick="deleteFeedback(${item.id})" class="btn btn-xs bg-red-500 hover:bg-red-600 text-white border-red-500" title="Hapus">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+                return card;
+            }
+
+            function getBadgeClass(jenis) {
+                const classes = {
+                    Kritik: 'bg-red-500',
+                    Saran: 'bg-blue-500',
+                    'Bug Report': 'bg-orange-500',
+                    'Feature Request': 'bg-purple-500',
+                    Keluhan: 'bg-yellow-500',
+                    Pujian: 'bg-green-500',
+                };
+                return classes[jenis] || 'bg-gray-500';
+            }
+
+            function getStatusBadgeClass(status) {
+                const classes = {
+                    Baru: 'badge-info',
+                    Ditinjau: 'badge-warning',
+                    'Dalam Proses': 'badge-primary',
+                    Selesai: 'badge-success',
+                };
+                return classes[status] || 'badge-neutral';
+            }
+
+            function formatDate(dateString) {
+                const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                return new Date(dateString).toLocaleDateString('id-ID', options);
+            }
+
+            function deleteFeedback(id) {
+                if (confirm('Apakah Anda yakin ingin menghapus feedback ini?')) {
+                    feedbackData = feedbackData.filter((item) => item.id !== id);
+                    renderFeedback();
+                    showToast('Feedback berhasil dihapus!', 'success');
+                }
+            }
+
+            function updatePaginationInfo(totalItems) {
+                const showing = Math.min(totalItems, currentPage * itemsPerPage);
+                const startItem = totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
+                document.getElementById('showingInfo').textContent = `${startItem}-${showing} dari ${totalItems}`;
+                document.getElementById('currentPage').textContent = currentPage;
+
+                document.getElementById('prevPage').disabled = currentPage === 1;
+                document.getElementById('nextPage').disabled = showing >= totalItems;
+            }
+
+            function changePage(direction) {
+                const newPage = currentPage + direction;
+                if (newPage >= 1) {
+                    currentPage = newPage;
+                    renderFeedback();
+                }
+            }
+
+            function showToast(message, type = 'info') {
+                const toastTypes = {
+                    success: 'alert-success',
+                    error: 'alert-error',
+                    info: 'alert-info',
+                    warning: 'alert-warning',
+                };
+
+                const toast = document.createElement('div');
+                toast.className = `alert ${toastTypes[type]} shadow-lg mb-2`;
+                toast.innerHTML = `
+                <div>
+                    <span class="text-white">${message}</span>
+                </div>
+            `;
+
+                document.getElementById('toastContainer').appendChild(toast);
+
+                setTimeout(() => {
+                    toast.remove();
+                }, 4000);
+            }
+        </script>
+    </body>
+</html>

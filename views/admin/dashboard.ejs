@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dashboard Admin - Portal Alumni</title>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.2/dist/full.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+        </style>
+    </head>
+    <body class="min-h-screen bg-[#F0F8F0]">
+        <!-- Include Navbar -->
+        <%- include('admin-partials/navbar') %>
+
+        <!-- Main Content -->
+        <div class="container mx-auto px-6 py-8">
+            <div class="mb-8">
+                <h1 class="text-4xl font-bold mb-2 text-[#2E7D32]">Dashboard Administrator</h1>
+                <p class="text-lg text-[#2E7D32]/80">Kelola sistem alumni dengan mudah dan efisien</p>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="stat rounded-xl shadow-lg p-6 bg-gradient-to-br from-[#2E7D32] to-green-500 text-white">
+                    <div class="stat-figure">
+                        <i class="fas fa-users text-3xl opacity-80"></i>
+                    </div>
+                    <div class="stat-title text-white/90">Total Alumni</div>
+                    <div class="stat-value">1,247</div>
+                    <div class="stat-desc text-white/80">↗︎ 12% (30 hari)</div>
+                </div>
+
+                <div class="stat rounded-xl shadow-lg p-6 bg-white border-2 border-[#E9E7E7]">
+                    <div class="stat-figure">
+                        <i class="fas fa-briefcase text-3xl text-[#FFD700]"></i>
+                    </div>
+                    <div class="stat-title text-[#2E7D32]">Lowongan Aktif</div>
+                    <div class="stat-value text-[#2E7D32]">89</div>
+                    <div class="stat-desc text-[#2E7D32]">↗︎ 7% (7 hari)</div>
+                </div>
+
+                <div class="stat rounded-xl shadow-lg p-6 bg-white border-2 border-[#E9E7E7]">
+                    <div class="stat-figure">
+                        <i class="fas fa-newspaper text-3xl text-[#FFD700]"></i>
+                    </div>
+                    <div class="stat-title text-[#2E7D32]">Artikel Pending</div>
+                    <div class="stat-value text-[#2E7D32]">23</div>
+                    <div class="stat-desc text-[#2E7D32]">Butuh moderasi</div>
+                </div>
+
+                <div class="stat rounded-xl shadow-lg p-6 bg-white border-2 border-[#E9E7E7]">
+                    <div class="stat-figure">
+                        <i class="fas fa-calendar-alt text-3xl text-[#FFD700]"></i>
+                    </div>
+                    <div class="stat-title text-[#2E7D32]">Acara Bulan Ini</div>
+                    <div class="stat-value text-[#2E7D32]">5</div>
+                    <div class="stat-desc text-[#2E7D32]">2 mendatang</div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-[#2E7D32]">Aksi Cepat</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <button class="btn btn-lg shadow-lg text-white bg-[#FFD700] border-none hover:bg-[#FFD700]/90 hover:scale-105 transition-all duration-300"><i class="fas fa-plus mr-2"></i>Tambah Berita</button>
+                    <button class="btn btn-lg shadow-lg text-white bg-[#FFD700] border-none hover:bg-[#FFD700]/90 hover:scale-105 transition-all duration-300"><i class="fas fa-calendar-plus mr-2"></i>Buat Acara</button>
+                    <button class="btn btn-lg shadow-lg text-white bg-[#FFD700] border-none hover:bg-[#FFD700]/90 hover:scale-105 transition-all duration-300"><i class="fas fa-bell mr-2"></i>Kirim Notifikasi</button>
+                    <button class="btn btn-lg shadow-lg text-white bg-[#FFD700] border-none hover:bg-[#FFD700]/90 hover:scale-105 transition-all duration-300"><i class="fas fa-download mr-2"></i>Export Data</button>
+                </div>
+            </div>
+
+            <!-- Admin Functions Grid -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-[#2E7D32]">Fungsi Administrator</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Manajemen Konten -->
+                    <div class="card shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-white border-2 border-[#E9E7E7]">
+                        <div class="card-body">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full flex items-center justify-center mr-4 bg-[#FFD700]">
+                                    <i class="fas fa-edit text-white text-xl"></i>
+                                </div>
+                                <h3 class="card-title text-[#2E7D32]">Manajemen Konten</h3>
+                            </div>
+                            <div class="space-y-2">
+                                <button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-newspaper mr-2"></i>Kelola Berita & Agenda</button>
+                                <button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-images mr-2"></i>Kelola Galeri</button>
+                                <button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-check-circle mr-2"></i>Moderasi Artikel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Manajemen Alumni -->
+                    <div class="card shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-white border-2 border-[#E9E7E7]">
+                        <div class="card-body">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full flex items-center justify-center mr-4 bg-[#FFD700]">
+                                    <i class="fas fa-users text-white text-xl"></i>
+                                </div>
+                                <h3 class="card-title text-[#2E7D32]">Manajemen Alumni</h3>
+                            </div>
+                            <div class="space-y-2">
+                                <button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-user-plus mr-2"></i>Kelola Data Alumni</button>
+                                <button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-chart-bar mr-2"></i>Statistik Alumni</button>
+                                <button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-award mr-2"></i>Kelola Penghargaan</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Moderasi & Verifikasi -->
+                    <div class="card shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-white border-2 border-[#E9E7E7]">
+                        <div class="card-body">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full flex items-center justify-center mr-4 bg-[#FFD700]">
+                                    <i class="fas fa-shield-alt text-white text-xl"></i>
+                                </div>
+                                <h3 class="card-title text-[#2E7D32]">Moderasi & Verifikasi</h3>
+                            </div>
+                            <div class="space-y-2">
+                                <button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-briefcase mr-2"></i>Moderasi Job Posting</button>
+                                <a href="/admin/forum-management" class="block"
+                                    ><button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-comments mr-2"></i>Moderasi Forum</button></a
+                                >
+                                <a href="/admin/verifikasi-layanan"
+                                    ><button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-check-double mr-2"></i>Verifikasi Layanan</button></a
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Komunikasi & Notifikasi -->
+                    <div class="card shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-white border-2 border-[#E9E7E7]">
+                        <div class="card-body">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full flex items-center justify-center mr-4 bg-[#FFD700]">
+                                    <i class="fas fa-bell text-white text-xl"></i>
+                                </div>
+                                <h3 class="card-title text-[#2E7D32]">Komunikasi</h3>
+                            </div>
+                            <div class="space-y-2">
+                                <a href="/admin/notifications"
+                                    ><button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-paper-plane mr-2"></i>Kirim Notifikasi</button></a
+                                >
+                                <button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-envelope mr-2"></i>Lihat Pesan Alumni</button>
+                                <button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-comment-dots mr-2"></i>Kelola Kritik & Saran</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Acara & Kegiatan -->
+                    <div class="card shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-white border-2 border-[#E9E7E7]">
+                        <div class="card-body">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full flex items-center justify-center mr-4 bg-[#FFD700]">
+                                    <i class="fas fa-calendar-alt text-white text-xl"></i>
+                                </div>
+                                <h3 class="card-title text-[#2E7D32]">Acara & Kegiatan</h3>
+                            </div>
+                            <div class="space-y-2">
+                                <a href="/admin/kelola-acara"
+                                    ><button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-plus-circle mr-2"></i>Kelola Acara Alumni</button></a
+                                >
+                                <button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-calendar-check mr-2"></i>Jadwal Kegiatan</button>
+                                <button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-bell mr-2"></i>Pengingat Acara</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data & Laporan -->
+                    <div class="card shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-white border-2 border-[#E9E7E7]">
+                        <div class="card-body">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full flex items-center justify-center mr-4 bg-[#FFD700]">
+                                    <i class="fas fa-chart-line text-white text-xl"></i>
+                                </div>
+                                <h3 class="card-title text-[#2E7D32]">Data & Laporan</h3>
+                            </div>
+                            <div class="space-y-2">
+                                <a href="/admin/ekspor-tracer"
+                                    ><button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-download mr-2"></i>Export Tracer Study</button></a
+                                >
+                                <a href="/admin/riwayat-pengajuan"
+                                    ><button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-history mr-2"></i>Riwayat Pengajuan</button></a
+                                >
+                                <button class="btn btn-sm btn-outline w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-file-alt mr-2"></i>Laporan Sistem</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activities -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-[#2E7D32]">Aktivitas Terbaru</h2>
+                <div class="card shadow-xl bg-white border-2 border-[#E9E7E7]">
+                    <div class="card-body">
+                        <div class="space-y-4">
+                            <div class="flex items-center p-4 rounded-lg bg-[#F0F8F0]">
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center mr-4 bg-[#FFD700]">
+                                    <i class="fas fa-briefcase text-white"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-[#2E7D32]">Lowongan kerja baru perlu dimoderasi</p>
+                                    <p class="text-sm text-[#2E7D32]/70">5 menit yang lalu</p>
+                                </div>
+                                <button class="btn btn-sm bg-[#FFD700] text-white border-none hover:bg-[#FFD700]/90">Tinjau</button>
+                            </div>
+
+                            <div class="flex items-center p-4 rounded-lg bg-[#F0F8F0]">
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center mr-4 bg-[#FFD700]">
+                                    <i class="fas fa-user-plus text-white"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-[#2E7D32]">3 alumni baru mendaftar</p>
+                                    <p class="text-sm text-[#2E7D32]/70">1 jam yang lalu</p>
+                                </div>
+                                <button class="btn btn-sm bg-[#FFD700] text-white border-none hover:bg-[#FFD700]/90">Lihat</button>
+                            </div>
+
+                            <div class="flex items-center p-4 rounded-lg bg-[#F0F8F0]">
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center mr-4 bg-[#FFD700]">
+                                    <i class="fas fa-newspaper text-white"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-[#2E7D32]">Artikel alumni siap dipublikasi</p>
+                                    <p class="text-sm text-[#2E7D32]/70">2 jam yang lalu</p>
+                                </div>
+                                <button class="btn btn-sm bg-[#FFD700] text-white border-none hover:bg-[#FFD700]/90">Publikasi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Include Footer -->
+        <%- include('admin-partials/footer') %>
+
+        <script>
+            // Simple interactive features
+            document.addEventListener('DOMContentLoaded', function () {
+                // Add click animations to buttons
+                const buttons = document.querySelectorAll('.btn');
+                buttons.forEach((button) => {
+                    button.addEventListener('click', function () {
+                        this.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            this.style.transform = 'scale(1)';
+                        }, 150);
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

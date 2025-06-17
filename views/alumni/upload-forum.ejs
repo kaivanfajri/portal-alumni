@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Portal Alumni FTI - Ajukan Diskusi</title>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            .navbar-brand {
+                color: #22c55e;
+                font-weight: bold;
+                font-size: 1.25rem;
+            }
+            .modal-content {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                max-width: 600px;
+                width: 95%;
+                margin: 0 auto;
+            }
+            .form-section {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+            .table-section {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                margin-top: 2rem;
+            }
+        </style>
+    </head>
+    <body class="bg-gray-50">
+        <!-- Navbar -->
+        <div class="navbar bg-white shadow-md px-6">
+            <div class="flex-1">
+                <a class="font-bold text-green-700 text-lg">Portal Alumni FTI</a>
+            </div>
+            <ul class="menu menu-horizontal px-1 text-sm">
+                <li><a>Beranda</a></li>
+                <li><a>Profil Alumni</a></li>
+                <li><a>Lowongan Pekerjaan</a></li>
+                <li><a>Informasi</a></li>
+                <li><a>Kritik & Saran</a></li>
+                <li><a>Login</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content with Modal Overlay -->
+        <div class="min-h-screen bg-gray-100 relative">
+            <!-- Background overlay -->
+            <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+                <!-- Modal Content -->
+                <div class="modal-content">
+                    <div class="card bg-white">
+                        <div class="card-body p-8">
+                            <h2 class="card-title text-2xl font-bold text-center text-gray-800 mb-8">Ajukan Diskusi</h2>
+
+                            <form class="space-y-6">
+                                <!-- Judul -->
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text font-semibold text-gray-700">Judul :</span>
+                                    </label>
+                                    <input type="text" class="input input-bordered w-full focus:border-green-500 focus:ring-2 focus:ring-green-200" placeholder="Masukkan judul diskusi" />
+                                </div>
+
+                                <!-- Deskripsi -->
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text font-semibold text-gray-700">Deskripsi</span>
+                                    </label>
+                                    <textarea class="textarea textarea-bordered h-32 w-full focus:border-green-500 focus:ring-2 focus:ring-green-200" placeholder="Masukkan deskripsi atau topik yang ingin didiskusikan"></textarea>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="pt-4">
+                                    <button type="submit" class="btn bg-yellow-400 hover:bg-yellow-500 border-yellow-400 text-black font-semibold w-full py-3 text-base">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Handle form submission
+            document.querySelector('form').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const judul = document.querySelector('input[type="text"]').value;
+                const deskripsi = document.querySelector('textarea').value;
+
+                if (!judul.trim() || !deskripsi.trim()) {
+                    alert('Mohon lengkapi semua field!');
+                    return;
+                }
+
+                // Simulate successful submission
+                alert('Diskusi berhasil diajukan!');
+
+                // Reset form
+                document.querySelector('form').reset();
+            });
+
+            // Handle input focus effects
+            document.querySelectorAll('input, textarea').forEach((element) => {
+                element.addEventListener('focus', function () {
+                    this.parentNode.classList.add('focused');
+                });
+
+                element.addEventListener('blur', function () {
+                    this.parentNode.classList.remove('focused');
+                });
+            });
+
+            // Close modal when clicking outside (optional feature)
+            document.querySelector('.bg-black').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    // You can add close functionality here
+                    console.log('Click outside modal');
+                }
+            });
+        </script>
+    </body>
+</html>

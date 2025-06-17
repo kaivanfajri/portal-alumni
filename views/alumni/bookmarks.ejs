@@ -1,0 +1,188 @@
+ 
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookmark Lowongan Pekerjaan - Portal Alumni FTI</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        
+        .text-green-custom {
+            color:"bg-gradient-to-br from-green-50 to-green-100 min-h-screen p--1";
+        }
+        .btn-hapus {
+            background-color: #dc2626;
+            border-color: #dc2626;
+        }
+        .btn-hapus:hover {
+            background-color: #b91c1c;
+            border-color: #b91c1c;
+        }
+        .btn-lihat-detail {
+            background-color: #facc15;
+            border-color: #facc15;
+            color: #000;
+        }
+        .btn-lihat-detail:hover {
+            background-color: #eab308;
+            border-color: #eab308;
+        }
+    </style>
+</head>
+
+   <body class="bg-gradient-to-br from-green-50 to-green-100 min-h-screen p--1">
+
+  <!-- Navbar -->
+  <div class="navbar bg-white shadow-md px-6">
+    <div class="flex-1">
+      <a class="font-bold text-green-700 text-lg">Portal Alumni FTI</a>
+    </div>
+    <ul class="menu menu-horizontal px-1 text-sm">
+      <li><a>Beranda</a></li>
+      <li><a>Profil Alumni</a></li>
+      <li><a class="font-semibold text-green-800">Lowongan Pekerjaan</a></li>
+      <li><a>Informasi</a></li>
+      <li><a>Login</a></li>
+    </ul>
+  </div>
+        
+        <!-- Mobile Menu -->
+        <div class="navbar-start lg:hidden">
+            <div class="dropdown">
+                <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+                    </svg>
+                </div>
+                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                    <li><a>Beranda</a></li>
+                    <li><a>Profil Alumni</a></li>
+                    <li><a class="font-semibold">Lowongan Pekerjaan</a></li>
+                    <li><a>Informasi</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section with Light Green Gradient -->
+    <div class="bg-gradient-green py-12">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl font-bold text-green-700">Bookmark Lowongan Pekerjaan</h1>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Job List -->
+            <div class="space-y-4">
+                <!-- Job Item 1 -->
+                <div class="card bg-white shadow-md border border-gray-200">
+                    <div class="card-body">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Software Engineer</h3>
+                                <p class="text-gray-600 font-medium mb-1">Marketing Agency Co</p>
+                                <p class="text-gray-500 text-sm">Diposting 7 hari yang lalu</p>
+                            </div>
+                            <div class="flex flex-col gap-2 ml-4">
+                                <button class="btn btn-lihat-detail btn-sm text-black font-medium">Lihat detail</button>
+                                <button class="btn btn-hapus btn-sm text-white font-medium">Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Item 2 -->
+                <div class="card bg-white shadow-md border border-gray-200">
+                    <div class="card-body">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Software Engineer</h3>
+                                <p class="text-gray-600 font-medium mb-1">Tech Solutions Inc</p>
+                                <p class="text-gray-500 text-sm">Diposting 7 hari yang lalu</p>
+                            </div>
+                            <div class="flex flex-col gap-2 ml-4">
+                                <button class="btn btn-lihat-detail btn-sm text-black font-medium">Lihat detail</button>
+                                <button class="btn btn-hapus btn-sm text-white font-medium">Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Item 3 -->
+                <div class="card bg-white shadow-md border border-gray-200">
+                    <div class="card-body">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Product Manager</h3>
+                                <p class="text-gray-600 font-medium mb-1">Business Innovation Francisco</p>
+                                <p class="text-gray-500 text-sm">Diposting 7 hari yang lalu</p>
+                            </div>
+                            <div class="flex flex-col gap-2 ml-4">
+                                <button class="btn btn-lihat-detail btn-sm text-black font-medium">Lihat detail</button>
+                                <button class="btn btn-hapus btn-sm text-white font-medium">Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State (hidden by default, can be shown when no bookmarks) -->
+            <div class="text-center py-12 hidden" id="empty-state">
+                <div class="text-gray-400 text-6xl mb-4">📋</div>
+                <h3 class="text-xl font-semibold text-gray-600 mb-2">Belum Ada Bookmark</h3>
+                <p class="text-gray-500">Anda belum menyimpan lowongan pekerjaan apapun</p>
+                <a href="#" class="btn btn-primary mt-4">Cari Lowongan</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle delete button clicks
+            const deleteButtons = document.querySelectorAll('.btn-hapus');
+            const jobCards = document.querySelectorAll('.card');
+            const emptyState = document.getElementById('empty-state');
+            
+            deleteButtons.forEach((button, index) => {
+                button.addEventListener('click', function() {
+                    // Show confirmation dialog
+                    if (confirm('Apakah Anda yakin ingin menghapus bookmark ini?')) {
+                        // Remove the job card
+                        jobCards[index].style.animation = 'fadeOut 0.3s ease-out';
+                        setTimeout(() => {
+                            jobCards[index].remove();
+                            
+                            // Check if there are any remaining job cards
+                            const remainingCards = document.querySelectorAll('.card').length;
+                            if (remainingCards === 0) {
+                                emptyState.classList.remove('hidden');
+                            }
+                        }, 300);
+                    }
+                });
+            });
+
+            // Handle view detail button clicks
+            const detailButtons = document.querySelectorAll('.btn-lihat-detail');
+            detailButtons.forEach((button, index) => {
+                button.addEventListener('click', function() {
+                    // In a real application, this would navigate to job detail page
+                    alert('Menampilkan detail lowongan pekerjaan...');
+                });
+            });
+        });
+    </script>
+
+    <style>
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(-100%); }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Verifikasi Layanan Alumni - Admin Panel</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+
+        <style>
+            :root {
+                --light-gray: #e9e7e7;
+                --light-green: #f0f8f0;
+                --gold: #ffd700;
+                --dark-green: #2e7d32;
+            }
+
+            body {
+                background-color: var(--light-green);
+                color: var(--dark-green);
+            }
+
+            .btn-gold {
+                background-color: var(--gold);
+                border-color: var(--gold);
+                color: var(--dark-green);
+            }
+
+            .btn-gold:hover {
+                background-color: #e6c200;
+                border-color: #e6c200;
+            }
+
+            .btn-approve {
+                background-color: var(--dark-green);
+                color: white;
+            }
+
+            .btn-approve:hover {
+                background-color: #1b5e20;
+            }
+
+            .card-custom {
+                background: white;
+                border: 1px solid var(--light-gray);
+            }
+
+            .badge-pending {
+                background-color: #fff3cd;
+                color: #856404;
+            }
+
+            .badge-approved {
+                background-color: #d4edda;
+                color: #155724;
+            }
+
+            .badge-rejected {
+                background-color: #f8d7da;
+                color: #721c24;
+            }
+
+            .text-gold {
+                color: var(--gold);
+            }
+
+            .bg-light-gray {
+                background-color: var(--light-gray);
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Navigation -->
+        <%- include('admin-partials/navbar') %>
+
+        <!-- Main Content -->
+        <div class="container mx-auto px-4 py-8">
+            <!-- Header Section -->
+            <div class="mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h1 class="text-3xl font-bold mb-2" style="color: var(--dark-green)">
+                            <i class="fas fa-check-circle text-gold mr-3"></i>
+                            Verifikasi Layanan Alumni
+                        </h1>
+                        <p class="text-gray-600">Kelola dan verifikasi permohonan layanan yang diajukan alumni</p>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="flex gap-4">
+                        <div class="card card-compact bg-white shadow-md">
+                            <div class="card-body">
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-clock text-yellow-500 text-xl"></i>
+                                    <div>
+                                        <div class="text-2xl font-bold">12</div>
+                                        <div class="text-sm text-gray-600">Pending</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card card-compact bg-white shadow-md">
+                            <div class="card-body">
+                                <div class="relative flex items-center gap-2">
+                                    <i class="fas fa-check-circle text-green-500 text-xl"></i>
+                                    <div>
+                                        <div class="text-2xl font-bold">45</div>
+                                        <div class="text-sm text-gray-600">Disetujui</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter and Search -->
+                <div class="flex flex-wrap gap-4 mb-6">
+                    <div class="flex-1 min-w-64">
+                        <div class="form-control">
+                            <div class="input-group">
+                                <input type="text" placeholder="Cari berdasarkan nama atau NIM..." class="input input-bordered flex-1" id="searchInput" />
+                                <button class="btn btn-gold">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <select class="select select-bordered" id="statusFilter">
+                        <option value="">Semua Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Disetujui</option>
+                        <option value="rejected">Ditolak</option>
+                    </select>
+
+                    <select class="select select-bordered" id="serviceFilter">
+                        <option value="">Semua Layanan</option>
+                        <option value="surat_alumni">Surat Keterangan Alumni</option>
+                        <option value="legalisir">Legalisir Ijazah</option>
+                        <option value="transkrip">Transkrip Nilai</option>
+                        <option value="rekomendasi">Surat Rekomendasi</option>
+                    </select>
+
+                    <button class="btn btn-outline" onclick="exportData()">
+                        <i class="fas fa-download mr-2"></i>
+                        Export
+                    </button>
+                </div>
+            </div>
+
+            <!-- Service Requests Table -->
+            <div class="card card-custom shadow-lg">
+                <div class="card-body p-0">
+                    <div class="overflow-x-auto">
+                        <table class="table table-zebra w-full">
+                            <thead class="bg-light-gray">
+                                <tr>
+                                    <th class="font-bold" style="color: var(--dark-green)">No</th>
+                                    <th class="font-bold" style="color: var(--dark-green)">Tanggal Pengajuan</th>
+                                    <th class="font-bold" style="color: var(--dark-green)">Data Alumni</th>
+                                    <th class="font-bold" style="color: var(--dark-green)">Jenis Layanan</th>
+                                    <th class="font-bold" style="color: var(--dark-green)">Dokumen</th>
+                                    <th class="font-bold" style="color: var(--dark-green)">Status</th>
+                                    <th class="font-bold" style="color: var(--dark-green)">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="serviceRequestsTable">
+                                <!-- Data akan diisi melalui JavaScript - koneksi database -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex justify-between items-center p-4 border-t">
+                        <div class="text-sm text-gray-600">Menampilkan 1-10 dari 50 data</div>
+                        <div class="join">
+                            <button class="join-item btn btn-sm">«</button>
+                            <button class="join-item btn btn-sm btn-active">1</button>
+                            <button class="join-item btn btn-sm">2</button>
+                            <button class="join-item btn btn-sm">3</button>
+                            <button class="join-item btn btn-sm">»</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Verifikasi -->
+        <dialog id="verificationModal" class="modal">
+            <div class="modal-box w-11/12 max-w-2xl">
+                <form method="dialog">
+                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                </form>
+
+                <h3 class="font-bold text-lg mb-4" style="color: var(--dark-green)">
+                    <i class="fas fa-check-circle text-gold mr-2"></i>
+                    Verifikasi Permohonan Layanan
+                </h3>
+
+                <div class="space-y-4">
+                    <!-- Detail Alumni -->
+                    <div class="bg-light-gray p-4 rounded-lg">
+                        <h4 class="font-semibold mb-2">Detail Alumni</h4>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="font-medium">Nama:</span>
+                                <span id="modalAlumniName">-</span>
+                            </div>
+                            <div>
+                                <span class="font-medium">NIM:</span>
+                                <span id="modalAlumniNIM">-</span>
+                            </div>
+                            <div>
+                                <span class="font-medium">Program Studi:</span>
+                                <span id="modalAlumniProdi">-</span>
+                            </div>
+                            <div>
+                                <span class="font-medium">Angkatan:</span>
+                                <span id="modalAlumniAngkatan">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detail Layanan -->
+                    <div>
+                        <h4 class="font-semibold mb-2">Detail Layanan</h4>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="font-medium">Jenis Layanan:</span>
+                                <span id="modalServiceType">-</span>
+                            </div>
+                            <div>
+                                <span class="font-medium">Tanggal Pengajuan:</span>
+                                <span id="modalSubmissionDate">-</span>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <span class="font-medium">Keperluan:</span>
+                            <p id="modalServicePurpose" class="text-sm text-gray-600 mt-1">-</p>
+                        </div>
+                    </div>
+
+                    <!-- Dokumen Pendukung -->
+                    <div>
+                        <h4 class="font-semibold mb-2">Dokumen Pendukung</h4>
+                        <div id="modalDocuments" class="space-y-2">
+                            <!-- Dokumen akan ditampilkan di sini -->
+                        </div>
+                    </div>
+
+                    <!-- Form Verifikasi -->
+                    <div class="border-t pt-4">
+                        <h4 class="font-semibold mb-2">Verifikasi</h4>
+                        <div class="form-control mb-4">
+                            <label class="label">
+                                <span class="label-text font-medium">Status Verifikasi</span>
+                            </label>
+                            <select class="select select-bordered" id="verificationStatus">
+                                <option value="">Pilih Status</option>
+                                <option value="approved">Setujui</option>
+                                <option value="rejected">Tolak</option>
+                            </select>
+                        </div>
+
+                        <div class="form-control mb-4">
+                            <label class="label">
+                                <span class="label-text font-medium">Catatan Admin</span>
+                            </label>
+                            <textarea class="textarea textarea-bordered h-24" placeholder="Berikan catatan atau alasan verifikasi..." id="adminNotes"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-action">
+                    <button class="btn btn-outline" onclick="document.getElementById('verificationModal').close()">Batal</button>
+                    <button class="btn btn-approve" onclick="submitVerification()">
+                        <i class="fas fa-save mr-2"></i>
+                        Simpan Verifikasi
+                    </button>
+                </div>
+            </div>
+        </dialog>
+
+        <!-- Footer -->
+        <%- include('admin-partials/footer') %>
+
+        <script>
+            // Sample data - Ini akan diganti dengan data dari database
+            const sampleServiceRequests = [
+                {
+                    id: 1,
+                    submissionDate: '2024-06-10',
+                    alumniName: 'Andi Pratama',
+                    alumniNIM: '2019001',
+                    alumniProdi: 'Teknik Informatika',
+                    alumniAngkatan: '2019',
+                    serviceType: 'Surat Keterangan Alumni',
+                    purpose: 'Untuk melamar pekerjaan di PT. Teknologi Maju',
+                    documents: ['KTP', 'Ijazah'],
+                    status: 'pending',
+                },
+                {
+                    id: 2,
+                    submissionDate: '2024-06-09',
+                    alumniName: 'Sari Dewi',
+                    alumniNIM: '2018045',
+                    alumniProdi: 'Manajemen',
+                    alumniAngkatan: '2018',
+                    serviceType: 'Legalisir Ijazah',
+                    purpose: 'Untuk melanjutkan studi S2',
+                    documents: ['Ijazah Asli', 'Transkrip'],
+                    status: 'pending',
+                },
+                {
+                    id: 3,
+                    submissionDate: '2024-06-08',
+                    alumniName: 'Budi Santoso',
+                    alumniNIM: '2017023',
+                    alumniProdi: 'Akuntansi',
+                    alumniAngkatan: '2017',
+                    serviceType: 'Transkrip Nilai',
+                    purpose: 'Untuk keperluan visa kerja',
+                    documents: ['Paspor', 'Surat Kerja'],
+                    status: 'approved',
+                },
+            ];
+
+            // Fungsi untuk render tabel - Data akan diambil dari database
+            function renderServiceRequestsTable(data = sampleServiceRequests) {
+                const tableBody = document.getElementById('serviceRequestsTable');
+                tableBody.innerHTML = '';
+
+                data.forEach((request, index) => {
+                    const statusBadge = getStatusBadge(request.status);
+                    const actionButtons = getActionButtons(request);
+
+                    const row = `
+                    <tr>
+                        <td class="font-medium">${index + 1}</td>
+                        <td>${formatDate(request.submissionDate)}</td>
+                        <td>
+                            <div>
+                                <div class="font-semibold">${request.alumniName}</div>
+                                <div class="text-sm text-gray-500">${request.alumniNIM} - ${request.alumniProdi}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="font-medium">${request.serviceType}</div>
+                            <div class="text-sm text-gray-500 truncate max-w-32" title="${request.purpose}">
+                                ${request.purpose}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="flex flex-wrap gap-1">
+                                ${request.documents.map((doc) => `<span class="badge badge-outline badge-sm">${doc}</span>`).join('')}
+                            </div>
+                        </td>
+                        <td>${statusBadge}</td>
+                        <td>${actionButtons}</td>
+                    </tr>
+                `;
+                    tableBody.innerHTML += row;
+                });
+            }
+
+            // Fungsi helper untuk status badge
+            function getStatusBadge(status) {
+                const badges = {
+                    pending: '<span class="badge badge-pending">Pending</span>',
+                    approved: '<span class="badge badge-approved">Disetujui</span>',
+                    rejected: '<span class="badge badge-rejected">Ditolak</span>',
+                };
+                return badges[status] || '<span class="badge">Unknown</span>';
+            }
+
+            // Fungsi helper untuk action buttons
+            function getActionButtons(request) {
+                if (request.status === 'pending') {
+                    return `
+                    <div class="flex gap-2">
+                        <button class="btn btn-sm btn-gold" onclick="openVerificationModal(${request.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline btn-success" onclick="quickApprove(${request.id})">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline btn-error" onclick="quickReject(${request.id})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                } else {
+                    return `
+                    <button class="btn btn-sm btn-outline" onclick="viewDetails(${request.id})">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                `;
+                }
+            }
+
+            // Fungsi helper untuk format tanggal
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                });
+            }
+
+            // Fungsi untuk membuka modal verifikasi
+            function openVerificationModal(requestId) {
+                // Cari data berdasarkan ID - Ini akan mengambil data dari database
+                const request = sampleServiceRequests.find((r) => r.id === requestId);
+
+                if (request) {
+                    // Isi data ke modal
+                    document.getElementById('modalAlumniName').textContent = request.alumniName;
+                    document.getElementById('modalAlumniNIM').textContent = request.alumniNIM;
+                    document.getElementById('modalAlumniProdi').textContent = request.alumniProdi;
+                    document.getElementById('modalAlumniAngkatan').textContent = request.alumniAngkatan;
+                    document.getElementById('modalServiceType').textContent = request.serviceType;
+                    document.getElementById('modalSubmissionDate').textContent = formatDate(request.submissionDate);
+                    document.getElementById('modalServicePurpose').textContent = request.purpose;
+
+                    // Render dokumen
+                    const documentsContainer = document.getElementById('modalDocuments');
+                    documentsContainer.innerHTML = request.documents
+                        .map(
+                            (doc) =>
+                                `<div class="flex items-center gap-2">
+                        <i class="fas fa-file-alt text-blue-500"></i>
+                        <span class="text-sm">${doc}</span>
+                        <button class="btn btn-xs btn-outline">Download</button>
+                    </div>`
+                        )
+                        .join('');
+
+                    // Simpan ID untuk proses verifikasi
+                    document.getElementById('verificationModal').setAttribute('data-request-id', requestId);
+
+                    // Buka modal
+                    document.getElementById('verificationModal').showModal();
+                }
+            }
+
+            // Fungsi untuk submit verifikasi
+            function submitVerification() {
+                const requestId = document.getElementById('verificationModal').getAttribute('data-request-id');
+                const status = document.getElementById('verificationStatus').value;
+                const notes = document.getElementById('adminNotes').value;
+
+                if (!status) {
+                    alert('Pilih status verifikasi terlebih dahulu!');
+                    return;
+                }
+
+                // Proses verifikasi - Ini akan mengirim data ke database
+                console.log('Verifikasi layanan:', {
+                    requestId: requestId,
+                    status: status,
+                    notes: notes,
+                    verifiedBy: 'admin_id', // ID admin yang login
+                    verifiedAt: new Date().toISOString(),
+                });
+
+                // Update status di data lokal (untuk demo)
+                const requestIndex = sampleServiceRequests.findIndex((r) => r.id == requestId);
+                if (requestIndex !== -1) {
+                    sampleServiceRequests[requestIndex].status = status;
+                    sampleServiceRequests[requestIndex].adminNotes = notes;
+                }
+
+                // Refresh tabel
+                renderServiceRequestsTable();
+
+                // Tutup modal
+                document.getElementById('verificationModal').close();
+
+                // Reset form
+                document.getElementById('verificationStatus').value = '';
+                document.getElementById('adminNotes').value = '';
+
+                // Tampilkan notifikasi sukses
+                alert('Verifikasi berhasil disimpan!');
+            }
+
+            // Fungsi quick approve
+            function quickApprove(requestId) {
+                if (confirm('Apakah Anda yakin ingin menyetujui permohonan ini?')) {
+                    // Update status - Ini akan mengirim data ke database
+                    console.log('Quick approve:', requestId);
+
+                    const requestIndex = sampleServiceRequests.findIndex((r) => r.id === requestId);
+                    if (requestIndex !== -1) {
+                        sampleServiceRequests[requestIndex].status = 'approved';
+                    }
+
+                    renderServiceRequestsTable();
+                    alert('Permohonan berhasil disetujui!');
+                }
+            }
+
+            // Fungsi quick reject
+            function quickReject(requestId) {
+                const reason = prompt('Masukkan alasan penolakan:');
+                if (reason) {
+                    // Update status - Ini akan mengirim data ke database
+                    console.log('Quick reject:', requestId, reason);
+
+                    const requestIndex = sampleServiceRequests.findIndex((r) => r.id === requestId);
+                    if (requestIndex !== -1) {
+                        sampleServiceRequests[requestIndex].status = 'rejected';
+                        sampleServiceRequests[requestIndex].rejectionReason = reason;
+                    }
+
+                    renderServiceRequestsTable();
+                    alert('Permohonan berhasil ditolak!');
+                }
+            }
+
+            // Fungsi view details
+            function viewDetails(requestId) {
+                // Tampilkan detail read-only
+                openVerificationModal(requestId);
+
+                // Disable form elements untuk view mode
+                document.getElementById('verificationStatus').disabled = true;
+                document.getElementById('adminNotes').disabled = true;
+                document.querySelector('.modal-action .btn-approve').style.display = 'none';
+            }
+
+            // Fungsi export data
+            function exportData() {
+                // Export ke CSV atau Excel - Ini akan mengambil data dari database
+                console.log('Export data layanan alumni');
+                alert('Data sedang diexport...');
+            }
+
+            // Fungsi search dan filter
+            document.getElementById('searchInput').addEventListener('input', function (e) {
+                const searchTerm = e.target.value.toLowerCase();
+                // Filter data berdasarkan search term - Ini akan query ke database
+                const filteredData = sampleServiceRequests.filter((request) => request.alumniName.toLowerCase().includes(searchTerm) || request.alumniNIM.toLowerCase().includes(searchTerm));
+                renderServiceRequestsTable(filteredData);
+            });
+
+            document.getElementById('statusFilter').addEventListener('change', function (e) {
+                const status = e.target.value;
+                // Filter data berdasarkan status - Ini akan query ke database
+                const filteredData = status ? sampleServiceRequests.filter((request) => request.status === status) : sampleServiceRequests;
+                renderServiceRequestsTable(filteredData);
+            });
+
+            document.getElementById('serviceFilter').addEventListener('change', function (e) {
+                const serviceType = e.target.value;
+                // Filter data berdasarkan jenis layanan - Ini akan query ke database
+                const filteredData = serviceType ? sampleServiceRequests.filter((request) => request.serviceType.toLowerCase().includes(serviceType)) : sampleServiceRequests;
+                renderServiceRequestsTable(filteredData);
+            });
+
+            // Initialize
+            document.addEventListener('DOMContentLoaded', function () {
+                renderServiceRequestsTable();
+            });
+        </script>
+    </body>
+</html>

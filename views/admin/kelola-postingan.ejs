@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Persetujuan Postingan Alumni (Admin) - Portal Alumni FTI</title>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <style>
+            .btn-custom-primary {
+                background-color: #ffd700;
+                border-color: #ffd700;
+                color: #2e7d32;
+                font-weight: 600;
+            }
+            .btn-custom-primary:hover {
+                background-color: #ffc107;
+                border-color: #ffc107;
+                color: #2e7d32;
+            }
+            .hero-gradient {
+                background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+            }
+            .request-item.active {
+                background-color: #f0f8f0 !important;
+                border-left: 4px solid #2e7d32;
+            }
+            .request-item:hover {
+                background-color: #f0f8f0;
+            }
+            .admin-sidebar {
+                background: white;
+                border: 2px solid #e9e7e7;
+            }
+            .admin-content {
+                background: white;
+                border: 2px solid #e9e7e7;
+            }
+            .modal-backdrop {
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+        </style>
+    </head>
+    <body style="background-color: #f0f8f0">
+        <%- include('admin-partials/navbar') %>
+
+        <!-- Main Content -->
+        <section class="py-16 lg:py-24" style="background-color: #f0f8f0">
+            <div class="container mx-auto px-4 max-w-6xl">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                    <!-- Sidebar - Daftar Permintaan -->
+                    <div class="lg:col-span-1">
+                        <div class="card shadow-xl admin-sidebar">
+                            <div class="card-body p-6">
+                                <div class="text-center mb-6" style="background-color: #2e7d32; color: white; padding: 1rem; border-radius: 0.5rem">
+                                    <h3 class="text-lg font-bold">
+                                        <i class="fas fa-list-alt mr-2"></i>
+                                        DAFTAR PERMINTAAN POSTINGAN
+                                    </h3>
+                                </div>
+
+                                <!-- Database connection untuk mengambil daftar permintaan postingan -->
+                                <div class="space-y-3" id="request-list">
+                                    <div class="p-4 rounded-lg cursor-pointer transition-all duration-200 request-item active" data-id="1" style="background-color: #f0f8f0; border: 1px solid #e9e7e7">
+                                        <div class="text-sm font-medium" style="color: #2e7d32">Permintaan 1</div>
+                                        <div class="text-xs mt-1" style="color: #666">Lowongan Kerja - PT ABC</div>
+                                        <div class="badge badge-warning badge-sm mt-2"><i class="fas fa-clock mr-1"></i>Menunggu</div>
+                                    </div>
+
+                                    <div class="p-4 rounded-lg cursor-pointer transition-all duration-200 request-item" data-id="2" style="background-color: white; border: 1px solid #e9e7e7">
+                                        <div class="text-sm font-medium" style="color: #2e7d32">Permintaan 2</div>
+                                        <div class="text-xs mt-1" style="color: #666">Informasi Seminar</div>
+                                        <div class="badge badge-warning badge-sm mt-2"><i class="fas fa-clock mr-1"></i>Menunggu</div>
+                                    </div>
+
+                                    <div class="p-4 rounded-lg cursor-pointer transition-all duration-200 request-item" data-id="3" style="background-color: white; border: 1px solid #e9e7e7">
+                                        <div class="text-sm font-medium" style="color: #2e7d32">Permintaan 3</div>
+                                        <div class="text-xs mt-1" style="color: #666">Pengumuman Kegiatan</div>
+                                        <div class="badge badge-warning badge-sm mt-2"><i class="fas fa-clock mr-1"></i>Menunggu</div>
+                                    </div>
+
+                                    <div class="p-4 rounded-lg cursor-pointer transition-all duration-200 request-item" data-id="4" style="background-color: white; border: 1px solid #e9e7e7">
+                                        <div class="text-sm font-medium" style="color: #2e7d32">Permintaan 4</div>
+                                        <div class="text-xs mt-1" style="color: #666">Berita Alumni</div>
+                                        <div class="badge badge-warning badge-sm mt-2"><i class="fas fa-clock mr-1"></i>Menunggu</div>
+                                    </div>
+
+                                    <div class="p-4 rounded-lg cursor-pointer transition-all duration-200 request-item" data-id="5" style="background-color: white; border: 1px solid #e9e7e7">
+                                        <div class="text-sm font-medium" style="color: #2e7d32">Permintaan 5</div>
+                                        <div class="text-xs mt-1" style="color: #666">Event Networking</div>
+                                        <div class="badge badge-warning badge-sm mt-2"><i class="fas fa-clock mr-1"></i>Menunggu</div>
+                                    </div>
+
+                                    <div class="p-4 rounded-lg cursor-pointer transition-all duration-200 request-item" data-id="6" style="background-color: white; border: 1px solid #e9e7e7">
+                                        <div class="text-sm font-medium" style="color: #2e7d32">Permintaan 6</div>
+                                        <div class="text-xs mt-1" style="color: #666">Workshop Teknologi</div>
+                                        <div class="badge badge-warning badge-sm mt-2"><i class="fas fa-clock mr-1"></i>Menunggu</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Content Area - Detail Postingan -->
+                    <div class="lg:col-span-3">
+                        <div class="card shadow-xl admin-content">
+                            <div class="card-body p-8">
+                                <h2 class="text-2xl font-bold mb-8 text-center" style="color: #2e7d32">
+                                    <i class="fas fa-file-alt mr-3"></i>
+                                    Detail Postingan
+                                </h2>
+
+                                <!-- Database connection untuk mengambil detail postingan berdasarkan ID -->
+                                <form id="approval-form">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <!-- Left Column -->
+                                        <div class="space-y-6">
+                                            <div class="form-control w-full">
+                                                <label class="label">
+                                                    <span class="label-text font-medium text-lg" style="color: #2e7d32"> <i class="fas fa-heading mr-2"></i>Judul </span>
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    class="input input-bordered w-full text-base"
+                                                    id="judul"
+                                                    value="Lowongan Kerja Software Developer - PT ABC Technology"
+                                                    readonly
+                                                    style="border: 2px solid #e9e7e7; background-color: #f0f8f0" />
+                                            </div>
+
+                                            <div class="form-control w-full">
+                                                <label class="label">
+                                                    <span class="label-text font-medium text-lg" style="color: #2e7d32"> <i class="fas fa-tags mr-2"></i>Kategori </span>
+                                                </label>
+                                                <select class="select select-bordered w-full text-base" id="kategori" disabled style="border: 2px solid #e9e7e7; background-color: #f0f8f0">
+                                                    <option value="lowongan" selected>Lowongan Pekerjaan</option>
+                                                    <option value="informasi">Informasi</option>
+                                                    <option value="pengumuman">Pengumuman</option>
+                                                    <option value="berita">Berita</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-control w-full">
+                                                <label class="label">
+                                                    <span class="label-text font-medium text-lg" style="color: #2e7d32"> <i class="fas fa-user mr-2"></i>Pengirim </span>
+                                                </label>
+                                                <input type="text" class="input input-bordered w-full text-base" id="pengirim" value="Ahmad Fauzi - Alumni 2019" readonly style="border: 2px solid #e9e7e7; background-color: #f0f8f0" />
+                                            </div>
+                                        </div>
+
+                                        <!-- Right Column -->
+                                        <div class="space-y-6">
+                                            <div class="form-control w-full">
+                                                <label class="label">
+                                                    <span class="label-text font-medium text-lg" style="color: #2e7d32"> <i class="fas fa-calendar mr-2"></i>Tanggal Submit </span>
+                                                </label>
+                                                <input type="date" class="input input-bordered w-full text-base" id="tanggal" value="2024-12-15" readonly style="border: 2px solid #e9e7e7; background-color: #f0f8f0" />
+                                            </div>
+
+                                            <div class="form-control w-full">
+                                                <label class="label">
+                                                    <span class="label-text font-medium text-lg" style="color: #2e7d32"> <i class="fas fa-comment-slash mr-2"></i>Alasan Penolakan </span>
+                                                </label>
+                                                <textarea class="textarea textarea-bordered h-24 text-base" id="alasan" placeholder="Masukkan alasan jika postingan ditolak..." style="border: 2px solid #e9e7e7"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Content Area -->
+                                    <div class="form-control w-full mt-8">
+                                        <label class="label">
+                                            <span class="label-text font-medium text-lg" style="color: #2e7d32"> <i class="fas fa-file-text mr-2"></i>Isi Postingan </span>
+                                        </label>
+                                        <textarea class="textarea textarea-bordered h-40 text-base" id="isi-postingan" readonly style="border: 2px solid #e9e7e7; background-color: #f0f8f0">
+PT ABC Technology sedang membuka lowongan untuk posisi Software Developer dengan kualifikasi:
+
+1. Minimal S1 Teknik Informatika atau bidang terkait
+2. Pengalaman minimal 2 tahun di bidang software development
+3. Menguasai programming language: Java, Python, atau JavaScript
+4. Familiar dengan framework modern (React, Vue, Angular)
+5. Memahami database MySQL/PostgreSQL
+6. Memiliki kemampuan komunikasi yang baik
+
+Benefit:
+- Gaji kompetitif
+- Asuransi kesehatan
+- Bonus kinerja
+- Pelatihan dan pengembangan karir
+
+Kirim CV dan portfolio ke careers@abctech.com sebelum 31 Desember 2024.</textarea
+                                        >
+                                    </div>
+
+                                    <!-- Action Buttons -->
+                                    <div class="flex flex-col sm:flex-row justify-center gap-4 mt-12">
+                                        <button type="button" class="btn btn-lg px-8" onclick="rejectPost()" style="background-color: #dc2626; border-color: #dc2626; color: white">
+                                            <i class="fas fa-times mr-2"></i>
+                                            Tolak Postingan
+                                        </button>
+                                        <button type="button" class="btn btn-custom-primary btn-lg px-8" onclick="approvePost()">
+                                            <i class="fas fa-check mr-2"></i>
+                                            Setujui Postingan
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Confirmation Modal -->
+        <dialog id="confirmation-modal" class="modal">
+            <div class="modal-backdrop"></div>
+            <div class="modal-box max-w-md" style="background: white; border: 2px solid #e9e7e7">
+                <h3 class="font-bold text-xl mb-4" id="modal-title" style="color: #2e7d32">Konfirmasi Tindakan</h3>
+                <p class="text-lg mb-6" id="modal-message" style="color: #666">Apakah Anda yakin ingin melakukan tindakan ini?</p>
+                <div class="modal-action justify-center gap-4">
+                    <button class="btn btn-outline btn-lg px-6" onclick="closeModal()" style="border-color: #666; color: #666"><i class="fas fa-times mr-2"></i>Batal</button>
+                    <button class="btn btn-custom-primary btn-lg px-6" id="confirm-button" onclick="confirmAction()"><i class="fas fa-check mr-2"></i>Konfirmasi</button>
+                </div>
+            </div>
+        </dialog>
+
+        <%- include('admin-partials/footer') %>
+
+        <script>
+            // Sample data for different requests - Database connection untuk mengambil data postingan
+            const requestData = {
+                1: {
+                    judul: 'Lowongan Kerja Software Developer - PT ABC Technology',
+                    kategori: 'lowongan',
+                    pengirim: 'Ahmad Fauzi - Alumni 2019',
+                    tanggal: '2024-12-15',
+                    isi: `PT ABC Technology sedang membuka lowongan untuk posisi Software Developer dengan kualifikasi:
+
+1. Minimal S1 Teknik Informatika atau bidang terkait
+2. Pengalaman minimal 2 tahun di bidang software development
+3. Menguasai programming language: Java, Python, atau JavaScript
+4. Familiar dengan framework modern (React, Vue, Angular)
+5. Memahami database MySQL/PostgreSQL
+6. Memiliki kemampuan komunikasi yang baik
+
+Benefit:
+- Gaji kompetitif
+- Asuransi kesehatan
+- Bonus kinerja
+- Pelatihan dan pengembangan karir
+
+Kirim CV dan portfolio ke careers@abctech.com sebelum 31 Desember 2024.`,
+                },
+                2: {
+                    judul: 'Seminar Nasional Teknologi Informasi 2024',
+                    kategori: 'informasi',
+                    pengirim: 'Siti Nurhaliza - Alumni 2020',
+                    tanggal: '2024-12-14',
+                    isi: `Universitas XYZ mengundang seluruh alumni untuk menghadiri Seminar Nasional Teknologi Informasi 2024 dengan tema "Inovasi Digital untuk Masa Depan".
+
+Waktu: 25 Januari 2025, 08:00 - 17:00 WIB
+Tempat: Auditorium Utama Universitas XYZ
+Pembicara: Prof. Dr. Ir. Bambang Sutrisno, M.Sc (Pakar AI Indonesia)
+
+Materi yang akan dibahas:
+- Perkembangan AI dan Machine Learning
+- Blockchain Technology
+- Cybersecurity Trends
+- Future of Work in Digital Era
+
+Pendaftaran gratis untuk alumni. Daftar di bit.ly/seminar-ti-2024`,
+                },
+                3: {
+                    judul: 'Pengumuman Reuni Akbar Alumni FTI 2025',
+                    kategori: 'pengumuman',
+                    pengirim: 'Budi Santoso - Alumni 2018',
+                    tanggal: '2024-12-13',
+                    isi: `Panitia Reuni Akbar Alumni FTI dengan bangga mengumumkan akan diadakannya Reuni Akbar Alumni FTI 2025.
+
+Tanggal: 15 Februari 2025
+Waktu: 18:00 - 22:00 WIB
+Tempat: Hotel Grand Ballroom
+Dress Code: Formal
+
+Acara meliputi:
+- Gala Dinner
+- Penghargaan Alumni Berprestasi
+- Talkshow Alumni Sukses
+- Entertainment & Door Prize
+
+Biaya: Rp 250.000/orang
+Pendaftaran: 1-31 Januari 2025
+Contact Person: Budi (081234567890)`,
+                },
+                4: {
+                    judul: 'Berita: Alumni FTI Raih Penghargaan Inovasi',
+                    kategori: 'berita',
+                    pengirim: 'Maria Sari - Alumni 2017',
+                    tanggal: '2024-12-12',
+                    isi: `Jakarta - Alumni Fakultas Teknologi Informasi, Dr. Ir. Andi Wijaya, M.T., meraih penghargaan bergengsi "Innovation Award 2024" dari Indonesia Digital Innovation Awards.
+
+Penghargaan ini diberikan atas kontribusinya dalam mengembangkan platform AI untuk pendidikan yang telah digunakan oleh lebih dari 100 universitas di Indonesia.
+
+"Ini adalah kebanggaan bagi almamater dan menjadi motivasi untuk terus berkarya," ujar Andi saat menerima penghargaan.
+
+Platform yang dikembangkannya telah membantu ribuan mahasiswa dalam proses pembelajaran adaptif dan personalisasi kurikulum.`,
+                },
+                5: {
+                    judul: 'Event Networking Alumni FTI - Tech Talk Series',
+                    kategori: 'informasi',
+                    pengirim: 'Rizky Pratama - Alumni 2021',
+                    tanggal: '2024-12-11',
+                    isi: `Alumni FTI mengundang Anda dalam acara networking eksklusif "Tech Talk Series: Future of Technology" yang akan menghadirkan pembicara terbaik dari industri teknologi.
+
+Acara:
+- Tanggal: 20 Januari 2025
+- Waktu: 14:00 - 18:00 WIB
+- Tempat: Gedung Convention Center
+- Dress Code: Business Casual
+
+Agenda:
+14:00 - 14:30: Registration & Welcome Coffee
+14:30 - 15:30: Keynote Speech "AI Revolution in Indonesia"
+15:30 - 16:00: Coffee Break & Networking
+16:00 - 17:00: Panel Discussion "Career Path in Tech Industry"
+17:00 - 18:00: Networking Session & Closing
+
+Daftar: bit.ly/techtalk-alumni-fti
+Contact: techtalkseries@alumni-fti.ac.id`,
+                },
+                6: {
+                    judul: 'Workshop: Mobile App Development dengan Flutter',
+                    kategori: 'informasi',
+                    pengirim: 'Dewi Lestari - Alumni 2019',
+                    tanggal: '2024-12-10',
+                    isi: `Workshop intensif pengembangan aplikasi mobile menggunakan Flutter untuk alumni dan mahasiswa FTI.
+
+Detail Workshop:
+- Tanggal: 28-29 Januari 2025
+- Waktu: 09:00 - 16:00 WIB (2 hari)
+- Tempat: Lab Komputer FTI - Gedung A Lt. 3
+- Instruktur: Tim Developer dari PT Gojek Indonesia
+- Sertifikat: Ya (30 jam pelatihan)
+
+Materi:
+Hari 1: Flutter Fundamentals, Dart Programming, UI/UX Design
+Hari 2: State Management, API Integration, Publishing App
+
+Syarat:
+- Laptop dengan spesifikasi minimum
+- Pengalaman programming dasar
+- Commitment mengikuti full 2 hari
+
+Biaya: Rp 350.000 (termasuk makan siang & coffee break)
+Kuota: 30 peserta
+Daftar: workshop.alumni-fti.ac.id`,
+                },
+            };
+
+            let currentAction = '';
+            let currentRequestId = 1;
+
+            // Initialize page
+            document.addEventListener('DOMContentLoaded', function () {
+                loadRequestData(1);
+                setupEventListeners();
+            });
+
+            function setupEventListeners() {
+                // Request item click handlers
+                document.querySelectorAll('.request-item').forEach((item) => {
+                    item.addEventListener('click', function () {
+                        const requestId = parseInt(this.getAttribute('data-id'));
+                        selectRequest(requestId);
+                    });
+                });
+            }
+
+            function selectRequest(requestId) {
+                // Update active state
+                document.querySelectorAll('.request-item').forEach((item) => {
+                    item.classList.remove('active');
+                    item.style.backgroundColor = 'white';
+                    item.style.borderLeft = '1px solid #E9E7E7';
+                });
+
+                const selectedItem = document.querySelector(`[data-id="${requestId}"]`);
+                selectedItem.classList.add('active');
+                selectedItem.style.backgroundColor = '#F0F8F0';
+                selectedItem.style.borderLeft = '4px solid #2E7D32';
+
+                // Load request data
+                loadRequestData(requestId);
+                currentRequestId = requestId;
+            }
+
+            function loadRequestData(requestId) {
+                const data = requestData[requestId];
+                if (!data) return;
+
+                document.getElementById('judul').value = data.judul;
+                document.getElementById('kategori').value = data.kategori;
+                document.getElementById('pengirim').value = data.pengirim;
+                document.getElementById('tanggal').value = data.tanggal;
+                document.getElementById('isi-postingan').value = data.isi;
+                document.getElementById('alasan').value = '';
+            }
+
+            function approvePost() {
+                currentAction = 'approve';
+                document.getElementById('modal-title').textContent = 'Konfirmasi Persetujuan';
+                document.getElementById('modal-message').textContent = 'Apakah Anda yakin ingin menyetujui postingan ini? Postingan akan langsung dipublikasikan.';
+
+                const confirmButton = document.getElementById('confirm-button');
+                confirmButton.className = 'btn btn-custom-primary btn-lg px-6';
+                confirmButton.innerHTML = '<i class="fas fa-check mr-2"></i>Setujui';
+
+                document.getElementById('confirmation-modal').showModal();
+            }
+
+            function rejectPost() {
+                const alasan = document.getElementById('alasan').value.trim();
+                if (!alasan) {
+                    showNotification('Harap masukkan alasan penolakan terlebih dahulu!', 'error');
+                    document.getElementById('alasan').focus();
+                    return;
+                }
+
+                currentAction = 'reject';
+                document.getElementById('modal-title').textContent = 'Konfirmasi Penolakan';
+                document.getElementById('modal-message').textContent = 'Apakah Anda yakin ingin menolak postingan ini? Alumni akan menerima notifikasi penolakan.';
+
+                const confirmButton = document.getElementById('confirm-button');
+                confirmButton.className = 'btn btn-lg px-6';
+                confirmButton.style.backgroundColor = '#dc2626';
+                confirmButton.style.borderColor = '#dc2626';
+                confirmButton.style.color = 'white';
+                confirmButton.innerHTML = '<i class="fas fa-times mr-2"></i>Tolak';
+
+                document.getElementById('confirmation-modal').showModal();
+            }
+
+            function confirmAction() {
+                // Database connection untuk update status postingan
+                if (currentAction === 'approve') {
+                    // Process approval - update database status to 'approved'
+                    showNotification('Postingan berhasil disetujui dan dipublikasikan!', 'success');
+                    updateRequestStatus(currentRequestId, 'approved');
+                } else if (currentAction === 'reject') {
+                    // Process rejection - update database status to 'rejected' with reason
+                    const reason = document.getElementById('alasan').value;
+                    showNotification('Postingan berhasil ditolak. Alumni akan menerima notifikasi.', 'error');
+                    updateRequestStatus(currentRequestId, 'rejected');
+                }
+
+                closeModal();
+            }
+
+            function updateRequestStatus(requestId, status) {
+                const requestElement = document.querySelector(`[data-id="${requestId}"]`);
+                const badge = requestElement.querySelector('.badge');
+
+                if (status === 'approved') {
+                    badge.innerHTML = '<i class="fas fa-check mr-1"></i>Disetujui';
+                    badge.className = 'badge badge-success badge-sm mt-2';
+                    requestElement.style.opacity = '0.6';
+                } else if (status === 'rejected') {
+                    badge.innerHTML = '<i class="fas fa-times mr-1"></i>Ditolak';
+                    badge.className = 'badge badge-error badge-sm mt-2';
+                    requestElement.style.opacity = '0.6';
+                }
+
+                // Move to next request if available
+                const nextRequest = document.querySelector(`[data-id="${requestId + 1}"]`);
+                if (nextRequest && nextRequest.style.opacity !== '0.6') {
+                    setTimeout(() => {
+                        selectRequest(requestId + 1);
+                    }, 1500);
+                }
+            }
+
+            function closeModal() {
+                document.getElementById('confirmation-modal').close();
+            }
+
+            function showNotification(message, type) {
+                const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
+                const icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+
+                const notification = document.createElement('div');
+                notification.className = `alert ${alertClass} fixed top-4 right-4 w-auto max-w-md z-50 transition-all duration-300 shadow-xl`;
+                notification.style.border = '2px solid #E9E7E7';
+                notification.innerHTML = `
+                <i class="${icon} mr-2"></i>
+                <span>${message}</span>
+                <button class="btn btn-sm btn-ghost ml-2" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 4000);
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.0/dist/full.css" rel="stylesheet" />
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            greenSoft: '#F0F8F0',
+                            greenFTI: '#166534',
+                        },
+                    },
+                },
+                daisyui: {
+                    themes: ['light'],
+                },
+            };
+        </script>
+        <title>Posting Berita / Agenda - Admin</title>
+    </head>
+    <body class="bg-greenSoft min-h-screen">
+        <!-- Navbar -->
+        <%- include('admin-partials/navbar') %>
+
+        <!-- Form Posting -->
+        <section class="py-16 px-8 max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-greenFTI mb-10 text-center">Posting Berita atau Agenda</h2>
+
+            <form class="bg-white shadow-md rounded-md p-8 space-y-6" method="POST" action="/admin/post" enctype="multipart/form-data">
+                <!-- Judul -->
+                <div>
+                    <label class="font-semibold block mb-1 text-black">Judul</label>
+                    <input type="text" name="judul" placeholder="Judul postingan" class="input input-bordered w-full bg-gray-100" required />
+                </div>
+
+                <!-- Jenis Postingan -->
+                <div>
+                    <label class="font-semibold block mb-1 text-black">Jenis</label>
+                    <select name="jenis" class="select select-bordered w-full bg-gray-100" required>
+                        <option value="">Pilih jenis</option>
+                        <option value="berita">Berita</option>
+                        <option value="agenda">Agenda</option>
+                    </select>
+                </div>
+
+                <!-- Tanggal -->
+                <div>
+                    <label class="font-semibold block mb-1 text-black">Tanggal</label>
+                    <input type="date" name="tanggal" class="input input-bordered w-full bg-gray-100" required />
+                </div>
+
+                <!-- Upload Gambar -->
+                <div>
+                    <label class="font-semibold block mb-1 text-black">Gambar (Opsional)</label>
+                    <input type="file" name="gambar" class="file-input file-input-bordered w-full bg-white" accept="image/*" />
+                </div>
+
+                <!-- Deskripsi -->
+                <div>
+                    <label class="font-semibold block mb-1 text-black">Deskripsi</label>
+                    <textarea name="deskripsi" rows="6" placeholder="Isi konten postingan..." class="textarea textarea-bordered w-full bg-gray-100" required></textarea>
+                </div>
+
+                <!-- Tombol Submit -->
+                <div class="text-right">
+                    <button type="submit" class="bg-yellow-400 text-black px-6 py-2 rounded-md hover:bg-yellow-500 font-semibold">Kirim</button>
+                </div>
+            </form>
+        </section>
+        <%- include('admin-partials/footer') %>
+    </body>
+</html>

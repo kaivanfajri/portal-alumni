@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.0/dist/full.css" rel="stylesheet" />
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            greenSoft: '#F0F8F0',
+                            greenFTI: '#166534',
+                        },
+                    },
+                },
+                daisyui: {
+                    themes: ['light'],
+                },
+            };
+        </script>
+        <title>Akses Berita & Agenda - Portal Alumni FTI</title>
+    </head>
+    <body class="bg-greenSoft min-h-screen">
+        <!-- Navbar -->
+        <div class="navbar bg-white shadow-md px-6">
+            <div class="flex justify-between items-center w-full">
+                <a class="font-bold text-greenFTI text-lg">Portal Alumni FTI</a>
+                <ul class="menu menu-horizontal text-black text-sm">
+                    <li><a href="#" class="nav-item rounded-md px-3 py-1">Beranda</a></li>
+                    <li><a href="#" class="nav-item rounded-md px-3 py-1">Profil Alumni</a></li>
+                    <li><a href="#" class="nav-item rounded-md px-3 py-1">Lowongan Pekerjaan</a></li>
+                    <li><a href="#" class="nav-item rounded-md px-3 py-1">Informasi</a></li>
+                    <li><a href="#" class="nav-item rounded-md px-3 py-1">Login</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section: Berita & Agenda -->
+        <section class="py-16 px-6 max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-greenFTI text-center mb-12">Akses Berita & Agenda</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-white border rounded-lg shadow p-6">
+                    <h3 class="font-bold text-lg mb-4">SPARTAN 2025 (SPIL ACCELERATION TRAINEE PROGRAM)</h3>
+                    <div class="w-full h-40 bg-gray-200 rounded mb-4 flex items-center justify-center">
+                        <span class="text-gray-500">[Gambar Placeholder]</span>
+                    </div>
+                    <p class="text-sm text-gray-700">
+                        Dengan bergabung dalam program ini, Anda juga akan memiliki kesempatan untuk bergabung dalam program percepatan karier SPIL di seluruh cabangnya setelah menyelesaikan program ini. Program ini akan dilaksanakan di
+                        seluruh lokasi SPIL pada bulan Agustus 2025.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white border rounded-lg shadow p-6">
+                    <h3 class="font-bold text-lg mb-4">BEASISWA KARYA SALEMBA EMPAT</h3>
+                    <div class="w-full h-40 bg-gray-200 rounded mb-4 flex items-center justify-center">
+                        <span class="text-gray-500">[Gambar Placeholder]</span>
+                    </div>
+                    <p class="text-sm text-gray-700">Beasiswa untuk alumni berprestasi dalam bidang sosial dan kepemimpinan. Informasi lengkap tersedia di situs resmi KSE.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white border rounded-lg shadow p-6">
+                    <h3 class="font-bold text-lg mb-4">Seminar DevCoach 196: Prompt Engineering</h3>
+                    <div class="w-full h-40 bg-gray-200 rounded mb-4 flex items-center justify-center">
+                        <span class="text-gray-500">[Gambar Placeholder]</span>
+                    </div>
+                    <p class="text-sm text-gray-700">Pelajari keterampilan krusial untuk developer modern di era AI. Seminar akan membahas teknik prompt AI, studi kasus, dan praktik terbaik.</p>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

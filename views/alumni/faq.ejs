@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            greenSoft: '#F0F8F0'
+          }
+        }
+      },
+      daisyui: {
+        themes: ["light"] // Nonaktifkan dark mode
+      }
+    };
+  </script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.0/dist/full.css" rel="stylesheet">
+  <title>FAQ - Portal Alumni FTI</title>
+</head>
+<body class="bg-greenSoft min-h-screen">
+
+  <!-- Navbar -->
+  <div class="navbar bg-white shadow-md px-6">
+    <div class="flex justify-between items-center w-full">
+      <a class="font-bold text-green-700 text-lg">Portal Alumni FTI</a>
+      <ul class="menu menu-horizontal text-black text-sm">
+        <li><a href="#" class="nav-item rounded-md px-3 py-1">Beranda</a></li>
+        <li><a href="#" class="nav-item rounded-md px-3 py-1">Profil Alumni</a></l>
+        <li><a href="#" class="nav-item rounded-md px-3 py-1">Lowongan Pekerjaan</a></li>
+        <li><a href="#" class="nav-item rounded-md px-3 py-1">Informasi</a></li>
+        <li><a href="#" class="nav-item rounded-md px-3 py-1">Login</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section: FAQ -->
+  <section class="mt-20 py-10 px-4 max-w-4xl mx-auto">
+    <h2 class="text-3xl font-bold text-center text-green-700 mb-10">Frequently Asked Questions</h2>
+
+    <!-- FAQ Card -->
+    <div class="space-y-4">
+
+      <!-- Item 1 -->
+      <div class="collapse collapse-arrow bg-white shadow rounded-box">
+        <input type="checkbox" />
+        <div class="collapse-title text-md font-medium text-green-600">
+          Bagaimana cara mendaftar sebagai alumni?
+        </div>
+        <div class="collapse-content text-sm text-gray-700">
+          <p>Anda dapat mendaftar melalui halaman pendaftaran dan mengisi data pribadi serta informasi kelulusan Anda.</p>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="collapse collapse-arrow bg-white shadow rounded-box">
+        <input type="checkbox" />
+        <div class="collapse-title text-md font-medium text-green-600">
+          Apakah saya bisa mengajukan lowongan pekerjaan?
+        </div>
+        <div class="collapse-content text-sm text-gray-700">
+          <p>Ya, alumni dapat mengajukan lowongan melalui tombol "Ajukan Lowongan" di halaman lowongan pekerjaan.</p>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="collapse collapse-arrow bg-white shadow rounded-box">
+        <input type="checkbox" />
+        <div class="collapse-title text-md font-medium text-green-600">
+          Bagaimana cara mengubah informasi profil?
+        </div>
+        <div class="collapse-content text-sm text-gray-700">
+          <p>Silakan login terlebih dahulu, lalu kunjungi halaman profil Anda dan klik tombol "Edit".</p>
+        </div>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="collapse collapse-arrow bg-white shadow rounded-box">
+        <input type="checkbox" />
+        <div class="collapse-title text-md font-medium text-green-600">
+          Apakah saya bisa melihat data alumni lainnya?
+        </div>
+        <div class="collapse-content text-sm text-gray-700">
+          <p>Ya, Anda dapat melihat daftar alumni yang telah mempublikasikan profil mereka secara terbuka.</p>
+        </div>
+      </div>
+
+    </div>
+    
+  </section>
+
+</body>
+</html>

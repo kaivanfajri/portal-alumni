@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Portal Alumni FTI - Komentar pada Konten</title>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            .navbar-brand {
+                color: #22c55e;
+                font-weight: bold;
+                font-size: 1.25rem;
+            }
+            .modal-content {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                max-width: 600px;
+                width: 95%;
+                margin: 0 auto;
+            }
+            .form-section {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+            .table-section {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                margin-top: 2rem;
+            }
+        </style>
+    </head>
+    <body class="bg-gray-50">
+        <!-- Navbar -->
+        <div class="navbar bg-white shadow-md px-6">
+            <div class="flex-1">
+                <a class="font-bold text-green-700 text-lg">Portal Alumni FTI</a>
+            </div>
+            <ul class="menu menu-horizontal px-1 text-sm">
+                <li><a>Beranda</a></li>
+                <li><a>Profil Alumni</a></li>
+                <li><a>Lowongan Pekerjaan</a></li>
+                <li><a>Informasi</a></li>
+                <li><a>Kritik & Saran</a></li>
+                <li><a>Login</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex gap-8">
+                <!-- Left Content - Post Detail -->
+                <div class="flex-1">
+                    <!-- Post Title -->
+                    <h1 class="text-2xl font-bold text-blue-800 mb-4">Seminar DevCoach 196: Prompt Engineering | Keterampilan Krusial Developer di Era AI</h1>
+
+                    <!-- Post Image -->
+                    <div class="mb-6">
+                        <div class="w-64 h-40 border-2 border-gray-400 rounded-lg flex items-center justify-center bg-white">
+                            <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Post Description -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold text-gray-800 mb-2">Deskripsi Postingan</h3>
+                        <div class="text-gray-600 text-sm leading-relaxed">
+                            <div class="space-y-1">
+                                <div class="h-2 bg-gray-300 rounded w-full"></div>
+                                <div class="h-2 bg-gray-300 rounded w-full"></div>
+                                <div class="h-2 bg-gray-300 rounded w-full"></div>
+                                <div class="h-2 bg-gray-300 rounded w-full"></div>
+                                <div class="h-2 bg-gray-300 rounded w-full"></div>
+                                <div class="h-2 bg-gray-300 rounded w-3/4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Content - Comments Section -->
+                <div class="w-80">
+                    <div class="bg-gray-300 rounded-lg p-4">
+                        <!-- Comments Header -->
+                        <div class="bg-gray-400 text-center py-3 rounded-lg mb-4">
+                            <h2 class="text-lg font-bold text-green-700">KOMENTAR</h2>
+                        </div>
+
+                        <!-- Comments List -->
+                        <div class="space-y-4" id="comments-container">
+                            <!-- Comment 1 -->
+                            <div class="flex items-start gap-3">
+                                <div class="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-800">Nama</div>
+                                    <div class="text-xs text-gray-600">Komentar</div>
+                                </div>
+                            </div>
+
+                            <!-- Comment 2 -->
+                            <div class="flex items-start gap-3">
+                                <div class="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-800">Nama</div>
+                                    <div class="text-xs text-gray-600">Komentar</div>
+                                </div>
+                            </div>
+
+                            <!-- Comment 3 -->
+                            <div class="flex items-start gap-3">
+                                <div class="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-800">Nama</div>
+                                    <div class="text-xs text-gray-600">Komentar</div>
+                                </div>
+                            </div>
+
+                            <!-- Comment 4 -->
+                            <div class="flex items-start gap-3">
+                                <div class="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-800">Nama</div>
+                                    <div class="text-xs text-gray-600">Komentar</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add Comment Form -->
+                        <div class="mt-6 pt-4 border-t border-gray-400">
+                            <form id="comment-form" onsubmit="addComment(event)">
+                                <div class="mb-3">
+                                    <input type="text" placeholder="Nama Anda" class="w-full px-3 py-2 text-sm border border-gray-400 rounded-md focus:outline-none focus:border-gray-600 bg-white" id="comment-name" required />
+                                </div>
+                                <div class="mb-3">
+                                    <textarea
+                                        placeholder="Tulis komentar..."
+                                        class="w-full px-3 py-2 text-sm border border-gray-400 rounded-md focus:outline-none focus:border-gray-600 bg-white h-20 resize-none"
+                                        id="comment-text"
+                                        required></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 rounded-md transition-colors">Kirim Komentar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <dialog id="success_modal" class="modal">
+            <div class="modal-box">
+                <h3 class="font-bold text-lg text-green-600">Berhasil!</h3>
+                <p class="py-4">Komentar Anda berhasil ditambahkan.</p>
+                <div class="modal-action">
+                    <button class="btn btn-success" onclick="closeModal()">OK</button>
+                </div>
+            </div>
+        </dialog>
+
+        <script>
+            // Global variable for storing comments
+            let commentsData = [
+                { id: 1, name: 'Nama', comment: 'Komentar', timestamp: new Date() },
+                { id: 2, name: 'Nama', comment: 'Komentar', timestamp: new Date() },
+                { id: 3, name: 'Nama', comment: 'Komentar', timestamp: new Date() },
+                { id: 4, name: 'Nama', comment: 'Komentar', timestamp: new Date() },
+            ];
+
+            // Add new comment
+            function addComment(event) {
+                event.preventDefault();
+
+                const name = document.getElementById('comment-name').value;
+                const commentText = document.getElementById('comment-text').value;
+
+                // Create new comment object
+                const newComment = {
+                    id: commentsData.length + 1,
+                    name: name,
+                    comment: commentText,
+                    timestamp: new Date(),
+                };
+
+                // Add to comments array
+                commentsData.push(newComment);
+
+                // Add comment to DOM
+                addCommentToDOM(newComment);
+
+                // Show success message
+                document.getElementById('success_modal').showModal();
+
+                // Reset form
+                document.getElementById('comment-form').reset();
+
+                console.log('Comments Data:', commentsData);
+            }
+
+            // Add comment to DOM
+            function addCommentToDOM(comment) {
+                const commentsContainer = document.getElementById('comments-container');
+
+                const commentElement = document.createElement('div');
+                commentElement.className = 'flex items-start gap-3';
+                commentElement.innerHTML = `
+                <div class="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <div class="text-sm font-medium text-gray-800">${comment.name}</div>
+                    <div class="text-xs text-gray-600">${comment.comment}</div>
+                </div>
+            `;
+
+                commentsContainer.appendChild(commentElement);
+            }
+
+            // Close modal function
+            function closeModal() {
+                document.getElementById('success_modal').close();
+            }
+
+            // Export function for external access
+            window.portalAlumni = {
+                getCommentsData: () => commentsData,
+                addComment: addComment,
+            };
+        </script>
+    </body>
+</html>

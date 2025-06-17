@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Statistik Alumni - Portal Alumni FTI</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        .bg-gradient-green {
+            background: linear-gradient(135deg, #dcfce7 0%, #F0F8F0 100%);
+        }
+        .text-green-custom {
+            color: #35d770;
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .chart-container {
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 ">
+
+        <!-- Navbar -->
+        <%- include('admin-partials/navbar') %>
+        
+        <!-- Mobile Menu -->
+        <div class="navbar-start lg:hidden">
+            <div class="dropdown">
+                <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+                    </svg>
+                </div>
+                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                    <li><a>Beranda</a></li>
+                    <li><a>Profil Alumni</a></li>
+                    <li><a>Lowongan Pekerjaan</a></li>
+                    <li><a class="font-semibold">Informasi</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="bg-gradient-green py-8"></div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- Page Title -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">DATA STATISTIK ALUMNI</h1>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Side - Filters and Total -->
+            <div class="lg:col-span-1">
+                <!-- Filter Form -->
+                <div class="card bg-white shadow-lg mb-6">
+                    <div class="card-body">
+                        <div class="form-control mb-4">
+                            <label class="label">
+                                <span class="label-text font-semibold">Dari Tahun Kelulusan</span>
+                            </label>
+                            <input type="text" placeholder="Masukkan tahun" class="input input-bordered w-full" id="dariTahun">
+                        </div>
+                        
+                        <div class="form-control mb-4">
+                            <label class="label">
+                                <span class="label-text font-semibold">Sampai Tahun Kelulusan</span>
+                            </label>
+                            <input type="text" placeholder="Masukkan tahun" class="input input-bordered w-full" id="sampaiTahun">
+                        </div>
+                        
+                        <button class="btn btn-warning text-white" onclick="updateChart()">Filter Data</button>
+                    </div>
+                </div>
+
+                <!-- Total Alumni Card -->
+                <div class="stats-card p-8 text-center">
+                    <div class="text-lg font-semibold text-gray-700 mb-2">Total Alumni</div>
+                    <div class="text-6xl font-bold text-gray-800" id="totalAlumni">180</div>
+                </div>
+            </div>
+
+            <!-- Right Side - Chart -->
+            <div class="lg:col-span-2">
+                <div class="card bg-white shadow-lg">
+                    <div class="card-body">
+                        <!-- Chart Header -->
+                        <div class="flex justify-between items-center mb-6">
+                            <div class="text-lg font-semibold text-gray-800">Statistik Alumni per Tahun</div>
+                            <div class="flex items-center gap-4">
+                                <div class="text-sm text-gray-600">2023</div>
+                                <div class="legend-item">
+                                    <div class="legend-dot"></div>
+                                    <span class="text-sm text-gray-600">Jumlah Alumni: 57</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chart Container -->
+                        <div class="chart-container p-4">
+                            <canvas id="alumniChart" width="600" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Chart data
+        const chartData = {
+            labels: ['2021', '2022', '2023', '2024'],
+            datasets: [{
+                label: 'Jumlah Alumni',
+                data: [3, 12, 57, 95],
+                backgroundColor: [
+                    '#60a5fa',
+                    '#3b82f6', 
+                    '#2563eb',
+                    '#1d4ed8'
+                ],
+                borderColor: [
+                    '#60a5fa',
+                    '#3b82f6',
+                    '#2563eb', 
+                    '#1d4ed8'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        // Chart configuration
+        const config = {
+            type: 'bar',
+            data: chartData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Alumni: ' + context.parsed.y;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 150,
+                        ticks: {
+                            stepSize: 50,
+                            callback: function(value) {
+                                return value;
+                            }
+                        },
+                        grid: {
+                            color: '#e5e7eb'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                layout: {
+                    padding: {
+                        top: 20,
+                        right: 20,
+                        bottom: 20,
+                        left: 20
+                    }
+                }
+            }
+        };
+
+        // Initialize chart
+        let alumniChart;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('alumniChart').getContext('2d');
+            alumniChart = new Chart(ctx, config);
+        });
+
+        // Update chart function
+        function updateChart() {
+            const dariTahun = document.getElementById('dariTahun').value;
+            const sampaiTahun = document.getElementById('sampaiTahun').value;
+            
+            if (dariTahun || sampaiTahun) {
+                // Filter logic here - for demo purposes, we'll just show an alert
+                alert(`Filter data dari tahun ${dariTahun || 'awal'} sampai ${sampaiTahun || 'akhir'}`);
+                
+                // In a real application, you would filter the data and update the chart
+                // For now, we'll keep the same data
+                alumniChart.update();
+            }
+        }
+
+        // Calculate total alumni
+        function calculateTotal() {
+            const total = chartData.datasets[0].data.reduce((sum, value) => sum + value, 0);
+            document.getElementById('totalAlumni').textContent = total;
+        }
+
+        // Initialize total
+        calculateTotal();
+    </script>
+    <%- include('admin-partials/footer') %>
+</body>
+</html>

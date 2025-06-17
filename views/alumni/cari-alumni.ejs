@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Cari Alumni - Portal Alumni FTI</title>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            .bg-gradient-green {
+                background: linear-gradient(135deg, #f0f8f0 0%, #f0f8f0 100%);
+            }
+            .text-green-custom {
+                color: #f0f8f0;
+            }
+            .profile-avatar {
+                width: 120px;
+                height: 120px;
+                background: #e5e7eb;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto;
+            }
+        </style>
+    </head>
+    <body class="bg-gradient-to-br from-green-50 to-green-100 min-h-screen">
+        <!-- Navbar -->
+        <div class="navbar bg-white shadow-md px-6">
+            <div class="flex-1">
+                <a class="font-bold text-green-700 text-lg">Portal Alumni FTI</a>
+            </div>
+            <ul class="menu menu-horizontal px-1 text-sm hidden lg:flex">
+                <li><a>Beranda</a></li>
+                <li><a class="font-semibold text-green-800">Profil Alumni</a></li>
+                <li><a>Lowongan Pekerjaan</a></li>
+                <li><a>Informasi</a></li>
+                <li><a>Login</a></li>
+            </ul>
+            <div class="lg:hidden dropdown dropdown-end">
+                <label tabindex="0" class="btn btn-ghost btn-circle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+                    </svg>
+                </label>
+                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                    <li><a>Beranda</a></li>
+                    <li><a class="font-semibold">Profil Alumni</a></li>
+                    <li><a>Lowongan Pekerjaan</a></li>
+                    <li><a>Informasi</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- Title Section -->
+        <div class="text-center py-10">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Cari Alumni FTI</h1>
+            <p class="text-gray-600 mb-6">Temukan alumni berdasarkan nama</p>
+        </div>
+        <!-- Search Section -->
+        <div class="container mx-auto px-4 py-8">
+            <div class="max-w-md mx-auto">
+                <div class="form-control">
+                    <div class="flex items-center border border-gray-300 rounded-lg px-4 py-3 bg-white shadow-sm">
+                        <input type="text" placeholder="Cari Alumni" class="flex-grow outline-none text-gray-700 placeholder-gray-400 bg-white" id="searchInput" onkeydown="handleKey(event)" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" onclick="searchAlumni()">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="min-h-screen py-8">
+            <div class="container mx-auto px-4">
+                <div class="max-w-md mx-auto">
+                    <!-- Profile Card -->
+                    <div class="card bg-white shadow-xl hidden" id="profileCard">
+                        <div class="card-body p-8">
+                            <div class="profile-avatar mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                            </div>
+                            <div class="space-y-4">
+                                <h2 class="text-xl font-bold text-center text-gray-800 mb-6" id="alumniName">Nama Alumni</h2>
+                                <div class="form-control">
+                                    <label class="label"><span class="label-text text-gray-600">No. HP</span></label>
+                                    <input type="text" class="input input-bordered bg-gray-50" readonly id="alumniPhone" />
+                                </div>
+                                <div class="form-control">
+                                    <label class="label"><span class="label-text text-gray-600">Email</span></label>
+                                    <input type="email" class="input input-bordered bg-gray-50" readonly id="alumniEmail" />
+                                </div>
+                                <div class="form-control">
+                                    <label class="label"><span class="label-text text-gray-600">Jurusan</span></label>
+                                    <input type="text" class="input input-bordered bg-gray-50" readonly id="alumniMajor" />
+                                </div>
+                                <div class="form-control">
+                                    <label class="label"><span class="label-text text-gray-600">Tahun Masuk</span></label>
+                                    <input type="text" class="input input-bordered bg-gray-50" readonly id="alumniYear" />
+                                </div>
+                                <div class="form-control">
+                                    <label class="label"><span class="label-text text-gray-600">Pekerjaan</span></label>
+                                    <input type="text" class="input input-bordered bg-gray-50" readonly id="alumniJob" />
+                                </div>
+                            </div>
+                            <!-- Button Kembali ke Pencarian -->
+                            <div class="text-center mt-6">
+                                <button class="btn btn-outline btn-sm" onclick="goBackToSearch()">← Kembali ke Pencarian</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- No Results -->
+                    <div class="card bg-white shadow-xl hidden" id="noResults">
+                        <div class="card-body text-center py-12">
+                            <div class="text-gray-400 text-6xl mb-4">🔍</div>
+                            <h3 class="text-xl font-semibold text-gray-600 mb-2">Alumni Tidak Ditemukan</h3>
+                            <p class="text-gray-500 mb-4">Coba gunakan kata kunci yang berbeda</p>
+                            <button class="btn btn-primary" onclick="clearSearch()">Cari Lagi</button>
+                        </div>
+                    </div>
+
+                    <!-- Search Results -->
+                    <div class="space-y-4 hidden" id="searchResults">
+                        <div class="card bg-white shadow-lg cursor-pointer hover:shadow-xl transition-shadow" onclick="viewProfile('Gilang')">
+                            <div class="card-body p-4">
+                                <div class="flex items-center gap-4">
+                                    <div class="avatar">
+                                        <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">Gilang</h3>
+                                        <p class="text-sm text-gray-600">Sistem Informasi - 2020</p>
+                                        <p class="text-sm text-gray-500">Software Engineer</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Daftar alumni contoh
+            const alumniList = [
+                { name: 'Gilang', phone: '+62 812-3456-7890', email: 'gilang@email.com', major: 'Sistem Informasi', year: '2020', job: 'Software Engineer' },
+                { name: 'John Doe', phone: '+62 812-1234-5678', email: 'john@email.com', major: 'Teknik Informatika', year: '2019', job: 'Data Scientist' },
+            ];
+
+            function handleKey(event) {
+                if (event.key === 'Enter') {
+                    searchAlumni();
+                }
+            }
+
+            function searchAlumni() {
+                const searchTerm = document.getElementById('searchInput').value.trim();
+                if (!searchTerm) {
+                    alert('Masukkan kata kunci pencarian');
+                    return;
+                }
+
+                // Cari apakah ada alumni yang cocok
+                const foundAlumni = alumniList.filter((alumni) => alumni.name.toLowerCase().includes(searchTerm.toLowerCase()) || alumni.major.toLowerCase().includes(searchTerm.toLowerCase()) || alumni.year.includes(searchTerm));
+
+                // Menampilkan hasil atau pesan tidak ditemukan
+                if (foundAlumni.length > 0) {
+                    showSearchResults(foundAlumni);
+                } else {
+                    showNoResults();
+                }
+            }
+
+            function showSearchResults(foundAlumni) {
+                const searchResultsContainer = document.getElementById('searchResults');
+                searchResultsContainer.innerHTML = ''; // Clear previous results
+
+                // Tampilkan hasil pencarian
+                foundAlumni.forEach((alumni) => {
+                    const alumniCard = document.createElement('div');
+                    alumniCard.classList.add('card', 'bg-white', 'shadow-lg', 'cursor-pointer', 'hover:shadow-xl', 'transition-shadow');
+                    alumniCard.onclick = () => viewProfile(alumni);
+                    alumniCard.innerHTML = `
+            <div class="card-body p-4">
+                <div class="flex items-center gap-4">
+                    <div class="avatar">
+                        <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-800">${alumni.name}</h3>
+                        <p class="text-sm text-gray-600">${alumni.major} - ${alumni.year}</p>
+                        <p class="text-sm text-gray-500">${alumni.job}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+                    searchResultsContainer.appendChild(alumniCard);
+                });
+
+                document.getElementById('searchResults').classList.remove('hidden');
+                document.getElementById('noResults').classList.add('hidden');
+                document.getElementById('profileCard').classList.add('hidden');
+            }
+
+            function showNoResults() {
+                document.getElementById('profileCard').classList.add('hidden');
+                document.getElementById('searchResults').classList.add('hidden');
+                document.getElementById('noResults').classList.remove('hidden');
+            }
+
+            function showProfile() {
+                document.getElementById('profileCard').classList.remove('hidden');
+                document.getElementById('noResults').classList.add('hidden');
+                document.getElementById('searchResults').classList.add('hidden');
+            }
+
+            function viewProfile(alumni) {
+                document.getElementById('alumniName').textContent = alumni.name;
+                document.getElementById('alumniPhone').value = alumni.phone;
+                document.getElementById('alumniEmail').value = alumni.email;
+                document.getElementById('alumniMajor').value = alumni.major;
+                document.getElementById('alumniYear').value = alumni.year;
+                document.getElementById('alumniJob').value = alumni.job;
+                showProfile();
+            }
+
+            function clearSearch() {
+                document.getElementById('searchInput').value = '';
+                document.getElementById('searchResults').classList.add('hidden');
+                document.getElementById('profileCard').classList.add('hidden');
+                document.getElementById('noResults').classList.add('hidden');
+            }
+
+            function goBackToSearch() {
+                document.getElementById('profileCard').classList.add('hidden');
+                document.getElementById('searchResults').classList.remove('hidden');
+                document.getElementById('noResults').classList.add('hidden');
+            }
+        </script>
+    </body>
+</html>

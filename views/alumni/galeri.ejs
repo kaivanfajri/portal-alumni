@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galeri Alumni</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.0/dist/full.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #F0F8F0;
+    }
+    .card:hover {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+
+  <!-- Navbar -->
+  <div class="navbar bg-white shadow-md px-6">
+    <div class="flex justify-between items-center w-full">
+      <a class="font-bold text-green-700 text-lg">Portal Alumni FTI</a>
+      <ul class="menu menu-horizontal text-black text-sm">
+        <li><a href="#" class="nav-item rounded-md px-3 py-1">Beranda</a></li>
+        <li><a href="#" class="nav-item rounded-md px-3 py-1">Profil Alumni</a></l>
+        <li><a href="#" class="nav-item rounded-md px-3 py-1">Lowongan Pekerjaan</a></li>
+        <li><a href="#" class="nav-item rounded-md px-3 py-1">Informasi</a></li>
+        <li><a href="#" class="nav-item rounded-md px-3 py-1">Login</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section Galeri -->
+  <section class="mt-20 px-8 py-10 relative max-w-7xl mx-auto">
+    <!-- Judul Tengah -->
+    <h2 class="text-3xl font-bold text-green-700 text-center mb-4">Galeri Dokumentasi Alumni</h2>
+
+    <!-- Tombol Upload di kanan atas -->
+    <div class="flex justify-between mb-6">
+      <button class="btn bg-gray-200 shadow hover:shadow-lg">+ Unggah Foto Baru</button>
+    </div>
+
+    <!-- Grid Galeri -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <!-- Kartu Galeri -->
+      <div class="card bg-white shadow-md rounded-xl p-4"
+           onmouseover="handleHover(this)" 
+           onmouseout="clearHover()" 
+           onclick="showModal('https://via.placeholder.com/600')">
+        <figure><img src="https://via.placeholder.com/150" alt="foto" class="w-full h-40 object-contain" /></figure>
+        <div class="text-center mt-2 text-gray-700">Judul Foto</div>
+        <div class="flex justify-center gap-2 mt-3">
+          <button class="btn btn-sm bg-yellow-400 hover:bg-yellow-500 text-black">Edit</button>
+          <button class="btn btn-sm bg-red-700 hover:bg-red-800 text-white">Hapus</button>
+        </div>
+      </div>
+      
+  <!-- Modal Preview -->
+  <dialog id="imageModal" class="modal">
+    <form method="dialog" class="modal-box bg-white">
+      <img id="modalImage" src="" alt="Preview" class="w-full h-auto rounded-lg" />
+      <div class="modal-action">
+        <button class="btn btn-sm">Tutup</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Script Hover & Modal -->
+  <script>
+    let hoverTimeout;
+
+    function handleHover(card) {
+      hoverTimeout = setTimeout(() => {
+        const imgSrc = card.querySelector('img').src;
+        showModal(imgSrc);
+      }, 2000);
+    }
+
+    function clearHover() {
+      clearTimeout(hoverTimeout);
+    }
+
+    function showModal(imgSrc) {
+      document.getElementById('modalImage').src = imgSrc;
+      document.getElementById('imageModal').showModal();
+    }
+  </script>
+
+</body>
+</html>

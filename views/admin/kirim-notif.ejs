@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.0/dist/full.css" rel="stylesheet" />
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            greenSoft: '#F0F8F0',
+                            greenFTI: '#166534',
+                        },
+                    },
+                },
+                daisyui: {
+                    themes: ['light'],
+                },
+            };
+        </script>
+        <title>Kirim Notifikasi - Admin Portal Alumni FTI</title>
+    </head>
+    <body class="bg-greenSoft min-h-screen">
+        <!-- Navbar -->
+        <div class="navbar bg-white shadow-md px-6">
+            <div class="flex justify-between items-center w-full">
+                <a class="font-bold text-greenFTI text-lg">Portal Alumni FTI</a>
+                <ul class="menu menu-horizontal text-black text-sm">
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Kelola Alumni</a></li>
+                    <li><a href="#">Notifikasi</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Form Notifikasi -->
+        <section class="py-16 px-6 max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-greenFTI text-center mb-10">Kirim Notifikasi ke Alumni</h2>
+
+            <form class="bg-white shadow-md rounded-md p-8 space-y-6" method="POST" action="/admin/kirim-notifikasi">
+                <!-- Penerima -->
+                <div>
+                    <label class="block font-semibold text-black mb-1">Kirim ke</label>
+                    <select class="select select-bordered w-full bg-gray-100" name="penerima" required>
+                        <option value="">Pilih Penerima</option>
+                        <option value="semua">Semua Alumni</option>
+                        <option value="id:123">Andi Pratama (contoh)</option>
+                        <option value="id:456">Siti Aisyah (contoh)</option>
+                        <!-- Tambahkan nama alumni lainnya secara dinamis -->
+                    </select>
+                </div>
+
+                <!-- Judul Notifikasi -->
+                <div>
+                    <label class="block font-semibold text-black mb-1">Judul Notifikasi</label>
+                    <input type="text" name="judul" placeholder="Contoh: Pengingat Reuni" class="input input-bordered w-full bg-gray-100" required />
+                </div>
+
+                <!-- Pesan -->
+                <div>
+                    <label class="block font-semibold text-black mb-1">Isi Pesan</label>
+                    <textarea name="pesan" rows="6" placeholder="Tulis isi notifikasi di sini..." class="textarea textarea-bordered w-full bg-gray-100" required></textarea>
+                </div>
+
+                <!-- Tombol Submit -->
+                <div class="text-right">
+                    <button type="submit" class="bg-greenFTI hover:bg-green-800 text-white px-6 py-2 rounded-md font-semibold">Kirim Notifikasi</button>
+                </div>
+            </form>
+        </section>
+    </body>
+</html>

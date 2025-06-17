@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Portal Alumni FTI - Input/Edit Penghargaan Alumni</title>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            .navbar-brand {
+                color: #22c55e;
+                font-weight: bold;
+                font-size: 1.25rem;
+            }
+            .modal-content {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                max-width: 600px;
+                width: 95%;
+                margin: 0 auto;
+            }
+            .form-section {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+            .table-section {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                margin-top: 2rem;
+            }
+        </style>
+    </head>
+    <body class="bg-gray-50">
+        <!-- Navbar -->
+        <%- include('admin-partials/navbar') %>
+
+        <!-- Main Content -->
+        <div class="min-h-screen bg-gray-100 p-6">
+            <div class="container mx-auto max-w-6xl">
+                <!-- Form Section -->
+                <div class="form-section">
+                    <div class="card bg-white">
+                        <div class="card-body p-8">
+                            <h2 class="card-title text-2xl font-bold text-center text-gray-800 mb-8">Input/Edit Penghargaan Alumni</h2>
+
+                            <form id="alumniForm" class="space-y-6">
+                                <!-- Row 1: Nama Alumni & Tahun Lulus -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="form-control">
+                                        <label class="label">
+                                            <span class="label-text font-semibold text-gray-700">Nama Alumni :</span>
+                                        </label>
+                                        <input type="text" id="namaAlumni" class="input input-bordered w-full focus:border-green-500 focus:ring-2 focus:ring-green-200" placeholder="Masukkan nama alumni" />
+                                    </div>
+
+                                    <div class="form-control">
+                                        <label class="label">
+                                            <span class="label-text font-semibold text-gray-700">Tahun Lulus :</span>
+                                        </label>
+                                        <input type="number" id="tahunLulus" class="input input-bordered w-full focus:border-green-500 focus:ring-2 focus:ring-green-200" placeholder="2023" min="1950" max="2030" />
+                                    </div>
+                                </div>
+
+                                <!-- Row 2: Penghargaan & Tingkat -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="form-control">
+                                        <label class="label">
+                                            <span class="label-text font-semibold text-gray-700">Penghargaan :</span>
+                                        </label>
+                                        <input type="text" id="penghargaan" class="input input-bordered w-full focus:border-green-500 focus:ring-2 focus:ring-green-200" placeholder="Nama penghargaan yang diterima" />
+                                    </div>
+
+                                    <div class="form-control">
+                                        <label class="label">
+                                            <span class="label-text font-semibold text-gray-700">Tingkat :</span>
+                                        </label>
+                                        <select id="tingkat" class="select select-bordered w-full focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                                            <option value="">Pilih tingkat</option>
+                                            <option value="Nasional">Nasional</option>
+                                            <option value="Internasional">Internasional</option>
+                                            <option value="Regional">Regional</option>
+                                            <option value="Lokal">Lokal</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Row 3: Tahun -->
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text font-semibold text-gray-700">Tahun :</span>
+                                    </label>
+                                    <input type="number" id="tahunPenghargaan" class="input input-bordered w-full focus:border-green-500 focus:ring-2 focus:ring-green-200" placeholder="Tahun menerima penghargaan" min="1950" max="2030" />
+                                </div>
+
+                                <!-- Row 4: Deskripsi -->
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text font-semibold text-gray-700">Deskripsi :</span>
+                                    </label>
+                                    <textarea id="deskripsi" class="textarea textarea-bordered h-32 w-full focus:border-green-500 focus:ring-2 focus:ring-green-200" placeholder="Deskripsi penghargaan"></textarea>
+                                </div>
+
+                                <!-- Row 5: Upload Bukti -->
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text font-semibold text-gray-700">Upload Bukti :</span>
+                                    </label>
+                                    <input type="file" id="uploadBukti" class="file-input file-input-bordered w-full focus:border-green-500 focus:ring-2 focus:ring-green-200" accept="image/*,.pdf,.doc,.docx" />
+                                    <div class="label">
+                                        <span class="label-text-alt text-gray-500">Format: JPG, PNG, PDF, DOC (Max: 5MB)</span>
+                                    </div>
+                                </div>
+
+                                <!-- Buttons -->
+                                <div class="flex gap-4 pt-4">
+                                    <button type="submit" id="btnSimpan" class="btn bg-yellow-400 hover:bg-yellow-500 border-yellow-400 text-black font-semibold flex-1 py-3 text-base">Simpan</button>
+                                    <button type="button" id="btnBatal" class="btn btn-outline border-gray-300 text-gray-700 hover:bg-gray-100 flex-1 py-3 text-base">Batal</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table Section -->
+                <div class="table-section">
+                    <div class="card bg-white">
+                        <div class="card-body p-8">
+                            <h2 class="card-title text-xl font-bold text-gray-800 mb-6">Tabel Daftar Penghargaan Alumni</h2>
+
+                            <!-- Search and Filter -->
+                            <div class="flex flex-col md:flex-row gap-4 mb-6">
+                                <div class="form-control flex-1">
+                                    <input type="text" id="searchInput" placeholder="Cari nama alumni atau penghargaan..." class="input input-bordered w-full focus:border-green-500 focus:ring-2 focus:ring-green-200" />
+                                </div>
+                                <div class="form-control">
+                                    <select id="filterTingkat" class="select select-bordered focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                                        <option value="">Semua Tingkat</option>
+                                        <option value="Nasional">Nasional</option>
+                                        <option value="Internasional">Internasional</option>
+                                        <option value="Regional">Regional</option>
+                                        <option value="Lokal">Lokal</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Table -->
+                            <div class="overflow-x-auto">
+                                <table class="table table-zebra w-full">
+                                    <thead>
+                                        <tr class="bg-gray-50">
+                                            <th class="text-gray-700 font-semibold">No</th>
+                                            <th class="text-gray-700 font-semibold">Nama Alumni</th>
+                                            <th class="text-gray-700 font-semibold">Tahun Lulus</th>
+                                            <th class="text-gray-700 font-semibold">Penghargaan</th>
+                                            <th class="text-gray-700 font-semibold text-center">Tingkat</th>
+                                            <th class="text-gray-700 font-semibold text-center">Tahun</th>
+                                            <th class="text-gray-700 font-semibold text-center">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableBody">
+                                        <!-- Data akan diisi oleh JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Pagination -->
+                            <div class="flex justify-between items-center mt-6">
+                                <div class="text-sm text-gray-600">Menampilkan <span id="showingInfo" class="font-semibold">0</span> data</div>
+                                <div class="btn-group">
+                                    <button id="prevPage" class="btn btn-sm">«</button>
+                                    <button class="btn btn-sm btn-active bg-green-500 text-white" id="currentPage">1</button>
+                                    <button id="nextPage" class="btn btn-sm">»</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Konfirmasi Delete -->
+        <div id="deleteModal" class="modal">
+            <div class="modal-box bg-white max-w-md">
+                <h3 class="font-bold text-lg text-gray-800 mb-4">Konfirmasi Hapus</h3>
+                <p class="py-4 text-gray-600">Apakah Anda yakin ingin menghapus data penghargaan ini?</p>
+                <div class="modal-action">
+                    <button id="confirmDelete" class="btn btn-error text-white">Hapus</button>
+                    <button id="cancelDelete" class="btn btn-outline">Batal</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Container -->
+        <div id="toastContainer" class="toast toast-top toast-end"></div>
+
+        <script>
+            // Data storage (dalam aplikasi nyata, ini akan menggunakan database)
+            let alumniAwards = [
+                {
+                    id: 1,
+                    namaAlumni: 'Ahmad Supardi',
+                    tahunLulus: 2020,
+                    penghargaan: 'Best Innovation Award',
+                    tingkat: 'Nasional',
+                    tahun: 2023,
+                    deskripsi: 'Penghargaan untuk inovasi terbaik di bidang teknologi',
+                    bukti: 'award_certificate.pdf',
+                },
+                {
+                    id: 2,
+                    namaAlumni: 'Siti Nurhaliza',
+                    tahunLulus: 2019,
+                    penghargaan: 'Outstanding Achievement',
+                    tingkat: 'Internasional',
+                    tahun: 2022,
+                    deskripsi: 'Prestasi luar biasa dalam bidang sains',
+                    bukti: 'achievement_cert.jpg',
+                },
+                {
+                    id: 3,
+                    namaAlumni: 'Budi Santoso',
+                    tahunLulus: 2021,
+                    penghargaan: 'Young Entrepreneur Award',
+                    tingkat: 'Regional',
+                    tahun: 2024,
+                    deskripsi: 'Penghargaan entrepreneur muda terbaik',
+                    bukti: 'entrepreneur_award.pdf',
+                },
+            ];
+
+            let currentEditId = null;
+            let currentPage = 1;
+            const itemsPerPage = 10;
+
+            // Initialize
+            document.addEventListener('DOMContentLoaded', function () {
+                renderTable();
+                setupEventListeners();
+            });
+
+            function setupEventListeners() {
+                // Form submission
+                document.getElementById('alumniForm').addEventListener('submit', handleSubmit);
+                document.getElementById('btnBatal').addEventListener('click', handleCancel);
+
+                // Search and filter
+                document.getElementById('searchInput').addEventListener('input', handleSearch);
+                document.getElementById('filterTingkat').addEventListener('change', handleFilter);
+
+                // Pagination
+                document.getElementById('prevPage').addEventListener('click', () => changePage(-1));
+                document.getElementById('nextPage').addEventListener('click', () => changePage(1));
+
+                // Modal events
+                document.getElementById('confirmDelete').addEventListener('click', confirmDelete);
+                document.getElementById('cancelDelete').addEventListener('click', closeDeleteModal);
+
+                // Input focus effects
+                document.querySelectorAll('input, textarea, select').forEach((element) => {
+                    element.addEventListener('focus', function () {
+                        this.parentNode.classList.add('focused');
+                    });
+
+                    element.addEventListener('blur', function () {
+                        this.parentNode.classList.remove('focused');
+                    });
+                });
+            }
+
+            function handleSubmit(e) {
+                e.preventDefault();
+
+                const formData = getFormData();
+
+                if (!validateForm(formData)) {
+                    showToast('Mohon lengkapi semua field yang wajib diisi!', 'error');
+                    return;
+                }
+
+                if (currentEditId) {
+                    updateAlumniAward(currentEditId, formData);
+                    showToast('Data berhasil diperbarui!', 'success');
+                } else {
+                    addAlumniAward(formData);
+                    showToast('Data berhasil ditambahkan!', 'success');
+                }
+
+                clearForm();
+                renderTable();
+            }
+
+            function handleCancel() {
+                clearForm();
+                showToast('Operasi dibatalkan', 'info');
+            }
+
+            function handleSearch() {
+                currentPage = 1;
+                renderTable();
+            }
+
+            function handleFilter() {
+                currentPage = 1;
+                renderTable();
+            }
+
+            function getFormData() {
+                return {
+                    namaAlumni: document.getElementById('namaAlumni').value.trim(),
+                    tahunLulus: parseInt(document.getElementById('tahunLulus').value),
+                    penghargaan: document.getElementById('penghargaan').value.trim(),
+                    tingkat: document.getElementById('tingkat').value,
+                    tahun: parseInt(document.getElementById('tahunPenghargaan').value),
+                    deskripsi: document.getElementById('deskripsi').value.trim(),
+                    bukti: document.getElementById('uploadBukti').files[0]?.name || '',
+                };
+            }
+
+            function validateForm(data) {
+                return data.namaAlumni && data.tahunLulus && data.penghargaan && data.tingkat && data.tahun;
+            }
+
+            function addAlumniAward(data) {
+                const newId = Math.max(...alumniAwards.map((item) => item.id), 0) + 1;
+                alumniAwards.push({ id: newId, ...data });
+            }
+
+            function updateAlumniAward(id, data) {
+                const index = alumniAwards.findIndex((item) => item.id === id);
+                if (index !== -1) {
+                    alumniAwards[index] = { id, ...data };
+                }
+            }
+
+            function deleteAlumniAward(id) {
+                alumniAwards = alumniAwards.filter((item) => item.id !== id);
+                renderTable();
+                showToast('Data berhasil dihapus!', 'success');
+            }
+
+            function editAlumniAward(id) {
+                const item = alumniAwards.find((award) => award.id === id);
+                if (item) {
+                    currentEditId = id;
+                    fillForm(item);
+                    document.getElementById('namaAlumni').focus();
+                    document.getElementById('namaAlumni').scrollIntoView({ behavior: 'smooth' });
+                    showToast('Mode edit aktif', 'info');
+                }
+            }
+
+            function fillForm(data) {
+                document.getElementById('namaAlumni').value = data.namaAlumni;
+                document.getElementById('tahunLulus').value = data.tahunLulus;
+                document.getElementById('penghargaan').value = data.penghargaan;
+                document.getElementById('tingkat').value = data.tingkat;
+                document.getElementById('tahunPenghargaan').value = data.tahun;
+                document.getElementById('deskripsi').value = data.deskripsi;
+            }
+
+            function clearForm() {
+                document.getElementById('alumniForm').reset();
+                currentEditId = null;
+            }
+
+            function renderTable() {
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                const filterTingkat = document.getElementById('filterTingkat').value;
+
+                let filteredData = alumniAwards.filter((item) => {
+                    const matchSearch = item.namaAlumni.toLowerCase().includes(searchTerm) || item.penghargaan.toLowerCase().includes(searchTerm);
+                    const matchFilter = !filterTingkat || item.tingkat === filterTingkat;
+                    return matchSearch && matchFilter;
+                });
+
+                const startIndex = (currentPage - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const paginatedData = filteredData.slice(startIndex, endIndex);
+
+                const tbody = document.getElementById('tableBody');
+                tbody.innerHTML = '';
+
+                paginatedData.forEach((item, index) => {
+                    const row = createTableRow(item, startIndex + index + 1);
+                    tbody.appendChild(row);
+                });
+
+                updatePaginationInfo(filteredData.length);
+            }
+
+            function createTableRow(item, number) {
+                const row = document.createElement('tr');
+                row.className = 'hover';
+                row.innerHTML = `
+                <td class="text-gray-700">${number}</td>
+                <td class="text-gray-700 font-medium">${item.namaAlumni}</td>
+                <td class="text-gray-700">${item.tahunLulus}</td>
+                <td class="text-gray-700">${item.penghargaan}</td>
+                <td class="text-center">
+                    <span class="badge ${getBadgeClass(item.tingkat)} text-white">${item.tingkat}</span>
+                </td>
+                <td class="text-gray-700 text-center">${item.tahun}</td>
+                <td class="text-center">
+                    <div class="flex gap-2 justify-center">
+                        <button onclick="editAlumniAward(${item.id})" class="btn btn-xs bg-blue-500 hover:bg-blue-600 text-white border-blue-500" title="Edit">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="showDeleteModal(${item.id})" class="btn btn-xs bg-red-500 hover:bg-red-600 text-white border-red-500" title="Hapus">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            `;
+                return row;
+            }
+
+            function getBadgeClass(tingkat) {
+                const classes = {
+                    Nasional: 'bg-blue-500',
+                    Internasional: 'bg-green-500',
+                    Regional: 'bg-yellow-500',
+                    Lokal: 'bg-purple-500',
+                };
+                return classes[tingkat] || 'bg-gray-500';
+            }
+
+            function updatePaginationInfo(totalItems) {
+                const showing = Math.min(totalItems, currentPage * itemsPerPage);
+                const startItem = totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
+                document.getElementById('showingInfo').textContent = `${startItem}-${showing} dari ${totalItems}`;
+                document.getElementById('currentPage').textContent = currentPage;
+
+                document.getElementById('prevPage').disabled = currentPage === 1;
+                document.getElementById('nextPage').disabled = showing >= totalItems;
+            }
+
+            function changePage(direction) {
+                const newPage = currentPage + direction;
+                if (newPage >= 1) {
+                    currentPage = newPage;
+                    renderTable();
+                }
+            }
+
+            let deleteId = null;
+
+            function showDeleteModal(id) {
+                deleteId = id;
+                document.getElementById('deleteModal').classList.add('modal-open');
+            }
+
+            function closeDeleteModal() {
+                deleteId = null;
+                document.getElementById('deleteModal').classList.remove('modal-open');
+            }
+
+            function confirmDelete() {
+                if (deleteId) {
+                    deleteAlumniAward(deleteId);
+                    closeDeleteModal();
+                }
+            }
+
+            function showToast(message, type = 'info') {
+                const toastTypes = {
+                    success: 'alert-success',
+                    error: 'alert-error',
+                    info: 'alert-info',
+                    warning: 'alert-warning',
+                };
+
+                const toast = document.createElement('div');
+                toast.className = `alert ${toastTypes[type]} shadow-lg mb-2`;
+                toast.innerHTML = `
+                <div>
+                    <span class="text-white">${message}</span>
+                </div>
+            `;
+
+                document.getElementById('toastContainer').appendChild(toast);
+
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000);
+            }
+        </script>
+        <%- include('admin-partials/footer') %>
+    </body>
+</html>

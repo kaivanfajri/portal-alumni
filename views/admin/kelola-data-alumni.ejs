@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Manajemen Data Alumni - Portal Alumni FTI</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.10/dist/full.min.css" rel="stylesheet" />
+        <style>
+            .profile-avatar {
+                width: 120px;
+                height: 120px;
+                background: #e5e7eb;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto;
+            }
+
+            /* Sembunyikan tombol tindakan dan kolom Tindakan saat print */
+            @media print {
+                .tindakan,
+                th:nth-child(6),
+                td:nth-child(6) {
+                    display: none;
+                }
+            }
+        </style>
+    </head>
+    <body class="bg-gradient-to-br from-green-50 to-green-100 min-h-screen">
+        <!-- Navbar -->
+        <%- include('admin-partials/navbar') %>
+
+        <!-- Manajemen Data Alumni -->
+        <div class="container mx-auto px-4 py-8">
+            <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Manajemen Data Alumni</h1>
+
+            <!-- Tabel Data Alumni -->
+            <div class="overflow-x-auto">
+                <table class="table table-zebra w-full" id="alumniTable">
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Pekerjaan</th>
+                            <th>Tahun Lulus</th>
+                            <th>Email</th>
+                            <th>Jurusan</th>
+                            <th>Tindakan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="alumniTableBody">
+                        <!-- Data Alumni akan muncul di sini -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tombol untuk Menambah Alumni -->
+            <div class="mt-4 text-center">
+                <button class="btn btn-sm btn-success" onclick="openAddModal()">Tambah Alumni</button>
+            </div>
+
+            <!-- Tombol Cetak Data Alumni -->
+            <div class="mt-4 text-center">
+                <button class="btn btn-sm btn-warning" onclick="printAlumniData()">Cetak Data Alumni</button>
+            </div>
+
+            <!-- Modal Edit Alumni -->
+            <div id="editModal" class="modal">
+                <div class="modal-box">
+                    <h2 class="text-xl font-bold">Edit Data Alumni</h2>
+                    <form id="editForm" onsubmit="updateAlumni(event)">
+                        <input type="hidden" id="editIndex" />
+                        <div class="form-control mb-4">
+                            <label class="label"><span class="label-text">Nama</span></label>
+                            <input type="text" class="input input-bordered" id="editName" required />
+                        </div>
+                        <div class="form-control mb-4">
+                            <label class="label"><span class="label-text">Pekerjaan</span></label>
+                            <input type="text" class="input input-bordered" id="editJob" required />
+                        </div>
+                        <div class="form-control mb-4">
+                            <label class="label"><span class="label-text">Tahun Lulus</span></label>
+                            <input type="text" class="input input-bordered" id="editYear" required />
+                        </div>
+                        <div class="form-control mb-4">
+                            <label class="label"><span class="label-text">Email</span></label>
+                            <input type="email" class="input input-bordered" id="editEmail" required />
+                        </div>
+                        <div class="form-control mb-4">
+                            <label class="label"><span class="label-text">No. HP</span></label>
+                            <input type="text" class="input input-bordered" id="editPhone" required />
+                        </div>
+                        <div class="form-control mb-4">
+                            <label class="label"><span class="label-text">Jurusan</span></label>
+                            <input type="text" class="input input-bordered" id="editMajor" required />
+                        </div>
+                        <div class="form-control mt-6">
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="button" class="btn btn-ghost" onclick="closeModal('editModal')">Batal</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Modal Tambah Alumni -->
+            <div id="addModal" class="modal">
+                <div class="modal-box">
+                    <h2 class="text-xl font-bold">Tambah Data Alumni</h2>
+                    <form id="addForm" onsubmit="addAlumni(event)">
+                        <div class="form-control mb-4">
+                            <label class="label"><span class="label-text">Nama</span></label>
+                            <input type="text" class="input input-bordered" id="addName" required />
+                        </div>
+                        <div class="form-control mb-4">
+                            <label class="label"><span class="label-text">Pekerjaan</span></label>
+                            <input type="text" class="input input-bordered" id="addJob" required />
+                        </div>
+                        <div class="form-control mb-4">
+                            <label class="label"><span class="label-text">Tahun Lulus</span></label>
+                            <input type="text" class="input input-bordered" id="addYear" required />
+                        </div>
+                        <div class="form-control mb-4">
+                            <label class="label"><span class="label-text">Email</span></label>
+                            <input type="email" class="input input-bordered" id="addEmail" required />
+                        </div>
+                        <div class="form-control mb-4">
+                            <label class="label"><span class="label-text">No. HP</span></label>
+                            <input type="text" class="input input-bordered" id="addPhone" required />
+                        </div>
+                        <div class="form-control mb-4">
+                            <label class="label"><span class="label-text">Jurusan</span></label>
+                            <input type="text" class="input input-bordered" id="addMajor" required />
+                        </div>
+                        <div class="form-control mt-6">
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="button" class="btn btn-ghost" onclick="closeModal('addModal')">Batal</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Data alumni dummy
+            const alumniData = [
+                { name: 'Gilang', email: 'gilang@email.com', phone: '+62 812-3456-7890', major: 'Sistem Informasi', year: '2020', job: 'Software Engineer' },
+                { name: 'John Doe', email: 'john@email.com', phone: '+62 812-1234-5678', major: 'Teknik Informatika', year: '2019', job: 'Data Scientist' },
+            ];
+
+            // Tampilkan data alumni di tabel
+            function displayAlumni() {
+                const tableBody = document.getElementById('alumniTableBody');
+                tableBody.innerHTML = '';
+                alumniData.forEach((alumni, index) => {
+                    const row = `
+            <tr>
+                <td>${alumni.name}</td>
+                <td>${alumni.job}</td>
+                <td>${alumni.year}</td>
+                <td>${alumni.email}</td>
+                <td>${alumni.major}</td>
+                <td class="tindakan">
+                    <button class="btn btn-sm btn-warning" onclick="openEditModal(${index})">Edit</button>
+                    <button class="btn btn-sm btn-error" onclick="deleteAlumni(${index})">Hapus</button>
+                </td>
+            </tr>
+        `;
+                    tableBody.innerHTML += row;
+                });
+            }
+
+            // Fungsi untuk membuka modal tambah alumni
+            function openAddModal() {
+                document.getElementById('addModal').classList.add('modal-open');
+            }
+
+            // Fungsi untuk membuka modal edit alumni
+            function openEditModal(index) {
+                const alumni = alumniData[index];
+                document.getElementById('editIndex').value = index;
+                document.getElementById('editName').value = alumni.name;
+                document.getElementById('editJob').value = alumni.job;
+                document.getElementById('editYear').value = alumni.year;
+                document.getElementById('editEmail').value = alumni.email;
+                document.getElementById('editPhone').value = alumni.phone;
+                document.getElementById('editMajor').value = alumni.major;
+                document.getElementById('editModal').classList.add('modal-open');
+            }
+
+            // Fungsi untuk menutup modal
+            function closeModal(modalId) {
+                document.getElementById(modalId).classList.remove('modal-open');
+            }
+
+            // Fungsi untuk menambah alumni
+            function addAlumni(event) {
+                event.preventDefault();
+                const newAlumni = {
+                    name: document.getElementById('addName').value,
+                    job: document.getElementById('addJob').value,
+                    year: document.getElementById('addYear').value,
+                    email: document.getElementById('addEmail').value,
+                    phone: document.getElementById('addPhone').value,
+                    major: document.getElementById('addMajor').value,
+                };
+                alumniData.push(newAlumni);
+                displayAlumni();
+                closeModal('addModal');
+                // Reset form
+                document.getElementById('addForm').reset();
+            }
+
+            // Fungsi untuk memperbarui data alumni
+            function updateAlumni(event) {
+                event.preventDefault();
+                const index = document.getElementById('editIndex').value;
+                const updatedAlumni = {
+                    name: document.getElementById('editName').value,
+                    job: document.getElementById('editJob').value,
+                    year: document.getElementById('editYear').value,
+                    email: document.getElementById('editEmail').value,
+                    phone: document.getElementById('editPhone').value,
+                    major: document.getElementById('editMajor').value,
+                };
+                alumniData[index] = updatedAlumni;
+                displayAlumni();
+                closeModal('editModal');
+            }
+
+            // Fungsi untuk menghapus alumni
+            function deleteAlumni(index) {
+                if (confirm('Apakah Anda yakin ingin menghapus data alumni ini?')) {
+                    alumniData.splice(index, 1);
+                    displayAlumni();
+                }
+            }
+
+            // Fungsi untuk mencetak data alumni - FIXED VERSION
+            function printAlumniData() {
+                // Simpan konten asli
+                const originalContents = document.body.innerHTML;
+
+                // Buat tabel untuk print tanpa duplikasi header
+                let printTableRows = '';
+                alumniData.forEach((alumni) => {
+                    printTableRows += `
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">${alumni.name}</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">${alumni.job}</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">${alumni.year}</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">${alumni.email}</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">${alumni.major}</td>
+            </tr>
+        `;
+                });
+
+                // Ganti isi halaman dengan konten yang akan dicetak
+                document.body.innerHTML = `
+        <div style="padding: 20px; font-family: Arial, sans-serif;">
+            <h1 style="text-align: center; margin-bottom: 30px; font-size: 24px; color: #333;">Data Alumni FTI</h1>
+            <table style="width: 100%; border-collapse: collapse; margin: 0 auto;">
+                <thead>
+                    <tr style="background-color: #f8f9fa;">
+                        <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Nama</th>
+                        <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Pekerjaan</th>
+                        <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Tahun Lulus</th>
+                        <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Email</th>
+                        <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Jurusan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${printTableRows}
+                </tbody>
+            </table>
+        </div>
+    `;
+
+                // Memanggil window.print untuk mencetak
+                window.print();
+
+                // Mengembalikan isi halaman ke yang asli setelah pencetakan selesai
+                document.body.innerHTML = originalContents;
+
+                // Re-initialize the display after restoring content
+                displayAlumni();
+            }
+
+            // Tampilkan data alumni saat halaman dimuat
+            window.onload = function () {
+                displayAlumni();
+            };
+        </script>
+        <!-- Footer -->
+        <%- include('admin-partials/footer') %>
+    </body>
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Riwayat Pengajuan Alumni - Admin Panel</title>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.0/dist/full.min.css" rel="stylesheet" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <style>
+            body {
+                background-color: #f0f8f0;
+            }
+        </style>
+    </head>
+    <body class="min-h-screen">
+        <!-- Include Navbar -->
+        <%- include('admin-partials/navbar') %>
+
+        <!-- Main Content -->
+        <div class="container mx-auto px-6 py-8">
+            <!-- Page Header -->
+            <div class="mb-8">
+                <div class="flex items-center mb-4">
+                    <i class="fas fa-history text-3xl text-[#2E7D32] mr-4"></i>
+                    <div>
+                        <h1 class="text-3xl font-bold text-[#2E7D32]">Riwayat Pengajuan Alumni</h1>
+                        <p class="text-gray-600 mt-1">Kelola dan tinjau semua pengajuan layanan dari alumni</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="card bg-white shadow-lg border border-[#E9E7E7]">
+                    <div class="card-body p-6">
+                        <div class="flex items-center">
+                            <div class="bg-blue-100 p-3 rounded-full">
+                                <i class="fas fa-clock text-blue-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-2xl font-bold text-[#2E7D32]">24</h3>
+                                <p class="text-gray-600 text-sm">Menunggu Review</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bg-white shadow-lg border border-[#E9E7E7]">
+                    <div class="card-body p-6">
+                        <div class="flex items-center">
+                            <div class="bg-green-100 p-3 rounded-full">
+                                <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-2xl font-bold text-[#2E7D32]">156</h3>
+                                <p class="text-gray-600 text-sm">Disetujui</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bg-white shadow-lg border border-[#E9E7E7]">
+                    <div class="card-body p-6">
+                        <div class="flex items-center">
+                            <div class="bg-red-100 p-3 rounded-full">
+                                <i class="fas fa-times-circle text-red-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-2xl font-bold text-[#2E7D32]">12</h3>
+                                <p class="text-gray-600 text-sm">Ditolak</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bg-white shadow-lg border border-[#E9E7E7]">
+                    <div class="card-body p-6">
+                        <div class="flex items-center">
+                            <div class="bg-yellow-100 p-3 rounded-full">
+                                <i class="fas fa-exclamation-triangle text-yellow-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-2xl font-bold text-[#2E7D32]">8</h3>
+                                <p class="text-gray-600 text-sm">Butuh Revisi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter and Search -->
+            <div class="card bg-white shadow-lg border border-[#E9E7E7] mb-8">
+                <div class="card-body p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <!-- Search Input -->
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text font-medium text-[#2E7D32]">Cari Pengajuan</span>
+                            </label>
+                            <input type="text" placeholder="Nama alumni atau judul..." class="input input-bordered w-full" id="searchInput" />
+                        </div>
+
+                        <!-- Category Filter -->
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text font-medium text-[#2E7D32]">Kategori</span>
+                            </label>
+                            <select class="select select-bordered w-full" id="categoryFilter">
+                                <option value="">Semua Kategori</option>
+                                <option value="konten">Konten</option>
+                                <option value="galeri">Galeri</option>
+                                <option value="event">Event</option>
+                                <option value="layanan">Layanan</option>
+                                <option value="forum">Forum</option>
+                            </select>
+                        </div>
+
+                        <!-- Status Filter -->
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text font-medium text-[#2E7D32]">Status</span>
+                            </label>
+                            <select class="select select-bordered w-full" id="statusFilter">
+                                <option value="">Semua Status</option>
+                                <option value="pending">Menunggu Review</option>
+                                <option value="approved">Disetujui</option>
+                                <option value="rejected">Ditolak</option>
+                                <option value="revision">Butuh Revisi</option>
+                            </select>
+                        </div>
+
+                        <!-- Date Filter -->
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text font-medium text-[#2E7D32]">Tanggal</span>
+                            </label>
+                            <input type="date" class="input input-bordered w-full" id="dateFilter" />
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end mt-4 gap-2">
+                        <button class="btn btn-outline btn-sm" onclick="clearFilters()"><i class="fas fa-eraser mr-2"></i>Reset Filter</button>
+                        <button class="btn btn-sm text-white" style="background-color: #ffd700" onclick="exportData()"><i class="fas fa-download mr-2"></i>Export Data</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pengajuan List -->
+            <div class="card bg-white shadow-lg border border-[#E9E7E7]">
+                <div class="card-body p-0">
+                    <div class="overflow-x-auto">
+                        <table class="table table-zebra w-full">
+                            <thead class="bg-[#E9E7E7]">
+                                <tr>
+                                    <th class="text-[#2E7D32] font-bold">ID</th>
+                                    <th class="text-[#2E7D32] font-bold">Alumni</th>
+                                    <th class="text-[#2E7D32] font-bold">Kategori</th>
+                                    <th class="text-[#2E7D32] font-bold">Judul/Deskripsi</th>
+                                    <th class="text-[#2E7D32] font-bold">Tanggal Pengajuan</th>
+                                    <th class="text-[#2E7D32] font-bold">Status</th>
+                                    <th class="text-[#2E7D32] font-bold">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pengajuanTableBody">
+                                <!-- Data akan diisi melalui JavaScript/Backend -->
+                                <!-- Contoh data dummy -->
+                                <tr>
+                                    <td class="font-mono text-sm">#PGJ001</td>
+                                    <td>
+                                        <div class="flex items-center space-x-3">
+                                            <div class="avatar">
+                                                <div class="mask mask-squircle w-12 h-12 bg-gradient-to-br from-[#2E7D32] to-green-500">
+                                                    <span class="text-white font-bold">JS</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="font-bold text-[#2E7D32]">John Smith</div>
+                                                <div class="text-sm opacity-50">Teknik Informatika 2019</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="badge badge-outline text-blue-600 border-blue-300"><i class="fas fa-newspaper mr-1"></i>Konten</div>
+                                    </td>
+                                    <td>
+                                        <div class="max-w-xs">
+                                            <p class="font-medium text-[#2E7D32] truncate">Tips Karir di Industri Tech</p>
+                                            <p class="text-sm text-gray-500 truncate">Artikel tentang pengembangan karir...</p>
+                                        </div>
+                                    </td>
+                                    <td class="text-sm">15 Jun 2025<br /><span class="text-gray-500">10:30 WIB</span></td>
+                                    <td>
+                                        <div class="badge badge-warning gap-2"><i class="fas fa-clock"></i>Menunggu Review</div>
+                                    </td>
+                                    <td>
+                                        <div class="flex gap-1">
+                                            <button class="btn btn-sm btn-square btn-outline text-blue-600 hover:bg-blue-50" onclick="viewDetail('PGJ001')" title="Lihat Detail">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-square text-white hover:bg-green-700" style="background-color: #2e7d32" onclick="approveSubmission('PGJ001')" title="Setujui">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-square btn-error text-white" onclick="rejectSubmission('PGJ001')" title="Tolak">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="font-mono text-sm">#PGJ002</td>
+                                    <td>
+                                        <div class="flex items-center space-x-3">
+                                            <div class="avatar">
+                                                <div class="mask mask-squircle w-12 h-12 bg-gradient-to-br from-[#2E7D32] to-green-500">
+                                                    <span class="text-white font-bold">MR</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="font-bold text-[#2E7D32]">Maria Rodriguez</div>
+                                                <div class="text-sm opacity-50">Manajemen 2018</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="badge badge-outline text-purple-600 border-purple-300"><i class="fas fa-images mr-1"></i>Galeri</div>
+                                    </td>
+                                    <td>
+                                        <div class="max-w-xs">
+                                            <p class="font-medium text-[#2E7D32] truncate">Dokumentasi Workshop Entrepreneur</p>
+                                            <p class="text-sm text-gray-500 truncate">Foto-foto kegiatan workshop...</p>
+                                        </div>
+                                    </td>
+                                    <td class="text-sm">14 Jun 2025<br /><span class="text-gray-500">14:15 WIB</span></td>
+                                    <td>
+                                        <div class="badge badge-success gap-2"><i class="fas fa-check-circle"></i>Disetujui</div>
+                                    </td>
+                                    <td>
+                                        <div class="flex gap-1">
+                                            <button class="btn btn-sm btn-square btn-outline text-blue-600 hover:bg-blue-50" onclick="viewDetail('PGJ002')" title="Lihat Detail">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-square btn-outline text-gray-600 hover:bg-gray-50" onclick="downloadFiles('PGJ002')" title="Download File">
+                                                <i class="fas fa-download"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="font-mono text-sm">#PGJ003</td>
+                                    <td>
+                                        <div class="flex items-center space-x-3">
+                                            <div class="avatar">
+                                                <div class="mask mask-squircle w-12 h-12 bg-gradient-to-br from-[#2E7D32] to-green-500">
+                                                    <span class="text-white font-bold">AB</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="font-bold text-[#2E7D32]">Ahmad Budi</div>
+                                                <div class="text-sm opacity-50">Ekonomi 2020</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="badge badge-outline text-green-600 border-green-300"><i class="fas fa-calendar mr-1"></i>Event</div>
+                                    </td>
+                                    <td>
+                                        <div class="max-w-xs">
+                                            <p class="font-medium text-[#2E7D32] truncate">Seminar Digital Marketing</p>
+                                            <p class="text-sm text-gray-500 truncate">Pengajuan seminar untuk alumni...</p>
+                                        </div>
+                                    </td>
+                                    <td class="text-sm">13 Jun 2025<br /><span class="text-gray-500">09:20 WIB</span></td>
+                                    <td>
+                                        <div class="badge badge-error gap-2"><i class="fas fa-times-circle"></i>Ditolak</div>
+                                    </td>
+                                    <td>
+                                        <div class="flex gap-1">
+                                            <button class="btn btn-sm btn-square btn-outline text-blue-600 hover:bg-blue-50" onclick="viewDetail('PGJ003')" title="Lihat Detail">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-square btn-outline text-orange-600 hover:bg-orange-50" onclick="viewRejectionReason('PGJ003')" title="Alasan Penolakan">
+                                                <i class="fas fa-comment"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="font-mono text-sm">#PGJ004</td>
+                                    <td>
+                                        <div class="flex items-center space-x-3">
+                                            <div class="avatar">
+                                                <div class="mask mask-squircle w-12 h-12 bg-gradient-to-br from-[#2E7D32] to-green-500">
+                                                    <span class="text-white font-bold">SR</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="font-bold text-[#2E7D32]">Sari Rahayu</div>
+                                                <div class="text-sm opacity-50">Psikologi 2017</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="badge badge-outline text-orange-600 border-orange-300"><i class="fas fa-handshake mr-1"></i>Layanan</div>
+                                    </td>
+                                    <td>
+                                        <div class="max-w-xs">
+                                            <p class="font-medium text-[#2E7D32] truncate">Konsultasi Karir Psychology</p>
+                                            <p class="text-sm text-gray-500 truncate">Permohonan layanan konsultasi...</p>
+                                        </div>
+                                    </td>
+                                    <td class="text-sm">12 Jun 2025<br /><span class="text-gray-500">16:45 WIB</span></td>
+                                    <td>
+                                        <div class="badge badge-info gap-2"><i class="fas fa-exclamation-triangle"></i>Butuh Revisi</div>
+                                    </td>
+                                    <td>
+                                        <div class="flex gap-1">
+                                            <button class="btn btn-sm btn-square btn-outline text-blue-600 hover:bg-blue-50" onclick="viewDetail('PGJ004')" title="Lihat Detail">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-square btn-outline text-purple-600 hover:bg-purple-50" onclick="viewRevisionNotes('PGJ004')" title="Catatan Revisi">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex justify-between items-center p-6 border-t border-[#E9E7E7]">
+                        <div class="text-sm text-gray-600">Menampilkan 1-4 dari 200 pengajuan</div>
+                        <div class="join">
+                            <button class="join-item btn btn-sm">«</button>
+                            <button class="join-item btn btn-sm btn-active">1</button>
+                            <button class="join-item btn btn-sm">2</button>
+                            <button class="join-item btn btn-sm">3</button>
+                            <button class="join-item btn btn-sm">»</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detail Modal -->
+        <dialog id="detailModal" class="modal">
+            <div class="modal-box w-11/12 max-w-4xl">
+                <form method="dialog">
+                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                </form>
+                <h3 class="font-bold text-lg text-[#2E7D32] mb-4">Detail Pengajuan</h3>
+                <div id="detailContent">
+                    <!-- Content akan diisi melalui JavaScript -->
+                    <!-- Koneksi database diperlukan di sini untuk mengambil detail pengajuan -->
+                </div>
+            </div>
+        </dialog>
+
+        <!-- Include Footer -->
+        <%- include('admin-partials/footer') %>
+
+        <script>
+            // JavaScript functions untuk handling UI interactions
+            // Catatan: Semua fungsi ini memerlukan koneksi ke database untuk fungsionalitas penuh
+
+            function clearFilters() {
+                // Reset semua filter
+                document.getElementById('searchInput').value = '';
+                document.getElementById('categoryFilter').value = '';
+                document.getElementById('statusFilter').value = '';
+                document.getElementById('dateFilter').value = '';
+                // TODO: Reload data dari database dengan filter kosong
+                console.log('Filters cleared - reload data from database');
+            }
+
+            function exportData() {
+                // Export data pengajuan ke Excel/CSV
+                // TODO: Implementasi export dengan data dari database
+                console.log('Export data - fetch from database and generate file');
+            }
+
+            function viewDetail(id) {
+                // Tampilkan detail pengajuan
+                // TODO: Fetch detail data dari database berdasarkan ID
+                document.getElementById('detailModal').showModal();
+                console.log('View detail for ID:', id, '- fetch from database');
+            }
+
+            function approveSubmission(id) {
+                // Setujui pengajuan
+                if (confirm('Apakah Anda yakin ingin menyetujui pengajuan ini?')) {
+                    // TODO: Update status di database menjadi 'approved'
+                    console.log('Approve submission ID:', id, '- update database status');
+                    // Refresh table data
+                }
+            }
+
+            function rejectSubmission(id) {
+                // Tolak pengajuan dengan alasan
+                const reason = prompt('Masukkan alasan penolakan:');
+                if (reason) {
+                    // TODO: Update status di database menjadi 'rejected' dengan alasan
+                    console.log('Reject submission ID:', id, 'Reason:', reason, '- update database');
+                    // Refresh table data
+                }
+            }
+
+            function viewRejectionReason(id) {
+                // Tampilkan alasan penolakan
+                // TODO: Fetch alasan penolakan dari database
+                alert('Alasan penolakan: ' + 'Data tidak lengkap dan format tidak sesuai');
+                console.log('View rejection reason for ID:', id, '- fetch from database');
+            }
+
+            function viewRevisionNotes(id) {
+                // Tampilkan catatan revisi
+                // TODO: Fetch catatan revisi dari database
+                alert('Catatan revisi: ' + 'Mohon lengkapi dokumen pendukung');
+                console.log('View revision notes for ID:', id, '- fetch from database');
+            }
+
+            function downloadFiles(id) {
+                // Download file yang disubmit
+                // TODO: Generate download link dari database
+                console.log('Download files for ID:', id, '- fetch file paths from database');
+            }
+
+            // Search and filter functionality
+            document.getElementById('searchInput').addEventListener('input', function () {
+                // TODO: Implement search dengan query ke database
+                console.log('Search query:', this.value, '- query database');
+            });
+
+            document.getElementById('categoryFilter').addEventListener('change', function () {
+                // TODO: Filter berdasarkan kategori dari database
+                console.log('Filter by category:', this.value, '- query database');
+            });
+
+            document.getElementById('statusFilter').addEventListener('change', function () {
+                // TODO: Filter berdasarkan status dari database
+                console.log('Filter by status:', this.value, '- query database');
+            });
+
+            document.getElementById('dateFilter').addEventListener('change', function () {
+                // TODO: Filter berdasarkan tanggal dari database
+                console.log('Filter by date:', this.value, '- query database');
+            });
+
+            // Auto-refresh data setiap 30 detik
+            setInterval(function () {
+                // TODO: Refresh data dari database
+                console.log('Auto refresh data - fetch latest from database');
+            }, 30000);
+
+            // Initialize page
+            document.addEventListener('DOMContentLoaded', function () {
+                // TODO: Load initial data dari database
+                console.log('Page loaded - fetch initial data from database');
+            });
+        </script>
+    </body>
+</html>

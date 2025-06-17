@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ekspor Data Tracer Study - Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'light-gray': '#E9E7E7',
+                        'light-green': '#F0F8F0',
+                        'gold': '#FFD700',
+                        'dark-green': '#2E7D32'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#F0F8F0] min-h-screen">
+    <!-- Include Navbar -->
+    <%- include('admin-partials/navbar') %>
+    
+    <!-- Main Content -->
+    <div class="container mx-auto px-6 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                <div>
+                    <h1 class="text-3xl font-bold text-[#2E7D32] mb-2">
+                        <i class="fas fa-download mr-3 text-[#FFD700]"></i>
+                        Ekspor Data Tracer Study
+                    </h1>
+                    <p class="text-gray-600">Unduh dan analisis data hasil survei tracer study alumni</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="refreshData()" class="btn btn-outline text-[#2E7D32] border-[#2E7D32] hover:bg-[#2E7D32] hover:text-white">
+                        <i class="fas fa-sync-alt mr-2"></i>
+                        Refresh Data
+                    </button>
+                    <button onclick="scheduleExport()" class="btn bg-[#FFD700] hover:bg-yellow-500 text-[#2E7D32] border-none font-semibold">
+                        <i class="fas fa-clock mr-2"></i>
+                        Jadwalkan Ekspor
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="card bg-white shadow-lg border border-[#E9E7E7]">
+                <div class="card-body p-6">
+                    <div class="stat">
+                        <div class="stat-figure text-[#FFD700]">
+                            <i class="fas fa-chart-bar text-2xl"></i>
+                        </div>
+                        <div class="stat-title text-gray-600">Total Responden</div>
+                        <div class="stat-value text-[#2E7D32]" id="totalResponden">1,247</div>
+                        <div class="stat-desc text-green-600">
+                            <i class="fas fa-arrow-up text-xs"></i> +12% dari bulan lalu
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card bg-white shadow-lg border border-[#E9E7E7]">
+                <div class="card-body p-6">
+                    <div class="stat">
+                        <div class="stat-figure text-[#FFD700]">
+                            <i class="fas fa-percentage text-2xl"></i>
+                        </div>
+                        <div class="stat-title text-gray-600">Response Rate</div>
+                        <div class="stat-value text-[#2E7D32]" id="responseRate">73.2%</div>
+                        <div class="stat-desc text-green-600">
+                            <i class="fas fa-arrow-up text-xs"></i> +5.2% dari target
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card bg-white shadow-lg border border-[#E9E7E7]">
+                <div class="card-body p-6">
+                    <div class="stat">
+                        <div class="stat-figure text-[#FFD700]">
+                            <i class="fas fa-briefcase text-2xl"></i>
+                        </div>
+                        <div class="stat-title text-gray-600">Alumni Bekerja</div>
+                        <div class="stat-value text-[#2E7D32]" id="workingAlumni">89.5%</div>
+                        <div class="stat-desc text-green-600">
+                            <i class="fas fa-arrow-up text-xs"></i> +2.1% YoY
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card bg-white shadow-lg border border-[#E9E7E7]">
+                <div class="card-body p-6">
+                    <div class="stat">
+                        <div class="stat-figure text-[#FFD700]">
+                            <i class="fas fa-calendar-alt text-2xl"></i>
+                        </div>
+                        <div class="stat-title text-gray-600">Update Terakhir</div>
+                        <div class="stat-value text-[#2E7D32] text-lg" id="lastUpdate">15 Jun 2025</div>
+                        <div class="stat-desc text-gray-500">Pukul 14:30 WIB</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Export Options -->
+        <div class="card bg-white shadow-lg border border-[#E9E7E7] mb-6">
+            <div class="card-body p-6">
+                <h2 class="text-xl font-bold text-[#2E7D32] mb-4">
+                    <i class="fas fa-bolt mr-2 text-[#FFD700]"></i>
+                    Ekspor Cepat
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <button onclick="quickExport('all', 'xlsx')" class="btn btn-outline border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white">
+                        <i class="fas fa-file-excel mr-2"></i>
+                        Semua Data (Excel)
+                    </button>
+                    <button onclick="quickExport('summary', 'pdf')" class="btn btn-outline border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white">
+                        <i class="fas fa-file-pdf mr-2"></i>
+                        Ringkasan (PDF)
+                    </button>
+                    <button onclick="quickExport('charts', 'png')" class="btn btn-outline border-purple-500 text-purple-600 hover:bg-purple-500 hover:text-white">
+                        <i class="fas fa-chart-pie mr-2"></i>
+                        Grafik (PNG)
+                    </button>
+                    <button onclick="quickExport('recent', 'csv')" class="btn btn-outline border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white">
+                        <i class="fas fa-file-csv mr-2"></i>
+                        Data Terbaru (CSV)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Export Configuration -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <!-- Export Configuration -->
+            <div class="card bg-white shadow-lg border border-[#E9E7E7]">
+                <div class="card-body p-6">
+                    <h2 class="text-xl font-bold text-[#2E7D32] mb-4">
+                        <i class="fas fa-cogs mr-2 text-[#FFD700]"></i>
+                        Konfigurasi Ekspor
+                    </h2>
+                    
+                    <form id="exportForm">
+                        <!-- Date Range -->
+                        <div class="form-control mb-4">
+                            <label class="label">
+                                <span class="label-text text-[#2E7D32] font-medium">Periode Data</span>
+                            </label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="date" id="startDate" name="start_date" 
+                                       class="input input-bordered input-sm border-[#E9E7E7] focus:border-[#FFD700]">
+                                <input type="date" id="endDate" name="end_date" 
+                                       class="input input-bordered input-sm border-[#E9E7E7] focus:border-[#FFD700]">
+                            </div>
+                        </div>
+
+                        <!-- Graduation Year Filter -->
+                        <div class="form-control mb-4">
+                            <label class="label">
+                                <span class="label-text text-[#2E7D32] font-medium">Tahun Kelulusan</span>
+                            </label>
+                            <select id="graduationYear" name="graduation_year" multiple class="select select-bordered select-sm border-[#E9E7E7] focus:border-[#FFD700]">
+                                <option value="">Semua Tahun</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020">2020</option>
+                            </select>
+                        </div>
+
+                        <!-- Study Program Filter -->
+                        <div class="form-control mb-4">
+                            <label class="label">
+                                <span class="label-text text-[#2E7D32] font-medium">Program Studi</span>
+                            </label>
+                            <select id="studyProgram" name="study_program" multiple class="select select-bordered select-sm border-[#E9E7E7] focus:border-[#FFD700]">
+                                <option value="">Semua Program Studi</option>
+                                <option value="informatika">Teknik Informatika</option>
+                                <option value="sistem-informasi">Sistem Informasi</option>
+                                <option value="manajemen">Manajemen</option>
+                                <option value="akuntansi">Akuntansi</option>
+                            </select>
+                        </div>
+
+                        <!-- Employment Status Filter -->
+                        <div class="form-control mb-4">
+                            <label class="label">
+                                <span class="label-text text-[#2E7D32] font-medium">Status Pekerjaan</span>
+                            </label>
+                            <div class="flex flex-wrap gap-2">
+                                <label class="cursor-pointer label">
+                                    <input type="checkbox" name="employment_status[]" value="employed" class="checkbox checkbox-sm border-[#2E7D32]">
+                                    <span class="label-text ml-2">Bekerja</span>
+                                </label>
+                                <label class="cursor-pointer label">
+                                    <input type="checkbox" name="employment_status[]" value="unemployed" class="checkbox checkbox-sm border-[#2E7D32]">
+                                    <span class="label-text ml-2">Belum Bekerja</span>
+                                </label>
+                                <label class="cursor-pointer label">
+                                    <input type="checkbox" name="employment_status[]" value="entrepreneur" class="checkbox checkbox-sm border-[#2E7D32]">
+                                    <span class="label-text ml-2">Wirausaha</span>
+                                </label>
+                                <label class="cursor-pointer label">
+                                    <input type="checkbox" name="employment_status[]" value="continuing_study" class="checkbox checkbox-sm border-[#2E7D32]">
+                                    <span class="label-text ml-2">Melanjutkan Studi</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Data Fields Selection -->
+                        <div class="form-control mb-4">
+                            <label class="label">
+                                <span class="label-text text-[#2E7D32] font-medium">Pilih Data yang Akan Diekspor</span>
+                            </label>
+                            <div class="grid grid-cols-1 gap-2 max-h-32 overflow-y-auto border border-[#E9E7E7] rounded p-2">
+                                <label class="cursor-pointer label">
+                                    <input type="checkbox" name="fields[]" value="personal_info" checked class="checkbox checkbox-sm border-[#2E7D32]">
+                                    <span class="label-text ml-2">Data Pribadi</span>
+                                </label>
+                                <label class="cursor-pointer label">
+                                    <input type="checkbox" name="fields[]" value="education_info" checked class="checkbox checkbox-sm border-[#2E7D32]">
+                                    <span class="label-text ml-2">Data Pendidikan</span>
+                                </label>
+                                <label class="cursor-pointer label">
+                                    <input type="checkbox" name="fields[]" value="employment_info" checked class="checkbox checkbox-sm border-[#2E7D32]">
+                                    <span class="label-text ml-2">Data Pekerjaan</span>
+                                </label>
+                                <label class="salary_label">
+                                    <input type="checkbox" name="fields[]" value="salary_info" class="checkbox checkbox-sm border-[#2E7D32]">
+                                    <span class="label-text ml-2">Informasi Gaji</span>
+                                </label>
+                                <label class="competency_label">
+                                    <input type="checkbox" name="fields[]" value="competency_rating" class="checkbox checkbox-sm border-[#2E7D32]">
+                                    <span class="label-text ml-2">Rating Kompetensi</span>
+                                </label>
+                                <label class="label">
+                                    <input type="checkbox" name="fields[]" value="feedback" class="checkbox checkbox-sm border-[#2E7D32]">
+                                    <span class="label-text ml-2">Saran & Mas</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Export Format -->
+<div class="form-control mb-6">
+                            <label class="label">
+                                <span class="label-text text-[#2E7D32] font-semibold">Format File</span>
+                            </label>
+                            <div class="flex flex-wrap gap-2">
+                                <label class="cursor-pointer label">
+                                    <input type="radio" name="format" value="xlsx" checked class="radio radio-sm border-[#2E7D32]">
+                                    <span class="label-text ml-2">Excel (.xlsx)</span>
+                                </label>
+                                <label class="cursor-pointer label">
+                                    <input type="radio" name="format" value="csv" class="radio radio-sm border-[#2E7D32]">
+                                    <span class="label-text ml-2">CSV (.csv)</span>
+                                </label>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="generateExport()" class="btn bg-[#FFD700] hover:bg-yellow-500 text-[#2E7D32] border-none w-full">
+                                <i class="fas fa-download mr-2"></i>
+                                Generate & Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Preview -->
+                <div class="card bg-white shadow-lg border border-[#E9E7D32]">
+                    <div class="card-body p-6">
+                        <h2 class="text-xl font-bold text-[#2E7D32] mb-4">
+                            <i class="fas fa-eye mr-2 text-[#FFD700]"></i>
+                            Preview Data
+                        </h2>
+                        
+                        <!-- Data Summary Charts -->
+                        <div class="mb-6">
+                            <canvas id="employmentChart" width="400" height="200"></canvas>
+                        </div>
+                        
+                        <!-- Sample Data Table -->
+                        <div class="overflow-x-auto">
+                            <table class="table table-zebra table-xs">
+                                <thead>
+                                    <tr class="bg-[#E9E7E7]">
+                                        <th class="text-[#2E7D32] font-semibold">Nama</th>
+                                        <th class="text-[#2E7D32] font-semibold">Prodi</th>
+                                        <th class="text-[#2E7D32] font-semibold">Lulus</th>
+                                        <th class="text-[#2E7D32] font-semibold">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="previewTableBody">
+                                    <tr>
+                                        <td>Ahmad Rizki</td>
+                                        <td>Informatika</td>
+                                        <td>2023</td>
+                                        <td><span class="badge badge-success badge-xs">Bekerja</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Siti Nurhaliza</td>
+                                        <td>Manajemen</td>
+                                        <td>2024</td>
+                                        <td><span class="badge badge-warning badge-xs">Mencari Kerja</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Budi Santoso</td>
+                                        <td>Akuntansi</td>
+                                        <td>2022</td>
+                                        <td><span class="badge badge-info badge-xs">Wirausaha</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Maya Sari</td>
+                                        <td>Sistem Informasi</td>
+                                        <td>2023</td>
+                                        <td><span class="badge badge-success badge-xs">Bekerja</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rudi Hartono</td>
+                                        <td>Informatika</td>
+                                        <td>2024</td>
+                                        <td><span class="badge badge-primary badge-xs">Studi Lanjut</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <span class="text-sm text-gray-500">Menampilkan 5 dari 1,247 responden</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export History -->
+            <div class="card bg-white shadow-lg border border-[#E9E7E7] mb-6">
+                <div class="card-body p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold text-[#2E7D32]">
+                            <i class="fas fa-history mr-2 text-[#FFD700]"></i>
+                            Riwayat Ekspor
+                        </h2>
+                        <button onclick="clearHistory()" class="btn btn-ghost btn-sm text-red-600">
+                            <i class="fas fa-trash mr-2"></i>
+                            Hapus Riwayat
+                        </button>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="table table-zebra w-full">
+                            <thead class="bg-[#E9E7E7]">
+                                <tr>
+                                    <th class="text-[#2E7D32] font-semibold">Tanggal</th>
+                                    <th class="text-[#2E7D32] font-semibold">Nama File</th>
+                                    <th class="text-[#2E7D32] font-semibold">Format</th>
+                                    <th class="text-[#2E7D32] font-semibold">Jumlah Data</th>
+                                    <th class="text-[#2E7D32] font-semibold">Ukuran File</th>
+                                    <th class="text-[#2E7D32] font-semibold">Status</th>
+                                    <th class="text-[#2E7D32] font-semibold">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>15 Jun 2025, 14:30</td>
+                                    <td>tracer_study_all_data_20250615.xlsx</td>
+                                    <td><span class="badge badge-success">Excel</span></td>
+                                    <td>1,247</td>
+                                    <td>2.3 MB</td>
+                                    <td><span class="badge badge-success">Berhasil</span></td>
+                                    <td>
+                                        <div class="flex gap-1">
+                                            <button onclick="downloadFile('tracer_study_all_data_20250615.xlsx')" class="btn btn-ghost btn-xs text-blue-600">
+                                                <i class="fas fa-download"></i>
+                                            </button>
+                                            <button onclick="deleteFile('tracer_study_all_data_20250615.xlsx')" class="btn btn-ghost btn-xs text-red-600">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>14 Jun 2025, 09:15</td>
+                                    <td>tracer_study_summary_20250614.pdf</td>
+                                    <td><span class="badge badge-error">PDF</span></td>
+                                    <td>1,247</td>
+                                    <td>1.8 MB</td>
+                                    <td><span class="badge badge-success">Berhasil</span></td>
+                                    <td>
+                                        <div class="flex gap-1">
+                                            <button onclick="downloadFile('tracer_study_summary_20250614.pdf')" class="btn btn-ghost btn-xs text-blue-600">
+                                                <i class="fas fa-download"></i>
+                                            </button>
+                                            <button onclick="deleteFile('tracer_study_summary_20250614.pdf')" class="btn btn-ghost btn-xs text-red-600">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>13 Jun 2025, 16:45</td>
+                                    <td>tracer_study_informatika_20250613.csv</td>
+                                    <td><span class="badge badge-warning">CSV</span></td>
+                                    <td>456</td>
+                                    <td>850 KB</td>
+                                    <td><span class="badge badge-error">Gagal</span></td>
+                                    <td>
+                                        <div class="flex gap-1">
+                                            <button onclick="retryExport('tracer_study_informatika_20250613')" class="btn btn-ghost btn-xs text-orange-600">
+                                                <i class="fas fa-redo"></i>
+                                            </button>
+                                            <button onclick="deleteFile('tracer_study_informatika_20250613.csv')" class="btn btn-ghost btn-xs text-red-600">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="flex justify-center mt-4">
+                        <div class="btn-group">
+                            <button class="btn btn-sm">«</button>
+                            <button class="btn btn-sm btn-active bg-[#FFD700] text-[#2E7D32]">1</button>
+                            <button class="btn btn-sm">2</button>
+                            <button class="btn btn-sm">3</button>
+                            <button class="btn btn-sm">»</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export Templates -->
+            <div class="card bg-white shadow-lg border border-[#E9E7E7]">
+                <div class="card-body p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold text-[#2E7D32]">
+                            <i class="fas fa-save mr-2 text-[#FFD700]"></i>
+                            Template Ekspor
+                        </h2>
+                        <button onclick="createTemplate()" class="btn btn-outline text-[#2E7D32] border-[#2E7D32] hover:bg-[#2E7D32] hover:text-white btn-sm">
+                            <i class="fas fa-plus mr-2"></i>
+                            Buat Template
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="card bg-gray-50 border border-[#E9E7E7]">
+                            <div class="card-body p-4">
+                                <h3 class="font-bold text-[#2E7D32] mb-2">Laporan Bulanan</h3>
+                                <p class="text-sm text-gray-600 mb-3">Data lengkap alumni bulan ini dengan analisis pekerjaan</p>
+                                <div class="flex gap-2">
+                                    <button onclick="useTemplate('monthly')" class="btn btn-xs bg-[#FFD700] hover:bg-yellow-500 text-[#2E7D32] border-none">
+                                        <i class="fas fa-play mr-1"></i>Gunakan
+                                    </button>
+                                    <button onclick="editTemplate('monthly')" class="btn btn-xs btn-ghost text-[#2E7D32]">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card bg-gray-50 border border-[#E9E7E7]">
+                            <div class="card-body p-4">
+                                <h3 class="font-bold text-[#2E7D32] mb-2">Laporan Tahunan</h3>
+                                <p class="text-sm text-gray-600 mb-3">Ringkasan statistik dan tren tahunan tracer study</p>
+                                <div class="flex gap-2">
+                                    <button onclick="useTemplate('yearly')" class="btn btn-xs bg-[#FFD700] hover:bg-yellow-500 text-[#2E7D32] border-none">
+                                        <i class="fas fa-play mr-1"></i>Gunakan
+                                    </button>
+                                    <button onclick="editTemplate('yearly')" class="btn btn-xs btn-ghost text-[#2E7D32]">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card bg-gray-50 border border-[#E9E7E7]">
+                            <div class="card-body p-4">
+                                <h3 class="font-bold text-[#2E7D32] mb-2">Data per Prodi</h3>
+                                <p class="text-sm text-gray-600 mb-3">Analisis berdasarkan program studi spesifik</p>
+                                <div class="flex gap-2">
+                                    <button onclick="useTemplate('prodi')" class="btn btn-xs bg-[#FFD700] hover:bg-yellow-500 text-[#2E7D32] border-none">
+                                        <i class="fas fa-play mr-1"></i>Gunakan
+                                    </button>
+                                    <button onclick="editTemplate('prodi')" class="btn btn-xs btn-ghost text-[#2E7D32]">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer footer-center p-4 bg-[#2E7D32] text-white mt-8">
+        <div>
+            <p>Copyright © 2025 - Tracer Study Universitas</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Initialize Employment Chart
+        const ctx = document.getElementById('employmentChart').getContext('2d');
+        const employmentChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Bekerja', 'Belum Bekerja', 'Wirausaha', 'Melanjutkan Studi'],
+                datasets: [{
+                    data: [60, 15, 15, 10],
+                    backgroundColor: ['#2E7D32', '#EF5350', '#FFD700', '#2196F3'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Distribusi Status Pekerjaan Alumni'
+                    }
+                }
+            }
+        });
+
+        // Function to refresh data
+        function refreshData() {
+            alert('Memuat ulang data...');
+            // Simulate API call to refresh statistics
+            document.getElementById('totalResponden').textContent = '1,247';
+            document.getElementById('responseRate').textContent = '73.2%';
+            document.getElementById('workingAlumni').textContent = '89.5%';
+            document.getElementById('lastUpdate').textContent = '15 Jun 2025';
+        }
+
+        // Function to schedule export
+        function scheduleExport() {
+            alert('Fitur penjadwalan ekspor akan segera tersedia!');
+        }
+
+        // Function for quick export
+        function quickExport(type, format) {
+            alert(`Mengekspor ${type} dalam format ${format}...`);
+            // Simulate export process
+            // In production, this would make an API call to generate and download the file
+        }
+
+        // Function to handle export form submission
+        document.getElementById('exportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            alert('Mengekspor data dengan konfigurasi:\n' + JSON.stringify(data, null, 2));
+            // In production, send formData to backend API
+        });
+
+        // Function to download file
+        function downloadFile(filename) {
+            alert(`Mengunduh ${filename}...`);
+            // In production, trigger file download via API or direct link
+        }
+
+        // Function to delete file
+        function deleteFile(filename) {
+            if (confirm(`Yakin ingin menghapus ${filename}?`)) {
+                alert(`${filename} telah dihapus`);
+                // In production, make API call to delete file
+            }
+        }
+
+        // Function to retry export
+        function retryExport(filename) {
+            alert(`Mencoba ulang ekspor ${filename}...`);
+            // In production, make API call to retry export
+        }
+
+        // Function to clear export history
+        function clearHistory() {
+            if (confirm('Yakin ingin menghapus semua riwayat ekspor?')) {
+                alert('Riwayat ekspor telah dihapus');
+                // In production, make API call to clear history
+            }
+        }
+
+        // Function to create new template
+        function createTemplate() {
+            alert('Fitur pembuatan template akan segera tersedia!');
+        }
+
+        // Function to use template
+        function useTemplate(templateName) {
+            alert(`Menggunakan template ${templateName}...`);
+            // In production, populate export form with template settings
+        }
+
+        // Function to edit template
+        function editTemplate(templateName) {
+            alert(`Mengedit template ${templateName}...`);
+            // In production, open template editor with current settings
+        }
+    </script>
+</body>
+</html>

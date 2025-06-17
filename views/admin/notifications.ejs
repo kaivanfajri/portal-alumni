@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Notifikasi - Portal Alumni</title>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.2/dist/full.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+        </style>
+    </head>
+    <body class="min-h-screen bg-[#F0F8F0]">
+        <%- include('admin-partials/navbar') %>
+
+        <!-- Notifikasi & Pengingat Acara Section -->
+        <section class="py-16">
+            <div class="container mx-auto px-4 max-w-7xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl lg:text-4xl font-bold mb-4" style="color: #2e7d32">
+                        <i class="fas fa-bell mr-3"></i>
+                        Notifikasi & Pengingat Acara
+                    </h2>
+                    <p class="text-lg" style="color: #666">Kelola notifikasi dan pengingat untuk alumni</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Buat Notifikasi Baru -->
+                    <div class="card shadow-xl feature-card">
+                        <div class="card-body">
+                            <h3 class="card-title text-2xl mb-4" style="color: #2e7d32">
+                                <i class="fas fa-plus-circle mr-2"></i>
+                                Buat Notifikasi Baru
+                            </h3>
+                            <form id="notificationForm">
+                                <div class="form-control mb-4">
+                                    <label class="label">
+                                        <span class="label-text">Judul Notifikasi</span>
+                                    </label>
+                                    <input type="text" name="title" placeholder="Masukkan judul..." class="input input-bordered" required />
+                                </div>
+                                <div class="form-control mb-4">
+                                    <label class="label">
+                                        <span class="label-text">Pesan</span>
+                                    </label>
+                                    <textarea name="message" class="textarea textarea-bordered" placeholder="Tulis pesan notifikasi..." required></textarea>
+                                </div>
+                                <div class="form-control mb-4">
+                                    <label class="label">
+                                        <span class="label-text">Tipe Notifikasi</span>
+                                    </label>
+                                    <select name="type" class="select select-bordered" required>
+                                        <option value="">Pilih Tipe</option>
+                                        <option value="event">Pengingat Acara</option>
+                                        <option value="job">Lowongan Kerja</option>
+                                        <option value="scholarship">Beasiswa</option>
+                                        <option value="general">Umum</option>
+                                    </select>
+                                </div>
+                                <div class="form-control mb-4">
+                                    <label class="label">
+                                        <span class="label-text">Target Alumni</span>
+                                    </label>
+                                    <select name="target" class="select select-bordered" required>
+                                        <option value="">Pilih Target</option>
+                                        <option value="all">Semua Alumni</option>
+                                        <option value="2023">Alumni 2023</option>
+                                        <option value="2022">Alumni 2022</option>
+                                        <option value="2021">Alumni 2021</option>
+                                        <option value="2020">Alumni 2020</option>
+                                    </select>
+                                </div>
+                                <div class="form-control mb-4">
+                                    <label class="label">
+                                        <span class="label-text">Jadwal Kirim</span>
+                                    </label>
+                                    <input type="datetime-local" name="scheduled_time" class="input input-bordered" />
+                                </div>
+                                <div class="form-control mb-4">
+                                    <label class="cursor-pointer label">
+                                        <span class="label-text">Kirim Sekarang</span>
+                                        <input type="checkbox" name="send_now" class="checkbox" />
+                                    </label>
+                                </div>
+                                <div class="card-actions justify-end">
+                                    <button type="submit" class="btn btn-custom-primary">
+                                        <i class="fas fa-paper-plane mr-2"></i>
+                                        Kirim Notifikasi
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Daftar Notifikasi Terkirim -->
+                    <div class="card shadow-xl feature-card">
+                        <div class="card-body">
+                            <h3 class="card-title text-2xl mb-4" style="color: #2e7d32">
+                                <i class="fas fa-history mr-2"></i>
+                                Riwayat Notifikasi
+                            </h3>
+
+                            <!-- Filter -->
+                            <div class="flex gap-2 mb-4">
+                                <select class="select select-bordered select-sm">
+                                    <option>Semua Tipe</option>
+                                    <option>Pengingat Acara</option>
+                                    <option>Lowongan Kerja</option>
+                                    <option>Beasiswa</option>
+                                    <option>Umum</option>
+                                </select>
+                                <select class="select select-bordered select-sm">
+                                    <option>Semua Status</option>
+                                    <option>Terkirim</option>
+                                    <option>Dijadwalkan</option>
+                                    <option>Gagal</option>
+                                </select>
+                            </div>
+
+                            <!-- Daftar Notifikasi -->
+                            <div class="space-y-4 max-h-96 overflow-y-auto min-h-[480px]">
+                                <!-- Data akan diambil dari database -->
+                                <div class="border rounded-lg p-4 hover:bg-gray-50">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h4 class="font-semibold">Pengingat: Webinar Teknologi AI</h4>
+                                        <span class="badge badge-success">Terkirim</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mb-2">Jangan lupa untuk menghadiri webinar tentang AI yang akan...</p>
+                                    <div class="flex justify-between items-center text-xs text-gray-500">
+                                        <span>Target: Semua Alumni</span>
+                                        <span>15 Jan 2024, 14:30</span>
+                                    </div>
+                                    <div class="mt-2">
+                                        <button class="btn btn-xs btn-outline mr-2" onclick="viewNotification()"><i class="fas fa-eye mr-1"></i>Detail</button>
+                                        <button class="btn btn-xs btn-outline" onclick="resendNotification()"><i class="fas fa-redo mr-1"></i>Kirim Ulang</button>
+                                    </div>
+                                </div>
+
+                                <div class="border rounded-lg p-4 hover:bg-gray-50">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h4 class="font-semibold">Lowongan: Frontend Developer</h4>
+                                        <span class="badge badge-warning">Dijadwalkan</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mb-2">Peluang karir menarik untuk posisi Frontend Developer di...</p>
+                                    <div class="flex justify-between items-center text-xs text-gray-500">
+                                        <span>Target: Alumni 2022-2023</span>
+                                        <span>Dijadwalkan: 16 Jan 2024, 09:00</span>
+                                    </div>
+                                    <div class="mt-2">
+                                        <button class="btn btn-xs btn-outline mr-2" onclick="viewNotification()"><i class="fas fa-eye mr-1"></i>Detail</button>
+                                        <button class="btn btn-xs btn-outline" onclick="cancelScheduled()"><i class="fas fa-times mr-1"></i>Batalkan</button>
+                                    </div>
+                                </div>
+
+                                <div class="border rounded-lg p-4 hover:bg-gray-50">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h4 class="font-semibold">Beasiswa S2 Luar Negeri</h4>
+                                        <span class="badge badge-error">Gagal</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mb-2">Informasi beasiswa S2 di universitas terkemuka...</p>
+                                    <div class="flex justify-between items-center text-xs text-gray-500">
+                                        <span>Target: Alumni 2020-2021</span>
+                                        <span>14 Jan 2024, 16:00</span>
+                                    </div>
+                                    <div class="mt-2">
+                                        <button class="btn btn-xs btn-outline mr-2" onclick="viewNotification()"><i class="fas fa-eye mr-1"></i>Detail</button>
+                                        <button class="btn btn-xs btn-outline" onclick="resendNotification()"><i class="fas fa-redo mr-1"></i>Kirim Ulang</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistik Notifikasi -->
+                <div class="card shadow-xl feature-card mt-8">
+                    <div class="card-body">
+                        <h3 class="card-title text-2xl mb-6" style="color: #2e7d32">
+                            <i class="fas fa-chart-bar mr-2"></i>
+                            Statistik Notifikasi
+                        </h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="text-center p-4 bg-green-50 rounded-lg">
+                                <div class="text-3xl font-bold" style="color: #2e7d32">124</div>
+                                <div class="text-sm text-gray-600">Total Terkirim</div>
+                            </div>
+                            <div class="text-center p-4 bg-yellow-50 rounded-lg">
+                                <div class="text-3xl font-bold" style="color: #ffd700">8</div>
+                                <div class="text-sm text-gray-600">Dijadwalkan</div>
+                            </div>
+                            <div class="text-center p-4 bg-red-50 rounded-lg">
+                                <div class="text-3xl font-bold text-red-600">3</div>
+                                <div class="text-sm text-gray-600">Gagal</div>
+                            </div>
+                            <div class="text-center p-4 bg-blue-50 rounded-lg">
+                                <div class="text-3xl font-bold text-blue-600">89%</div>
+                                <div class="text-sm text-gray-600">Tingkat Baca</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal Detail Notifikasi -->
+        <dialog id="notificationDetailModal" class="modal">
+            <div class="modal-box w-11/12 max-w-2xl">
+                <h3 class="font-bold text-lg mb-4" style="color: #2e7d32">Detail Notifikasi</h3>
+                <!-- Konten detail akan diisi dari database -->
+                <div class="py-4">
+                    <div class="mb-4">
+                        <h4 class="font-semibold">Judul:</h4>
+                        <p id="notifTitle" class="text-gray-700"></p>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="font-semibold">Pesan:</h4>
+                        <p id="notifMessage" class="text-gray-700"></p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <h4 class="font-semibold">Tipe:</h4>
+                            <p id="notifType" class="text-gray-700"></p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Target:</h4>
+                            <p id="notifTarget" class="text-gray-700"></p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="font-semibold">Waktu Kirim:</h4>
+                            <p id="notifSentTime" class="text-gray-700"></p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Status:</h4>
+                            <p id="notifStatus" class="text-gray-700"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-action">
+                    <form method="dialog">
+                        <button class="btn">Tutup</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
+
+        <script>
+            // Fungsi untuk submit form notifikasi
+            document.getElementById('notificationForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                // Ambil data form dan kirim ke server
+                const formData = new FormData(this);
+                // AJAX call ke server untuk menyimpan notifikasi
+                console.log('Notifikasi berhasil dikirim');
+                // Reset form setelah berhasil
+                this.reset();
+            });
+
+            // Fungsi untuk melihat detail notifikasi
+            function viewNotification() {
+                // Ambil data dari database dan tampilkan di modal
+                document.getElementById('notificationDetailModal').showModal();
+            }
+
+            // Fungsi untuk mengirim ulang notifikasi
+            function resendNotification() {
+                if (confirm('Apakah Anda yakin ingin mengirim ulang notifikasi ini?')) {
+                    // AJAX call ke server untuk mengirim ulang
+                    console.log('Notifikasi berhasil dikirim ulang');
+                }
+            }
+
+            // Fungsi untuk membatalkan notifikasi terjadwal
+            function cancelScheduled() {
+                if (confirm('Apakah Anda yakin ingin membatalkan notifikasi terjadwal ini?')) {
+                    // AJAX call ke server untuk membatalkan
+                    console.log('Notifikasi terjadwal dibatalkan');
+                }
+            }
+
+            // Auto-disable scheduled time input jika "Kirim Sekarang" dicentang
+            document.querySelector('input[name="send_now"]').addEventListener('change', function () {
+                const scheduledInput = document.querySelector('input[name="scheduled_time"]');
+                if (this.checked) {
+                    scheduledInput.disabled = true;
+                    scheduledInput.value = '';
+                } else {
+                    scheduledInput.disabled = false;
+                }
+            });
+        </script>
+
+        <%- include('admin-partials/footer') %>
+    </body>
+</html>
