@@ -43,27 +43,27 @@ router.get('/cari-alumni', (req, res) => {
 });
 
 // Route tambahan alumni lainnya (contoh)
-router.get('/job-detail', (req, res) => {
-    res.render('alumni/job-detail', {
-        title: 'job-detail - Alumni Panel',
+router.get('/detail-job', (req, res) => {
+    res.render('alumni/detail-job', {
+        title: 'detail-job - Alumni Panel',
         layout: 'Alumni/layout',
         user: req.user || null,
     });
 });
 
 // Route tambahan alumni lainnya (contoh)
-router.get('/job-list', (req, res) => {
-    res.render('alumni/job-list', {
-        title: 'job-list - Alumni Panel',
+router.get('/list-job', (req, res) => {
+    res.render('alumni/list-job', {
+        title: 'list-job - Alumni Panel',
         layout: 'Alumni/layout',
         user: req.user || null,
     });
 });
 
 // Route tambahan alumni lainnya (contoh)
-router.get('/post-job', (req, res) => {
-    res.render('alumni/post-job', {
-        title: 'post-job - Alumni Panel',
+router.get('/upload-job', (req, res) => {
+    res.render('alumni/upload-job', {
+        title: 'upload-job - Alumni Panel',
         layout: 'Alumni/layout',
         user: req.user || null,
     });

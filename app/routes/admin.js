@@ -42,13 +42,13 @@ router.get('/kelola-forum', (req, res) => {
 });
 
 // Route untuk notifikasi
-router.get('/notifications', (req, res) => {
-    res.render('admin/notifications', {
-        title: 'Notification - Admin Panel',
+router.get('/kirim-notifikasi', (req, res) => {
+    res.render('admin/kirim-notifikasi', {
+        title: 'Kirim Notifikasi- Admin Panel',
         layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
-        notifications: [], // nanti bisa diisi dari database
+        kirimNotifikasi: [], // nanti bisa diisi dari database
     });
 });
 
