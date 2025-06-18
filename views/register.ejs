@@ -1,0 +1,90 @@
+ 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registrasi Alumni - Portal Alumni</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.2/dist/full.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#F0F8F0]">
+  <!-- Navbar (jika ingin include navbar umum) -->
+<nav class="bg-[#2E7D32] text-white px-6 py-4 shadow-md">
+  <div class="container mx-auto flex justify-between items-center">
+    <a href="/" class="text-xl font-bold">Portal Alumni</a>
+    <ul class="flex space-x-4">
+      <li><a href="/auth/login" class="hover:underline">Login</a></li>
+      <li><a href="/auth/register" class="hover:underline">Register</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+  <div class="container mx-auto px-6 py-12">
+    <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg border border-[#E9E7E7] p-8">
+      <h2 class="text-3xl font-bold text-[#2E7D32] mb-6 text-center">Form Registrasi Alumni</h2>
+
+      <form action="/alumni/register" method="POST" class="space-y-6">
+        <div>
+          <label class="label font-medium text-[#2E7D32]">Nama Lengkap</label>
+          <input type="text" name="nama" class="input input-bordered w-full bg-white" required />
+        </div>
+
+        <div>
+          <label class="label font-medium text-[#2E7D32]">Email</label>
+          <input type="email" name="email" class="input input-bordered w-full bg-white" required />
+        </div>
+
+        <div>
+          <label class="label font-medium text-[#2E7D32]">Password</label>
+          <input type="password" name="password" class="input input-bordered w-full bg-white" required />
+        </div>
+
+        <div>
+          <label class="label font-medium text-[#2E7D32]">Tahun Lulus</label>
+          <input type="number" name="tahun_lulus" class="input input-bordered w-full bg-white" min="1900" max="2099" required />
+        </div>
+
+        <div>
+          <label class="label font-medium text-[#2E7D32]">Program Studi</label>
+          <select name="prodi" class="select select-bordered w-full bg-white" required>
+            <option value="">-- Pilih Program Studi --</option>
+            <option>Sistem Informasi</option>
+            <option>Teknik Komputer</option>
+            <option>Informatika</option>
+            <!-- Tambahkan prodi lain sesuai kebutuhan -->
+          </select>
+        </div>
+
+        <div>
+          <label class="label font-medium text-[#2E7D32]">Pekerjaan Saat Ini</label>
+          <input type="text" name="pekerjaan" class="input input-bordered w-full bg-white" />
+        </div>
+
+        <div>
+          <label class="label font-medium text-[#2E7D32]">Domisili</label>
+          <input type="text" name="domisili" class="input input-bordered w-full bg-white" />
+        </div>
+
+        <div class="text-center mt-8">
+          <button type="submit" class="btn bg-[#FFD700] text-white hover:bg-[#FFD700]/90 w-full">
+            <i class="fas fa-user-plus mr-2"></i>Daftar Sekarang
+          </button>
+        </div>
+
+        <p class="text-center text-sm mt-4 text-[#2E7D32]/70">
+          Sudah punya akun? <a href="/auth/login" class="text-[#2E7D32] font-semibold hover:underline">Login di sini</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>"

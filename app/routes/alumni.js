@@ -159,4 +159,22 @@ router.get('/list-galeri', (req, res) => {
     });
 });
 
+// Route tambahan alumni lainnya (contoh)
+router.get('/profile-alumni', (req, res) => {
+    res.render('alumni/profile-alumni', {
+        title: 'profile-alumni - Alumni Panel',
+        layout: 'Alumni/layout',
+        user: req.user || null,
+    });
+});
+
+// Route tambahan alumni lainnya (contoh)
+router.get('/edit-profile-alumni', (req, res) => {
+    res.render('alumni/edit-profile-alumni', {
+        title: 'edit-profile-alumni - Alumni Panel',
+        layout: 'Alumni/layout',
+        user: req.user || null,
+    });
+});
+
 module.exports = router;

@@ -214,6 +214,28 @@ router.get('/upload-berita-agenda', (req, res) => {
     });
 });
 
+// Route untuk content-management
+router.get('/profile-admin', (req, res) => {
+    res.render('admin/profile-admin', {
+        title: 'profile-admin - Admin Panel',
+        layout: 'admin/layout',
+        user: req.user || null,
+        // Data forum yang akan dikelola
+        datastatistikalumni: [], // nanti bisa diisi dari database
+    });
+});
+
+// Route untuk content-management
+router.get('/edit-profile-admin', (req, res) => {
+    res.render('admin/edit-profile-admin', {
+        title: 'edit-profile-admin - Admin Panel',
+        layout: 'admin/layout',
+        user: req.user || null,
+        // Data forum yang akan dikelola
+        datastatistikalumni: [], // nanti bisa diisi dari database
+    });
+});
+
 //
 // Route tambahan admin lainnya (contoh)
 router.get('/users', (req, res) => {
