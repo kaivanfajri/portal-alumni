@@ -151,8 +151,8 @@ router.get('/faq', (req, res) => {
 });
 
 // Route tambahan alumni lainnya (contoh)
-router.get('/galeri', (req, res) => {
-    res.render('alumni/galeri', {
+router.get('/list-galeri', (req, res) => {
+    res.render('alumni/list-galeri', {
         title: 'galeri - Alumni Panel',
         layout: 'Alumni/layout',
         user: req.user || null,
