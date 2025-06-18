@@ -1,130 +1,107 @@
 <!DOCTYPE html>
 <html lang="id" data-theme="light">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Portal Alumni FTI - Ajukan Diskusi</title>
-        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
-        <script src="https://cdn.tailwindcss.com"></script>
-        <style>
-            .navbar-brand {
-                color: #22c55e;
-                font-weight: bold;
-                font-size: 1.25rem;
-            }
-            .modal-content {
-                background: white;
-                border-radius: 12px;
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-                max-width: 600px;
-                width: 95%;
-                margin: 0 auto;
-            }
-            .form-section {
-                background: white;
-                border-radius: 12px;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            }
-            .table-section {
-                background: white;
-                border-radius: 12px;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-                margin-top: 2rem;
-            }
-        </style>
-    </head>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal Alumni FTI - Ajukan Diskusi</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .navbar-brand {
+            color: #22c55e;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            max-width: 600px;
+            width: 95%;
+            margin: 0 auto;
+        }
+        .form-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-[#F0F8F0]">
+    <!-- Include Navbar -->
+    <%- include('alumni-partials/navbar') %>
 
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-        <style>
-            body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            }
-        </style>
-    </head>
-    <body class="min-h-screen bg-[#F0F8F0]">
-        <!-- Include Navbar -->
-        <%- include('alumni-partials/navbar') %>
-        
+    <!-- Main Content -->
+    <div class="min-h-screen bg-gray-100 relative">
+        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+            <div class="modal-content">
+                <div class="card bg-white">
+                    <div class="card-body p-8">
+                        <h2 class="card-title text-2xl font-bold text-center text-gray-800 mb-8">Ajukan Diskusi</h2>
+                        <form id="diskusiForm" class="space-y-6">
+                            <!-- Judul -->
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text font-semibold text-gray-700">Judul :</span>
+                                </label>
+                                <input type="text" id="judul" name="judul" class="input input-bordered w-full focus:border-green-500 focus:ring-2 focus:ring-green-200" placeholder="Masukkan judul diskusi" />
+                            </div>
 
-        <!-- Main Content with Modal Overlay -->
-        <div class="min-h-screen bg-gray-100 relative">
-            <!-- Background overlay -->
-            <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-                <!-- Modal Content -->
-                <div class="modal-content">
-                    <div class="card bg-white">
-                        <div class="card-body p-8">
-                            <h2 class="card-title text-2xl font-bold text-center text-gray-800 mb-8">Ajukan Diskusi</h2>
+                            <!-- Deskripsi -->
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text font-semibold text-gray-700">Deskripsi</span>
+                                </label>
+                                <textarea id="deskripsi" name="deskripsi" class="textarea textarea-bordered h-32 w-full focus:border-green-500 focus:ring-2 focus:ring-green-200" placeholder="Masukkan deskripsi atau topik yang ingin didiskusikan"></textarea>
+                            </div>
 
-                            <form class="space-y-6">
-                                <!-- Judul -->
-                                <div class="form-control">
-                                    <label class="label">
-                                        <span class="label-text font-semibold text-gray-700">Judul :</span>
-                                    </label>
-                                    <input type="text" class="input input-bordered w-full focus:border-green-500 focus:ring-2 focus:ring-green-200" placeholder="Masukkan judul diskusi" />
-                                </div>
-
-                                <!-- Deskripsi -->
-                                <div class="form-control">
-                                    <label class="label">
-                                        <span class="label-text font-semibold text-gray-700">Deskripsi</span>
-                                    </label>
-                                    <textarea class="textarea textarea-bordered h-32 w-full focus:border-green-500 focus:ring-2 focus:ring-green-200" placeholder="Masukkan deskripsi atau topik yang ingin didiskusikan"></textarea>
-                                </div>
-
-                                <!-- Submit Button -->
-                                <div class="pt-4">
-                                    <button type="submit" class="btn bg-yellow-400 hover:bg-yellow-500 border-yellow-400 text-black font-semibold w-full py-3 text-base">Submit</button>
-                                </div>
-                            </form>
-                        </div>
+                            <!-- Submit Button -->
+                            <div class="pt-4">
+                                <button type="submit" class="btn bg-yellow-400 hover:bg-yellow-500 border-yellow-400 text-black font-semibold w-full py-3 text-base">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <script>
-            // Handle form submission
-            document.querySelector('form').addEventListener('submit', function (e) {
-                e.preventDefault();
+    <script>
+        document.querySelector('#diskusiForm').addEventListener('submit', function (e) {
+            e.preventDefault();
 
-                const judul = document.querySelector('input[type="text"]').value;
-                const deskripsi = document.querySelector('textarea').value;
+            const judul = document.querySelector('#judul').value;
+            const deskripsi = document.querySelector('#deskripsi').value;
 
-                if (!judul.trim() || !deskripsi.trim()) {
-                    alert('Mohon lengkapi semua field!');
-                    return;
-                }
+            if (!judul.trim() || !deskripsi.trim()) {
+                alert('Mohon lengkapi semua field!');
+                return;
+            }
 
-                // Simulate successful submission
+            // Kirim data ke backend menggunakan fetch
+            fetch('/alumni/upload-forum', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    judul: judul,
+                    deskripsi: deskripsi,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
                 alert('Diskusi berhasil diajukan!');
-
-                // Reset form
-                document.querySelector('form').reset();
+                document.querySelector('#diskusiForm').reset();  // Reset form setelah berhasil
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan, coba lagi.');
             });
+        });
+    </script>
 
-            // Handle input focus effects
-            document.querySelectorAll('input, textarea').forEach((element) => {
-                element.addEventListener('focus', function () {
-                    this.parentNode.classList.add('focused');
-                });
-
-                element.addEventListener('blur', function () {
-                    this.parentNode.classList.remove('focused');
-                });
-            });
-
-            // Close modal when clicking outside (optional feature)
-            document.querySelector('.bg-black').addEventListener('click', function (e) {
-                if (e.target === this) {
-                    // You can add close functionality here
-                    console.log('Click outside modal');
-                }
-            });
-        </script>
-<!-- Include Footer -->
-        <%- include('alumni-partials/footer') %>
-
-    </body>
+    <!-- Include Footer -->
+    <%- include('alumni-partials/footer') %>
+</body>
 </html>

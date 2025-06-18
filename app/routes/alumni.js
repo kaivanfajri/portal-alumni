@@ -123,6 +123,7 @@ router.get('/upload-forum', (req, res) => {
     });
 });
 
+
 // Route tambahan alumni lainnya (contoh)
 router.get('/upload-postingan', (req, res) => {
     res.render('alumni/upload-postingan', {
@@ -160,3 +161,12 @@ router.get('/galeri', (req, res) => {
 });
 
 module.exports = router;
+
+const ForumController = require('../controllers/ForumController');
+
+// Rute untuk upload forum
+router.post('/upload-forum', ForumController.addForum);
+
+// Rute-rute lainnya...
+module.exports = router;
+
