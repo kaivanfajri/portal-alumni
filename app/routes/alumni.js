@@ -99,11 +99,6 @@ router.get('/upload-forum', (req, res) => {
     });
 });
 
-<<<<<<< HEAD
-
-// Route tambahan alumni lainnya (contoh)
-=======
->>>>>>> 91c3f8961c2a6a6643a1c05376b543aa2f135af1
 router.get('/upload-postingan', (req, res) => {
     res.render('alumni/upload-postingan', {
         title: 'upload-postingan - Alumni Panel',
