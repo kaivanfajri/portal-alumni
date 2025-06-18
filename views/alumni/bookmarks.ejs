@@ -32,21 +32,17 @@
     </style>
 </head>
 
-   <body class="bg-gradient-to-br from-green-50 to-green-100 min-h-screen p--1">
-
-  <!-- Navbar -->
-  <div class="navbar bg-white shadow-md px-6">
-    <div class="flex-1">
-      <a class="font-bold text-green-700 text-lg">Portal Alumni FTI</a>
-    </div>
-    <ul class="menu menu-horizontal px-1 text-sm">
-      <li><a>Beranda</a></li>
-      <li><a>Profil Alumni</a></li>
-      <li><a class="font-semibold text-green-800">Lowongan Pekerjaan</a></li>
-      <li><a>Informasi</a></li>
-      <li><a>Login</a></li>
-    </ul>
-  </div>
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+        </style>
+    </head>
+    <body class="min-h-screen bg-[#F0F8F0]">
+        <!-- Include Navbar -->
+        <%- include('alumni-partials/navbar') %>
+        
         
         <!-- Mobile Menu -->
         <div class="navbar-start lg:hidden">
@@ -184,5 +180,7 @@
             to { opacity: 0; transform: translateX(-100%); }
         }
     </style>
+     <!-- Include Footer -->
+        <%- include('alumni-partials/footer') %>    
 </body>
 </html>

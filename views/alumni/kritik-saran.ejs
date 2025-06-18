@@ -7,11 +7,7 @@
         <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
-            .navbar-brand {
-                color: #22c55e;
-                font-weight: bold;
-                font-size: 1.25rem;
-            }
+        
             .modal-content {
                 background: white;
                 border-radius: 12px;
@@ -33,21 +29,17 @@
             }
         </style>
     </head>
-    <body class="bg-gray-50">
-        <!-- Navbar -->
-        <div class="navbar bg-white shadow-md px-6">
-            <div class="flex-1">
-                <a class="font-bold text-green-700 text-lg">Portal Alumni FTI</a>
-            </div>
-            <ul class="menu menu-horizontal px-1 text-sm">
-                <li><a>Beranda</a></li>
-                <li><a>Profil Alumni</a></li>
-                <li><a>Lowongan Pekerjaan</a></li>
-                <li><a>Informasi</a></li>
-                <li><a class="font-semibold text-green-800">Kritik & Saran</a></li>
-                <li><a>Login</a></li>
-            </ul>
-        </div>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+        </style>
+    </head>
+    <body class="min-h-screen bg-[#F0F8F0]">
+        <!-- Include Navbar -->
+        <%- include('alumni-partials/navbar') %>
+
 
         <!-- Main Content -->
         <div class="min-h-screen bg-gray-100 p-6">
@@ -415,5 +407,8 @@
                 }, 4000);
             }
         </script>
+<!-- Include Footer -->
+        <%- include('alumni-partials/footer') %>
+
     </body>
 </html>
