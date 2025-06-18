@@ -193,6 +193,17 @@ router.get('/lihat-alumni', (req, res) => {
 });
 
 // Route untuk content-management
+router.get('/kelola-galeri', (req, res) => {
+    res.render('admin/kelola-galeri', {
+        title: 'kelola-galeri - Admin Panel',
+        layout: 'admin/layout',
+        user: req.user || null,
+        // Data forum yang akan dikelola
+        datastatistikalumni: [], // nanti bisa diisi dari database
+    });
+});
+
+// Route untuk content-management
 router.get('/upload-berita-agenda', (req, res) => {
     res.render('admin/upload-berita-agenda', {
         title: 'upload-berita-agenda - Admin Panel',

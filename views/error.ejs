@@ -6,6 +6,7 @@
         <title><%= title || 'Error' %> - Portal Alumni</title>
         <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.2/dist/full.css" rel="stylesheet" type="text/css" />
         <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
         <style>
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -48,9 +49,15 @@
             </div>
             <% } %>
 
-            <div class="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
-                <a href="/" class="btn btn-outline rounded-full px-8 py-2 text-[#FFD700] border-[#FFD700] hover:bg-[#FFD700]/20 transition-all duration-300 block sm:inline-block"> Kembali ke Beranda </a>
-                <a href="javascript:history.back()" class="btn btn-outline rounded-full px-8 py-2 text-[#FFD700] border-[#FFD700] hover:bg-[#FFD700]/20 transition-all duration-300 block sm:inline-block"> Halaman Sebelumnya </a>
+            <div class="space-y-3 sm:space-y-0 sm:space-x-3 sm:flex sm:justify-center">
+                <a href="javascript:history.back()" class="btn btn-sm btn-outline sm:w-auto w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white transition-all duration-200 hover:shadow-md">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Halaman Sebelumnya
+                </a>
+                <a href="/" class="btn btn-sm btn-outline sm:w-auto w-full border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white transition-all duration-200 hover:shadow-md">
+                    <i class="fas fa-home mr-2"></i>
+                    Kembali ke Beranda
+                </a>
             </div>
         </div>
     </body>

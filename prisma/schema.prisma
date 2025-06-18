@@ -1,3 +1,4 @@
+// schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,292 +8,474 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Pengguna {
-  id                    Int                    @id @default(autoincrement())
-  nama_pengguna         String                 @unique
-  email                 String                 @unique
-  kata_sandi            String
-  peran                 Peran                  @default(alumni)
-  aktif                 Boolean                @default(true)
-  email_terverifikasi   Boolean                @default(false)
-  dibuat_pada           DateTime               @default(now())
-  diperbarui_pada       DateTime               @updatedAt
-  profilAlumni          ProfilAlumni?
-  pertanyaanUmum        PertanyaanUmum[]
-  umpanBalik            UmpanBalik[]
-  diskusiForum          DiskusiForum[]
-  balasanForum          BalasanForum[]
-  galeri                Galeri[]
-  bookmarkPekerjaan     BookmarkPekerjaan[]
-  lowonganKerja         LowonganKerja[]
-  beritaAgenda          BeritaAgenda[]
-  pengaturanSistem      PengaturanSistem[]
+model Admin {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique @db.VarChar(50)
+  email        String   @unique @db.VarChar(100)
+  password     String   @db.VarChar(255)
+  nama_lengkap String   @db.VarChar(100)
+  role         Role     @default(admin)
+  status       Status   @default(aktif)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
 
-  @@map("pengguna")
+  lowongan_kerja_reviewed  LowonganKerja[]
+  artikel_reviewed         Artikel[]
+  forum_reviewed           ForumDiskusi[]
+  notifikasi_dikirim       Notifikasi[]
+  galeri_album_dibuat      GaleriAlbum[]
+  berita_agenda_dibuat     BeritaAgenda[]
+  contact_messages_dibalas ContactMessage[]
+  riwayat_layanan_reviewed RiwayatLayanan[] @relation("RiwayatLayananReviewed")
+
+  @@map("admins")
 }
 
-model ProfilAlumni {
-  id                  Int      @id @default(autoincrement())
-  id_pengguna         Int      @unique
-  nim                 String?
-  nama_lengkap        String
-  telepon             String?
-  alamat              String?
-  tahun_lulus         Int?
-  jurusan             String?
-  fakultas            String?
-  pekerjaan_saat_ini  String?
-  perusahaan          String?
-  foto_profil         String?
-  biografi            String?
-  url_website         String?
-  dibuat_pada         DateTime @default(now())
-  diperbarui_pada     DateTime @updatedAt
-  pengguna            Pengguna @relation(fields: [id_pengguna], references: [id])
+model Alumni {
+  id              Int       @id @default(autoincrement())
+  nim             String    @unique @db.VarChar(20)
+  password        String    @db.VarChar(255)
+  email           String?   @db.VarChar(100)
+  status          Status    @default(aktif)
+  emailVerifiedAt DateTime? @map("email_verified_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @default(now()) @updatedAt @map("updated_at")
 
-  @@map("profil_alumni")
+  profile             AlumniProfile?
+  lowongan_kerja      LowonganKerja[]
+  bookmark            BookmarkLowongan[]
+  artikel             Artikel[]
+  komentar_artikel    KomentarArtikel[]
+  forum_diskusi       ForumDiskusi[]
+  komentar_forum      KomentarForum[]
+  contact_messages    ContactMessage[]
+  tracer_studies      TracerStudy[]
+  penghargaan         PenghargaanAlumni[]
+  riwayat_layanan     RiwayatLayanan[]
+  notifikasi_baca     NotifikasiRead[]
+  notifikasi_diterima Notifikasi[]
+
+  @@map("alumni")
+}
+
+model AlumniProfile {
+  id                 Int          @id @default(autoincrement())
+  alumniId           Int          @unique @map("alumni_id")
+  nama_lengkap       String       @db.VarChar(100)
+  jenis_kelamin      JenisKelamin
+  program_studi      String       @db.VarChar(100)
+  tahun_masuk        Int          @db.Year
+  tahun_lulus        Int          @db.Year
+  alamat             String?
+  kota               String?      @db.VarChar(100)
+  pekerjaan_sekarang String?      @db.VarChar(100)
+  nama_perusahaan    String?      @db.VarChar(100)
+  bidang_industri    String?      @db.VarChar(100)
+  instagram          String?      @db.VarChar(100)
+  linkedin           String?      @db.VarChar(100)
+  foto_profil        String?      @db.VarChar(255)
+  createdAt          DateTime     @default(now()) @map("created_at")
+  updatedAt          DateTime     @default(now()) @updatedAt @map("updated_at")
+
+  alumni Alumni @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+
+  @@map("alumni_profiles")
+}
+
+model KategoriLowongan {
+  id            Int      @id @default(autoincrement())
+  nama_kategori String   @db.VarChar(100)
+  deskripsi     String?
+  status        Status   @default(aktif)
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  lowongan_kerja LowonganKerja[]
+
+  @@map("kategori_lowongan")
 }
 
 model LowonganKerja {
-  id                Int          @id @default(autoincrement())
-  judul             String
-  perusahaan        String
-  lokasi            String?
-  jenis_pekerjaan   JenisPekerjaan
-  rentang_gaji      String?
-  deskripsi         String
-  persyaratan       String?
-  url_lamaran       String?
-  email_lamaran     String?
-  diposting_oleh    Int
-  status            StatusPekerjaan @default(menunggu)
-  aktif             Boolean      @default(true)
-  berakhir_pada     DateTime?
-  dibuat_pada       DateTime     @default(now())
-  diperbarui_pada   DateTime     @updatedAt
-  dipostingOleh     Pengguna     @relation(fields: [diposting_oleh], references: [id])
+  id              Int            @id @default(autoincrement())
+  alumniId        Int            @map("alumni_id")
+  judul_lowongan  String         @db.VarChar(200)
+  kategoriId      Int            @map("kategori_id")
+  deskripsi       String
+  gambar          String?
+  status_moderasi StatusModerasi @default(pending)
+  catatan_admin   String?
+  tanggal_review  DateTime?
+  reviewedById    Int?           @map("reviewed_by")
+  createdAt       DateTime       @default(now()) @map("created_at")
+  updatedAt       DateTime       @default(now()) @updatedAt @map("updated_at")
 
-  @@index([diposting_oleh], map: "lowongan_kerja_diposting_oleh_fkey")
+  alumni     Alumni             @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+  kategori   KategoriLowongan   @relation(fields: [kategoriId], references: [id])
+  reviewedBy Admin?             @relation(fields: [reviewedById], references: [id])
+  bookmark   BookmarkLowongan[]
+
   @@map("lowongan_kerja")
 }
 
-model BalasanForum {
-  id                    String          @id @default(cuid())
-  id_alumni             Int
-  id_postingan_forum    Int
-  konten                String          @db.Text
-  id_induk              String?
-  dibuat_pada           DateTime        @default(now())
-  diperbarui_pada       DateTime        @updatedAt
-  alumni                Pengguna        @relation(fields: [id_alumni], references: [id])
-  postinganForum        DiskusiForum    @relation(fields: [id_postingan_forum], references: [id])
-  induk                 BalasanForum?   @relation("BalasanKeBalasan", fields: [id_induk], references: [id])
-  balasan               BalasanForum[]  @relation("BalasanKeBalasan")
+model BookmarkLowongan {
+  id         Int      @id @default(autoincrement())
+  alumniId   Int      @map("alumni_id")
+  lowonganId Int      @map("lowongan_id")
+  createdAt  DateTime @default(now()) @map("created_at")
 
-  @@index([id_alumni], map: "balasan_forum_id_alumni_fkey")
-  @@index([id_postingan_forum], map: "balasan_forum_id_postingan_forum_fkey")
-  @@index([id_induk], map: "balasan_forum_id_induk_fkey")
-  @@map("balasan_forum")
-}
+  alumni   Alumni        @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+  lowongan LowonganKerja @relation(fields: [lowonganId], references: [id], onDelete: Cascade)
 
-model DiskusiForum {
-  id                      Int            @id @default(autoincrement())
-  judul                   String
-  konten                  String
-  kategori                String?
-  id_penulis              Int
-  disematkan              Boolean        @default(false)
-  dikunci                 Boolean        @default(false)
-  jumlah_dilihat          Int            @default(0)
-  jumlah_balasan          Int            @default(0)
-  balasan_terakhir_pada   DateTime?
-  dibuat_pada             DateTime       @default(now())
-  diperbarui_pada         DateTime       @updatedAt
-  penulis                 Pengguna       @relation(fields: [id_penulis], references: [id])
-  balasanForum            BalasanForum[]
-
-  @@index([id_penulis], map: "diskusi_forum_id_penulis_fkey")
-  @@map("diskusi_forum")
-}
-
-model BeritaAgenda {
-  id                 Int       @id @default(autoincrement())
-  judul              String
-  konten             String?
-  gambar_utama       String?
-  id_penulis         Int
-  dipublikasikan     Boolean   @default(false)
-  tanggal_publikasi  DateTime?
-  tanggal_acara      DateTime?
-  lokasi_acara       String?
-  dibuat_pada        DateTime  @default(now())
-  diperbarui_pada    DateTime  @updatedAt
-  penulis            Pengguna  @relation(fields: [id_penulis], references: [id])
-
-  @@index([id_penulis], map: "berita_agenda_id_penulis_fkey")
-  @@map("berita_agenda")
-}
-
-model Galeri {
-  id             Int      @id @default(autoincrement())
-  judul          String
-  deskripsi      String?
-  jalur_gambar   String
-  kategori       String?
-  diunggah_oleh  Int
-  dibuat_pada    DateTime @default(now())
-  diunggahOleh   Pengguna @relation(fields: [diunggah_oleh], references: [id])
-
-  @@index([diunggah_oleh], map: "galeri_diunggah_oleh_fkey")
-  @@map("galeri")
-}
-
-model PertanyaanUmum {
-  id                Int      @id @default(autoincrement())
-  pertanyaan        String
-  jawaban           String
-  kategori          String?
-  aktif             Boolean  @default(true)
-  dibuat_oleh       Int
-  dibuat_pada       DateTime @default(now())
-  diperbarui_pada   DateTime @updatedAt
-  dibuatOleh        Pengguna @relation(fields: [dibuat_oleh], references: [id])
-
-  @@index([dibuat_oleh], map: "pertanyaan_umum_dibuat_oleh_fkey")
-  @@map("pertanyaan_umum")
-}
-
-model BookmarkPekerjaan {
-  id             Int      @id @default(autoincrement())
-  id_pengguna    Int
-  id_pekerjaan   Int
-  dibuat_pada    DateTime @default(now())
-  pengguna       Pengguna @relation(fields: [id_pengguna], references: [id])
-
-  @@unique([id_pengguna, id_pekerjaan])
-  @@map("bookmark_pekerjaan")
-}
-
-model Notifikasi {
-  id             String           @id @default(cuid())
-  id_pengguna    String
-  judul          String
-  pesan          String           @db.Text
-  jenis          JenisNotifikasi
-  telah_dibaca   Boolean          @default(false)
-  url_tindakan   String?
-  dibuat_pada    DateTime         @default(now())
-
-  @@map("notifikasi")
-}
-
-model UmpanBalik {
-  id                 Int                 @id @default(autoincrement())
-  id_pengguna        Int?
-  nama               String
-  email              String
-  kategori           KategoriUmpanBalik
-  subjek             String
-  pesan              String              @db.Text
-  status             StatusUmpanBalik    @default(baru)
-  tanggapan_admin    String?             @db.Text
-  dibuat_pada        DateTime            @default(now())
-  diperbarui_pada    DateTime            @updatedAt
-  pengguna           Pengguna?           @relation(fields: [id_pengguna], references: [id])
-
-  @@index([id_pengguna], map: "umpan_balik_id_pengguna_fkey")
-  @@map("umpan_balik")
-}
-
-model Komentar {
-  id                   Int        @id @default(autoincrement())
-  konten               String
-  id_penulis           Int
-  id_artikel           Int?
-  id_komentar_induk    Int?
-  disetujui            Boolean    @default(true)
-  dibuat_pada          DateTime   @default(now())
-  diperbarui_pada      DateTime   @updatedAt
-  komentarInduk        Komentar?  @relation("BalasanKomentar", fields: [id_komentar_induk], references: [id])
-  balasan              Komentar[] @relation("BalasanKomentar")
-
-  @@index([id_komentar_induk], map: "komentar_id_komentar_induk_fkey")
-  @@map("komentar")
+  @@unique([alumniId, lowonganId])
+  @@map("bookmark_lowongan")
 }
 
 model Artikel {
-  id                Int           @id @default(autoincrement())
-  judul             String
-  konten            String
-  gambar_utama      String?
-  id_penulis        Int
-  status            StatusArtikel @default(draft)
-  kategori          String?
-  tag               String?
-  jumlah_dilihat    Int           @default(0)
-  dibuat_pada       DateTime      @default(now())
-  diperbarui_pada   DateTime      @updatedAt
+  id             Int             @id @default(autoincrement())
+  alumniId       Int             @map("alumni_id")
+  judul          String          @db.VarChar(200)
+  isi            String
+  gambar         String?
+  kategori       KategoriArtikel
+  slug           String          @unique @db.VarChar(255)
+  status         StatusArtikel   @default(pending)
+  catatan_admin  String?
+  reviewedById   Int?            @map("reviewed_by")
+  tanggal_upload DateTime        @default(now()) @map("tanggal_upload")
+  updatedAt      DateTime        @default(now()) @updatedAt @map("updated_at")
+
+  alumni     Alumni            @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+  reviewedBy Admin?            @relation(fields: [reviewedById], references: [id])
+  komentar   KomentarArtikel[]
 
   @@map("artikel")
 }
 
-model PengaturanSistem {
-  id                  Int      @id @default(autoincrement())
-  kunci_pengaturan    String   @unique(map: "pengaturan_sistem_kunci_pengaturan_key")
-  nilai_pengaturan    String?
-  deskripsi           String?
-  diperbarui_oleh     Int
-  diperbarui_pada     DateTime @default(now())
-  pengguna            Pengguna @relation(fields: [diperbarui_oleh], references: [id], map: "pengaturan_sistem_diperbarui_oleh_fkey")
+model KomentarArtikel {
+  id               Int            @id @default(autoincrement())
+  artikelId        Int            @map("artikel_id")
+  alumniId         Int            @map("alumni_id")
+  isi_komentar     String
+  parentId         Int?           @map("parent_id")
+  tanggal_komentar DateTime       @default(now()) @map("tanggal_komentar")
+  status           StatusKomentar @default(aktif)
 
-  @@index([diperbarui_oleh], map: "pengaturan_sistem_diperbarui_oleh_fkey")
-  @@map("pengaturan_sistem")
+  artikel Artikel           @relation(fields: [artikelId], references: [id], onDelete: Cascade)
+  alumni  Alumni            @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+  parent  KomentarArtikel?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies KomentarArtikel[] @relation("CommentReplies")
+
+  @@map("komentar_artikel")
 }
 
-enum Peran {
+model ForumDiskusi {
+  id             Int           @id @default(autoincrement())
+  alumniId       Int           @map("alumni_id")
+  judul          String        @db.VarChar(200)
+  isi            String
+  gambar         String?
+  kategori       KategoriForum
+  status         StatusArtikel @default(pending)
+  catatan_admin  String?
+  reviewedById   Int?          @map("reviewed_by")
+  tanggal_dibuat DateTime      @default(now()) @map("tanggal_dibuat")
+  updatedAt      DateTime      @default(now()) @updatedAt @map("updated_at")
+
+  alumni     Alumni          @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+  reviewedBy Admin?          @relation(fields: [reviewedById], references: [id])
+  komentar   KomentarForum[]
+
+  @@map("forum_diskusi")
+}
+
+model KomentarForum {
+  id              Int            @id @default(autoincrement())
+  forumId         Int            @map("forum_id")
+  alumniId        Int            @map("alumni_id")
+  isi_balasan     String
+  tanggal_balasan DateTime       @default(now()) @map("tanggal_balasan")
+  status          StatusKomentar @default(aktif)
+
+  forum  ForumDiskusi @relation(fields: [forumId], references: [id], onDelete: Cascade)
+  alumni Alumni       @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+
+  @@map("komentar_forum")
+}
+
+model BeritaAgenda {
+  id             Int           @id @default(autoincrement())
+  judul          String        @db.VarChar(200)
+  isi            String
+  jenis          JenisBerita
+  cover_gambar   String?       @map("cover_gambar") @db.VarChar(255)
+  tanggal_dibuat DateTime      @default(now()) @map("tanggal_dibuat")
+  tanggal_acara  DateTime?     @map("tanggal_acara")
+  lokasi         String?       @db.VarChar(200)
+  dibuat_oleh    Int           @map("dibuat_oleh")
+  status         StatusPublish @default(publish)
+  updatedAt      DateTime      @default(now()) @updatedAt @map("updated_at")
+
+  admin Admin @relation(fields: [dibuat_oleh], references: [id])
+
+  @@map("berita_agenda")
+}
+
+model FAQ {
+  id         Int      @id @default(autoincrement())
+  pertanyaan String
+  jawaban    String
+  urutan     Int      @default(0)
+  status     Status   @default(aktif)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("faq")
+}
+
+model ContactMessage {
+  id              Int         @id @default(autoincrement())
+  alumniId        Int         @map("alumni_id")
+  pesan           String
+  status          StatusPesan @default(belum_dibaca)
+  balasan         String?
+  dibalas_oleh    Int?        @map("dibalas_oleh")
+  tanggal_kirim   DateTime    @default(now()) @map("tanggal_kirim")
+  tanggal_dibalas DateTime?   @map("tanggal_dibalas")
+
+  alumni Alumni @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+  admin  Admin? @relation(fields: [dibalas_oleh], references: [id])
+
+  @@map("contact_messages")
+}
+
+model GaleriAlbum {
+  id               Int       @id @default(autoincrement())
+  judul            String    @db.VarChar(200)
+  deskripsi        String?
+  tanggal_kegiatan DateTime? @map("tanggal_kegiatan") @db.Date
+  dibuat_oleh      Int       @map("dibuat_oleh")
+  tanggal_dibuat   DateTime  @default(now()) @map("tanggal_dibuat")
+  status           Status    @default(aktif)
+
+  admin Admin        @relation(fields: [dibuat_oleh], references: [id])
+  foto  GaleriFoto[]
+
+  @@map("galeri_album")
+}
+
+model GaleriFoto {
+  id             Int      @id @default(autoincrement())
+  albumId        Int      @map("album_id")
+  file_path      String   @map("file_path") @db.VarChar(255)
+  keterangan     String?
+  tanggal_dibuat DateTime @default(now()) @map("tanggal_dibuat")
+
+  album GaleriAlbum @relation(fields: [albumId], references: [id], onDelete: Cascade)
+
+  @@map("galeri_foto")
+}
+
+model Notifikasi {
+  id           Int              @id @default(autoincrement())
+  judul        String           @db.VarChar(200)
+  isi          String
+  ditujukan_ke TujuanNotifikasi @map("ditujukan_ke")
+  tahun_lulus  Int?             @map("tahun_lulus") @db.Year
+  penerimaId   Int?             @map("penerima_id")
+  waktu_kirim  DateTime         @default(now()) @map("waktu_kirim")
+  dikirim_oleh Int              @map("dikirim_oleh")
+  status       StatusNotifikasi @default(terkirim)
+
+  admin           Admin            @relation(fields: [dikirim_oleh], references: [id])
+  alumni          Alumni?          @relation(fields: [penerimaId], references: [id], onDelete: Cascade)
+  notifikasi_read NotifikasiRead[]
+
+  @@map("notifikasi")
+}
+
+model NotifikasiRead {
+  id           Int      @id @default(autoincrement())
+  notifikasiId Int      @map("notifikasi_id")
+  alumniId     Int      @map("alumni_id")
+  dibaca_pada  DateTime @default(now()) @map("dibaca_pada")
+
+  notifikasi Notifikasi @relation(fields: [notifikasiId], references: [id], onDelete: Cascade)
+  alumni     Alumni     @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+
+  @@unique([notifikasiId, alumniId])
+  @@map("notifikasi_read")
+}
+
+model PenghargaanAlumni {
+  id               Int             @id @default(autoincrement())
+  alumniId         Int             @map("alumni_id")
+  judul            String          @db.VarChar(200)
+  instansi_pemberi String          @map("instansi_pemberi") @db.VarChar(200)
+  tahun            Int             @db.Year
+  deskripsi        String?
+  ditambahkan_oleh DitambahkanOleh @map("ditambahkan_oleh")
+  added_by_id      Int             @map("added_by_id")
+  tanggal_input    DateTime        @default(now()) @map("tanggal_input")
+  status           StatusModerasi  @default(pending)
+
+  alumni Alumni @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+
+  @@map("penghargaan_alumni")
+}
+
+model TracerStudy {
+  id                Int            @id @default(autoincrement())
+  alumniId          Int            @map("alumni_id")
+  status_kerja      StatusKerja
+  nama_perusahaan   String?        @map("nama_perusahaan") @db.VarChar(200)
+  posisi            String?        @db.VarChar(100)
+  lama_tunggu_kerja Int?           @map("lama_tunggu_kerja")
+  sesuai_bidang     SesuaiBidang?
+  gaji_range        GajiRange?     @map("gaji_range")
+  kepuasan_kerja    KepuasanKerja? @map("kepuasan_kerja")
+  saran_kampus      String?
+  tanggal_isi       DateTime       @default(now()) @map("tanggal_isi")
+  updatedAt         DateTime       @default(now()) @updatedAt @map("updated_at")
+
+  alumni Alumni @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+
+  @@map("tracer_study")
+}
+
+model RiwayatLayanan {
+  id             Int           @id @default(autoincrement())
+  alumniId       Int           @map("alumni_id")
+  jenis_layanan  JenisLayanan  @map("jenis_layanan")
+  item_id        Int           @map("item_id")
+  status         StatusLayanan
+  catatan        String?
+  tanggal_submit DateTime      @default(now()) @map("tanggal_submit")
+  tanggal_review DateTime?     @map("tanggal_review")
+  reviewedById   Int?          @map("reviewed_by")
+
+  alumni     Alumni @relation(fields: [alumniId], references: [id], onDelete: Cascade)
+  reviewedBy Admin? @relation("RiwayatLayananReviewed", fields: [reviewedById], references: [id])
+
+  @@map("riwayat_layanan")
+}
+
+enum Role {
+  super_admin
   admin
-  alumni
 }
 
-enum JenisPekerjaan {
-  penuh_waktu
-  paruh_waktu
-  kontrak
-  magang
+enum Status {
+  aktif
+  nonaktif
 }
 
-enum StatusPekerjaan {
-  menunggu
+enum StatusModerasi {
+  pending
   disetujui
   ditolak
 }
 
-enum JenisNotifikasi {
-  umum
-  acara
-  pekerjaan
-  artikel
-  sistem
+enum StatusArtikel {
+  draft
+  pending
+  disetujui
+  ditolak
 }
 
-enum KategoriUmpanBalik {
-  bug
-  fitur
-  perbaikan
-  keluhan
+enum StatusKomentar {
+  aktif
+  disembunyikan
+}
+
+enum StatusPublish {
+  draft
+  publish
+}
+
+enum StatusPesan {
+  belum_dibaca
+  dibaca
+  dibalas
+}
+
+enum StatusNotifikasi {
+  draft
+  terkirim
+}
+
+enum StatusLayanan {
+  diproses
+  disetujui
+  ditolak
+}
+
+enum JenisKelamin {
+  Laki_laki @map("Laki-laki")
+  Perempuan
+}
+
+enum KategoriArtikel {
+  cerita_karir @map("cerita_karir")
+  tips
+  pengalaman
   lainnya
 }
 
-enum StatusUmpanBalik {
-  baru
-  ditinjau
-  diselesaikan
-  ditutup
+enum KategoriForum {
+  diskusi_umum @map("diskusi_umum")
+  karir
+  teknologi
+  akademik
+  lainnya
 }
 
-enum StatusArtikel {
-  draft
-  menunggu
-  dipublikasikan
-  ditolak
+enum JenisBerita {
+  berita
+  agenda
+  seminar
+  pengumuman
+}
+
+enum TujuanNotifikasi {
+  semua          @map("semua")
+  tahun_tertentu @map("tahun_tertentu")
+  khusus
+}
+
+enum DitambahkanOleh {
+  admin
+  alumni
+}
+
+enum StatusKerja {
+  bekerja
+  wirausaha
+  belum_kerja
+  melanjutkan_studi
+}
+
+enum SesuaiBidang {
+  ya
+  tidak
+}
+
+enum GajiRange {
+  less_3jt     @map("< 3jt")
+  range_3_5jt  @map("3-5jt")
+  range_5_8jt  @map("5-8jt")
+  range_8_12jt @map("8-12jt")
+  more_12jt    @map("> 12jt")
+}
+
+enum KepuasanKerja {
+  sangat_puas
+  puas
+  cukup
+  kurang_puas
+}
+
+enum JenisLayanan {
+  artikel
+  forum
+  lowongan
+  penghargaan
 }
