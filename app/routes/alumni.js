@@ -8,6 +8,7 @@ const jobController = require('../controllers/JobController'); // Pastikan contr
 
 // Middleware untuk memastikan hanya alumni yang bisa akses route ini
 const requireAlumni = (req, res, next) => {
+<<<<<<< HEAD
   if (req.user && req.user.role === 'alumni') {
     next();
   } else {
@@ -47,19 +48,65 @@ router.get('/list-job', async (req, res) => {
         kategori: true, // Sertakan detail kategori
         alumni: true,   // Sertakan informasi alumni
       },
+=======
+    // Contoh pengecekan alumni - sesuaikan dengan sistem Anda
+    if (req.user && req.user.role === 'alumni') {
+        next();
+    } else {
+        res.redirect('/auth/login'); // atau halaman error 403
+    }
+};
+
+// Terapkan middleware ke semua route alumni
+// router.use(requireAlumni);
+
+router.get('/', (req, res) => {
+    res.render('../views/index.ejs', {
+        title: 'Alumni Panel',
+        user: req.user || null,
+    });
+});
+
+router.get('/bookmarks', (req, res) => {
+    res.render('alumni/bookmarks', {
+        title: 'cari-alumni- Alumni Panel',
+        user: req.user || null,
+    });
+});
+
+router.get('/cari-alumni', (req, res) => {
+    res.render('alumni/cari-alumni', {
+        title: 'cari-alumni - Alumni Panel',
+        user: req.user || null,
+>>>>>>> 8b7858bcfdfd1c1470eb5684b97cbc809435a5fc
     });
 
+<<<<<<< HEAD
     res.render('alumni/list-job', {
       title: 'Daftar Lowongan - Alumni Panel',
       layout: 'Alumni/layout',
       user: req.user || null,
       jobs: jobs, // Kirim data lowongan yang disetujui ke view
+=======
+router.get('/detail-job', (req, res) => {
+    res.render('alumni/detail-job', {
+        title: 'detail-job - Alumni Panel',
+        user: req.user || null,
+    });
+});
+
+router.get('/list-job', (req, res) => {
+    res.render('alumni/list-job', {
+        title: 'list-job - Alumni Panel',
+        user: req.user || null,
+>>>>>>> 8b7858bcfdfd1c1470eb5684b97cbc809435a5fc
     });
   } catch (error) {
     res.status(500).json({ message: 'Error retrieving jobs', error: error.message });
   }
 });
 
+<<<<<<< HEAD
 // Route untuk form pengajuan lowongan oleh alumni
 router.get('/upload-job', (req, res) => {
   res.render('alumni/upload-job', {
@@ -81,6 +128,19 @@ router.get('/detail-job/:id', async (req, res) => {
         kategori: true, // Sertakan kategori lowongan
         alumni: true,   // Sertakan informasi alumni
       },
+=======
+router.get('/upload-job', (req, res) => {
+    res.render('alumni/upload-job', {
+        title: 'upload-job - Alumni Panel',
+        user: req.user || null,
+    });
+});
+
+router.get('/detail-konten', (req, res) => {
+    res.render('alumni/detail-konten', {
+        title: 'detail-konten - Alumni Panel',
+        user: req.user || null,
+>>>>>>> 8b7858bcfdfd1c1470eb5684b97cbc809435a5fc
     });
 
     if (!job || job.status_moderasi !== 'disetujui') {
@@ -98,6 +158,7 @@ router.get('/detail-job/:id', async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 // Route untuk moderasi job posting (hanya untuk admin)
 router.get('/admin/moderasi-job-posting', requireAdmin, jobController.moderateJobPosts);
 
@@ -118,6 +179,82 @@ router.get('/admin/riwayat-pengajuan', requireAdmin, async (req, res) => {
         kategori: true, // Sertakan detail kategori
         alumni: true,   // Sertakan informasi alumni
       },
+=======
+router.get('/detail-forum', (req, res) => {
+    res.render('alumni/detail-forum', {
+        title: 'detail-forum - Alumni Panel',
+        user: req.user || null,
+    });
+});
+
+router.get('/kalender', (req, res) => {
+    res.render('alumni/kalender', {
+        title: 'kalender - Alumni Panel',
+        user: req.user || null,
+    });
+});
+
+router.get('/list-forum', (req, res) => {
+    res.render('alumni/list-forum', {
+        title: 'list-forum - Alumni Panel',
+        user: req.user || null,
+    });
+});
+
+router.get('/kritik-saran', (req, res) => {
+    res.render('alumni/kritik-saran', {
+        title: 'kritik-saran - Alumni Panel',
+        user: req.user || null,
+    });
+});
+
+router.get('/upload-forum', (req, res) => {
+    res.render('alumni/upload-forum', {
+        title: 'upload-forum - Alumni Panel',
+        user: req.user || null,
+    });
+});
+
+router.get('/upload-postingan', (req, res) => {
+    res.render('alumni/upload-postingan', {
+        title: 'upload-postingan - Alumni Panel',
+        user: req.user || null,
+    });
+});
+
+router.get('/berita-agenda', (req, res) => {
+    res.render('alumni/berita-agenda', {
+        title: 'berita-agenda - Alumni Panel',
+        user: req.user || null,
+    });
+});
+
+router.get('/faq', (req, res) => {
+    res.render('alumni/faq', {
+        title: 'faq - Alumni Panel',
+        user: req.user || null,
+    });
+});
+
+router.get('/list-galeri', (req, res) => {
+    res.render('alumni/list-galeri', {
+        title: 'galeri - Alumni Panel',
+        user: req.user || null,
+    });
+});
+
+router.get('/profile-alumni', (req, res) => {
+    res.render('alumni/profile-alumni', {
+        title: 'profile-alumni - Alumni Panel',
+        user: req.user || null,
+    });
+});
+
+router.get('/edit-profile-alumni', (req, res) => {
+    res.render('alumni/edit-profile-alumni', {
+        title: 'edit-profile-alumni - Alumni Panel',
+        user: req.user || null,
+>>>>>>> 8b7858bcfdfd1c1470eb5684b97cbc809435a5fc
     });
 
     res.render('admin/riwayat-pengajuan', {
@@ -133,3 +270,12 @@ router.get('/admin/riwayat-pengajuan', requireAdmin, async (req, res) => {
 
 // Export router untuk digunakan di file app.js atau server utama
 module.exports = router;
+
+const ForumController = require('../controllers/ForumController');
+
+// Rute untuk upload forum
+router.post('/upload-forum', ForumController.addForum);
+
+// Rute-rute lainnya...
+module.exports = router;
+
