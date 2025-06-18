@@ -8,19 +8,6 @@
         <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
-            .navbar-brand {
-                color: #22c55e;
-                font-weight: bold;
-                font-size: 1.25rem;
-            }
-            .modal-content {
-                background: white;
-                border-radius: 12px;
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-                max-width: 600px;
-                width: 95%;
-                margin: 0 auto;
-            }
             .form-section {
                 background: white;
                 border-radius: 12px;
@@ -34,43 +21,10 @@
             }
         </style>
     </head>
-    <body class="bg-gray-50">
-        <!-- Navbar -->
-        <div class="navbar bg-white shadow-md px-6">
-            <div class="flex-1">
-                <a class="font-bold text-green-700 text-lg">Portal Alumni FTI</a>
-            </div>
-            <ul class="menu menu-horizontal px-1 text-sm">
-                <li><a>Beranda</a></li>
-                <li><a>Profil Alumni</a></li>
-                <li><a>Lowongan Pekerjaan</a></li>
-                <li><a>Informasi</a></li>
-                <li><a class="font-semibold text-green-800">Kritik & Saran</a></li>
-                <li><a>Login</a></li>
-            </ul>
-        </div>
+    <body class="min-h-screen bg-[#F0F8F0]">
+        <!-- Include Navbar -->
+        <%- include('alumni-partials/navbar') %>
 
-        <!-- Breadcrumb -->
-        <div class="bg-gray-100 py-2">
-            <div class="container mx-auto px-4">
-                <div class="text-sm breadcrumbs">
-                    <ul>
-                        <li><a href="#" class="text-gray-500">Home</a></li>
-                        <li class="text-gray-700">Forum diskusi</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Hero Section -->
-        <div class="hero min-h-32 bg-gradient-to-r from-green-100 to-blue-100">
-            <div class="hero-content text-center">
-                <div class="max-w-md">
-                    <h1 class="text-3xl font-bold text-gray-800">Forum Diskusi Alumni</h1>
-                    <p class="py-2 text-gray-600">Tempat berbagi dan berdiskusi sesama alumni</p>
-                </div>
-            </div>
-        </div>
 
         <!-- Main Content -->
         <div class="container mx-auto px-4 py-8">
@@ -533,5 +487,8 @@
                 });
             });
         </script>
+<!-- Include Footer -->
+        <%- include('alumni-partials/footer') %>
+
     </body>
 </html>
