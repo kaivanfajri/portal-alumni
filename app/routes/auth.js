@@ -1,12 +1,17 @@
 const express = require('express');
 const router = express.Router();
+const AuthController = require('../controllers/AuthController');
 
-// Route definitions here
-router.get('/login', (req, res) => {
-    res.render('auth/login', {
-        title: 'Login Panel',
-        layout: 'auth/layout',
-        user: req.user || null,
-    });
+// Login Alumni
+router.get('/alumni/login', (req, res) => {
+    res.render('auth/alumni/login', { error: null });
 });
+
+router.post('/alumni/login', AuthController.loginAlumni);
+
+router.get('/alumni/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/auth/alumni/login');
+});
+
 module.exports = router;

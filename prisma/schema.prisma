@@ -1,6 +1,7 @@
 // schema.prisma
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -56,6 +57,10 @@ model Alumni {
   notifikasi_diterima Notifikasi[]
 
   @@map("alumni")
+  @@pre("create", async (alumni) => {
+    const salt = await bcrypt.genSalt(10)
+    alumni.password = await bcrypt.hash(alumni.password, salt)
+  })
 }
 
 model AlumniProfile {

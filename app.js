@@ -36,6 +36,7 @@ app.use(limiter);
 app.use(cors());
 
 // View engine setup
+console.log('Views directory:', path.join(__dirname, 'views'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
