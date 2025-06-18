@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Profil Admin - Portal Alumni</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.2/dist/full.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-[#F0F8F0]">
+    <!-- Navbar -->
+    <%- include('admin-partials/navbar') %>
+
+    <!-- Main Container -->
+    <div class="container mx-auto px-6 py-8">
+      <h1 class="text-4xl font-bold text-[#2E7D32] mb-6">Profil Administrator</h1>
+
+      <div class="bg-white border-2 border-[#E9E7E7] shadow-xl rounded-xl p-6">
+        <div class="flex flex-col md:flex-row items-start md:items-center mb-6">
+          <div class="w-28 h-28 rounded-full overflow-hidden mr-6 border-4 border-[#FFD700]">
+            <img src="/images/admin-profile.jpg" alt="Foto Admin" class="object-cover w-full h-full"/>
+          </div>
+          <div class="mt-4 md:mt-0">
+            <h2 class="text-2xl font-semibold text-[#2E7D32]">Admin Utama</h2>
+            <p class="text-[#2E7D32]/80">admin@portalalumni.ac.id</p>
+            <span class="badge bg-[#FFD700] text-white mt-2">Administrator</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <p class="text-[#2E7D32]/70 text-sm mb-1">Tanggal Bergabung</p>
+            <p class="font-medium">10 Februari 2022</p>
+          </div>
+          <div>
+            <p class="text-[#2E7D32]/70 text-sm mb-1">Aktivitas Sistem</p>
+            <p class="font-medium">547 tindakan moderasi</p>
+          </div>
+          <div>
+            <p class="text-[#2E7D32]/70 text-sm mb-1">Status Akun</p>
+            <p class="font-medium text-green-600">Aktif</p>
+          </div>
+          <div>
+            <p class="text-[#2E7D32]/70 text-sm mb-1">Terakhir Login</p>
+            <p class="font-medium">Hari ini, 08:42 WIB</p>
+          </div>
+        </div>
+
+        <div class="mt-6 flex gap-3">
+          <a href="/admin/edit-profile" class="btn bg-[#FFD700] text-white hover:bg-[#FFD700]/90"><i class="fas fa-user-edit mr-2"></i>Edit Profil</a>
+          <a href="../auth/reset-password" class="btn btn-outline border-[#2E7D32] text-[#2E7D32] hover:bg-[#2E7D32] hover:text-white"><i class="fas fa-key mr-2"></i>Ganti Password</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <%- include('admin-partials/footer') %>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach((btn) => {
+          btn.addEventListener('click', function () {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+              this.style.transform = 'scale(1)';
+            }, 150);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

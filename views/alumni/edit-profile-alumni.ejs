@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Profil Alumni - Portal Alumni</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.2/dist/full.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="min-h-screen bg-[#F0F8F0]">
+  <%- include('alumni-partials/navbar') %>
+
+  <div class="container mx-auto px-6 py-12">
+    <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg border border-[#E9E7E7] p-8">
+      <h2 class="text-3xl font-bold text-[#2E7D32] mb-6 text-center">Edit Profil Alumni</h2>
+
+      <form action="/alumni/edit-profile" method="POST" class="space-y-6">
+        <div>
+          <label class="label font-medium text-[#2E7D32]">Nama Lengkap</label>
+          <input type="text" name="nama" class="input input-bordered w-full bg-white" value="<%= alumni.nama %>" required />
+        </div>
+
+        <div>
+          <label class="label font-medium text-[#2E7D32]">Email</label>
+          <input type="email" name="email" class="input input-bordered w-full bg-white" value="<%= alumni.email %>" required />
+        </div>
+
+        <div>
+          <label class="label font-medium text-[#2E7D32]">Pekerjaan</label>
+          <input type="text" name="pekerjaan" class="input input-bordered w-full bg-white" value="<%= alumni.pekerjaan %>" />
+        </div>
+
+        <div>
+          <label class="label font-medium text-[#2E7D32]">Domisili</label>
+          <input type="text" name="domisili" class="input input-bordered w-full bg-white" value="<%= alumni.domisili %>" />
+        </div>
+
+        <div class="text-center mt-8">
+          <button type="submit" class="btn bg-[#FFD700] text-white hover:bg-[#FFD700]/90 w-full">
+            <i class="fas fa-save mr-2"></i>Simpan Perubahan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <%- include('alumni-partials/footer') %>
+</body>
+</html>
