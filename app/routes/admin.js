@@ -19,7 +19,6 @@ const requireAdmin = (req, res, next) => {
 router.get('/', (req, res) => {
     res.render('admin/dashboard', {
         title: 'Admin Dashboard',
-        layout: 'admin/layout', // layout khusus admin jika ada
         user: req.user || null,
         // Data statistik atau info lain untuk dashboard
         stats: {
@@ -34,7 +33,6 @@ router.get('/', (req, res) => {
 router.get('/kelola-forum', (req, res) => {
     res.render('admin/kelola-forum', {
         title: 'Kelola Forum - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         forums: [], // nanti bisa diisi dari database
@@ -45,7 +43,6 @@ router.get('/kelola-forum', (req, res) => {
 router.get('/kirim-notifikasi', (req, res) => {
     res.render('admin/kirim-notifikasi', {
         title: 'Kirim Notifikasi- Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         kirimNotifikasi: [], // nanti bisa diisi dari database
@@ -56,7 +53,6 @@ router.get('/kirim-notifikasi', (req, res) => {
 router.get('/verifikasi-layanan', (req, res) => {
     res.render('admin/verifikasi-layanan', {
         title: 'Verifikasi Layanan - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         layanan: [], // nanti bisa diisi dari database
@@ -67,7 +63,6 @@ router.get('/verifikasi-layanan', (req, res) => {
 router.get('/kelola-acara', (req, res) => {
     res.render('admin/kelola-acara', {
         title: 'Kelola Acara - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         kelolaacara: [], // nanti bisa diisi dari database
@@ -78,7 +73,6 @@ router.get('/kelola-acara', (req, res) => {
 router.get('/ekspor-tracer', (req, res) => {
     res.render('admin/ekspor-tracer', {
         title: 'Ekspor Tracer - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         eksportracer: [], // nanti bisa diisi dari database
@@ -89,7 +83,6 @@ router.get('/ekspor-tracer', (req, res) => {
 router.get('/riwayat-pengajuan', (req, res) => {
     res.render('admin/riwayat-pengajuan', {
         title: 'Riwayat Pengajuan - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         riwayatpengajuan: [], // nanti bisa diisi dari database
@@ -100,7 +93,6 @@ router.get('/riwayat-pengajuan', (req, res) => {
 router.get('/moderasi-job-posting', (req, res) => {
     res.render('admin/moderasi-job-posting', {
         title: 'Moderasi Job Posting - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         moderasijobposting: [], // nanti bisa diisi dari database
@@ -111,7 +103,6 @@ router.get('/moderasi-job-posting', (req, res) => {
 router.get('/kelola-data-alumni', (req, res) => {
     res.render('admin/kelola-data-alumni', {
         title: 'kelola-data-alumni - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         manajemendataalumni: [], // nanti bisa diisi dari database
@@ -122,7 +113,6 @@ router.get('/kelola-data-alumni', (req, res) => {
 router.get('/data-statistik-alumni', (req, res) => {
     res.render('admin/data-statistik-alumni', {
         title: 'data-statistik-alumni - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         datastatistikalumni: [], // nanti bisa diisi dari database
@@ -133,7 +123,6 @@ router.get('/data-statistik-alumni', (req, res) => {
 router.get('/kelola-postingan', (req, res) => {
     res.render('admin/kelola-postingan', {
         title: 'kelola-postingan - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         datastatistikalumni: [], // nanti bisa diisi dari database
@@ -144,7 +133,6 @@ router.get('/kelola-postingan', (req, res) => {
 router.get('/kelola-penghargaan', (req, res) => {
     res.render('admin/kelola-penghargaan', {
         title: 'kelola-penghargaan - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         datastatistikalumni: [], // nanti bisa diisi dari database
@@ -155,7 +143,6 @@ router.get('/kelola-penghargaan', (req, res) => {
 router.get('/kirim-notif', (req, res) => {
     res.render('admin/kirim-notif', {
         title: 'kirim-notif - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         datastatistikalumni: [], // nanti bisa diisi dari database
@@ -185,7 +172,6 @@ router.get('/lihat-alumni', (req, res) => {
     res.render('admin/lihat-alumni', {
         alumni,
         title: 'lihat-alumni - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         datastatistikalumni: [], // nanti bisa diisi dari database
@@ -196,7 +182,6 @@ router.get('/lihat-alumni', (req, res) => {
 router.get('/kelola-galeri', (req, res) => {
     res.render('admin/kelola-galeri', {
         title: 'kelola-galeri - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         datastatistikalumni: [], // nanti bisa diisi dari database
@@ -207,7 +192,6 @@ router.get('/kelola-galeri', (req, res) => {
 router.get('/upload-berita-agenda', (req, res) => {
     res.render('admin/upload-berita-agenda', {
         title: 'upload-berita-agenda - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         datastatistikalumni: [], // nanti bisa diisi dari database
@@ -218,7 +202,6 @@ router.get('/upload-berita-agenda', (req, res) => {
 router.get('/profile-admin', (req, res) => {
     res.render('admin/profile-admin', {
         title: 'profile-admin - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         datastatistikalumni: [], // nanti bisa diisi dari database
@@ -229,27 +212,15 @@ router.get('/profile-admin', (req, res) => {
 router.get('/edit-profile-admin', (req, res) => {
     res.render('admin/edit-profile-admin', {
         title: 'edit-profile-admin - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
         // Data forum yang akan dikelola
         datastatistikalumni: [], // nanti bisa diisi dari database
     });
 });
 
-//
-// Route tambahan admin lainnya (contoh)
-router.get('/users', (req, res) => {
-    res.render('admin/users', {
-        title: 'User Management - Admin Panel',
-        layout: 'admin/layout',
-        user: req.user || null,
-    });
-});
-
 router.get('/settings', (req, res) => {
     res.render('admin/settings', {
         title: 'Settings - Admin Panel',
-        layout: 'admin/layout',
         user: req.user || null,
     });
 });
