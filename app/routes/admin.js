@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const AdminController = require('../controllers/AdminController');
+const AlumniController = require('../controllers/AlumniController');
 
 // Middleware untuk memastikan hanya admin yang bisa akses
 // (opsional - sesuaikan dengan sistem authentication Anda)
@@ -28,6 +30,9 @@ router.get('/', (req, res) => {
         },
     });
 });
+
+// Kelola Data Alumni
+router.get('/kelola-data-alumni', AlumniController.getAllAlumniProfiles);
 
 // Route untuk forum management
 router.get('/kelola-forum', (req, res) => {
@@ -96,16 +101,6 @@ router.get('/moderasi-job-posting', (req, res) => {
         user: req.user || null,
         // Data forum yang akan dikelola
         moderasijobposting: [], // nanti bisa diisi dari database
-    });
-});
-
-// Route untuk kelola-data-alumni
-router.get('/kelola-data-alumni', (req, res) => {
-    res.render('admin/kelola-data-alumni', {
-        title: 'kelola-data-alumni - Admin Panel',
-        user: req.user || null,
-        // Data forum yang akan dikelola
-        manajemendataalumni: [], // nanti bisa diisi dari database
     });
 });
 
