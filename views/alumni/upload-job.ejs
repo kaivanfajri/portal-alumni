@@ -1,123 +1,104 @@
 <!DOCTYPE html>
- <html lang="id">
- <head>
-   <meta charset="UTF-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-   <title>Pengajuan Postingan Lowongan</title>
-   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet" type="text/css" />
-   <script src="https://cdn.tailwindcss.com"></script>
- </head>
- <body class="bg-gradient-to-br from-green-50 to-green-100 min-h-screen p--1">
- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Pengajuan Postingan Lowongan</title>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gradient-to-br from-green-50 to-green-100 min-h-screen p--1">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
         <style>
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             }
         </style>
-    </head>
-    <body class="min-h-screen bg-[#F0F8F0]">
-        <!-- Include Navbar -->
-        <%- include('alumni-partials/navbar') %>
 
-   <!-- Form Section -->
-   <div class="max-w-xl mx-auto mt-7 mb-4">
-     <div id="successMessage" class="alert alert-success hidden mb-4">
-       <span>Lowongan berhasil diajukan! Data telah tersimpan.</span>
-     </div>
- 
-     <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
-       <h2 class="text-2xl font-bold text-green-800 text-center mb-6 border-b pb-3">Pengajuan Postingan Lowongan</h2>
-       <form id="jobForm" class="space-y-4">
-         <div class="form-control">
-           <label class="label">
-             <span class="label-text">Judul Lowongan</span>
-           </label>
-           <input type="text" id="jobTitle" class="input input-bordered" placeholder="Masukkan judul lowongan" required/>
-         </div>
- 
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">Deskripsi</span>
-          </label>
-          <textarea class="textarea textarea-bordered w-full" rows="2" placeholder="Masukkan informasi kuota..."></textarea>
+        <!-- Form Section -->
+        <div class="max-w-xl mx-auto mt-7 mb-4">
+            <div id="successMessage" class="alert alert-success hidden mb-4">
+                <span>Lowongan berhasil diajukan! Data telah tersimpan.</span>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
+                <h2 class="text-2xl font-bold text-green-800 text-center mb-6 border-b pb-3">Pengajuan Postingan Lowongan</h2>
+                <form id="jobForm" class="space-y-4" enctype="multipart/form-data">
+                    <!-- Judul Lowongan -->
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Judul Lowongan</span>
+                        </label>
+                        <input type="text" id="jobTitle" class="input input-bordered" placeholder="Masukkan judul lowongan" required />
+                    </div>
+
+                    <!-- Deskripsi -->
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Deskripsi</span>
+                        </label>
+                        <textarea class="textarea textarea-bordered w-full" rows="2" placeholder="Masukkan informasi kuota..." id="jobDescription" required></textarea>
+                    </div>
+
+                    <!-- Upload Gambar -->
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text font-semibold">Upload Gambar</span>
+                        </label>
+                        <input type="file" class="file-input file-input-bordered file-input-sm w-full" accept="image/*" name="jobImage" required />
+                    </div>
+
+                    <div class="form-control">
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-warning text-white font-semibold px-8">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-<!-- Form Upload Gambar -->
-  <div class="form-control">
-    <label class="label">
-      <span class="label-text font-semibold">Upload Gambar</span>
-    </label>
-    <input type="file" class="file-input file-input-bordered file-input-sm w-full" accept="image/*" />
-  </div>
 
-         <div class="form-control">
-           <label class="label">
-         </div>
- 
-         <div class="text-end">
-           <button type="submit" class="btn btn-warning text-white font-semibold px-8">Submit</button>
-         </div>
-       </form>
-     </div>
-   </div>
- 
-   <!-- JavaScript -->
-   <script>
-  // Fungsi untuk menangani form submission
-  document.getElementById('jobForm').addEventListener('submit', function(e) {
-    e.preventDefault();  // Menghentikan form dari pengiriman secara default
+        <!-- JavaScript -->
+        <script>
+            // Fungsi untuk menangani form submission
+            document.getElementById('jobForm').addEventListener('submit', function (e) {
+                e.preventDefault(); // Menghentikan form dari pengiriman secara default
 
-    // Ambil data dari form
-    const jobTitle = document.getElementById('jobTitle').value;
-    const jobDescription = document.querySelector('textarea').value;
-    const jobImage = document.querySelector('input[type="file"]').files[0];  // Ambil file gambar yang diupload
+                // Ambil data dari form
+                const jobTitle = document.getElementById('jobTitle').value;
+                const jobDescription = document.getElementById('jobDescription').value;
+                const jobImage = document.querySelector('input[type="file"]').files[0]; // Ambil file gambar yang diupload
 
-    // Validasi jika judul dan deskripsi tidak kosong
-    if (!jobTitle || !jobDescription) {
-      alert('Judul Lowongan dan Deskripsi harus diisi!');
-      return;
-    }
+                // Validasi jika judul dan deskripsi tidak kosong
+                if (!jobTitle || !jobDescription) {
+                    alert('Judul Lowongan dan Deskripsi harus diisi!');
+                    return;
+                }
 
-    // Menyusun data yang akan dikirim (misalnya, menampilkan data di konsol)
-    const formData = new FormData();
-    formData.append('jobTitle', jobTitle);
-    formData.append('jobDescription', jobDescription);
-    if (jobImage) {
-      formData.append('jobImage', jobImage);
-    }
+                // Menyusun data yang akan dikirim
+                const formData = new FormData();
+                formData.append('jobTitle', jobTitle);
+                formData.append('jobDescription', jobDescription);
+                if (jobImage) {
+                    formData.append('jobImage', jobImage);
+                }
 
-    // Tampilkan data yang telah dimasukkan di konsol (untuk pengujian)
-    console.log('Job Title:', jobTitle);
-    console.log('Job Description:', jobDescription);
-    if (jobImage) {
-      console.log('Job Image:', jobImage.name);  // Nama file gambar yang diupload
-    }
+                // Tampilkan data yang telah dimasukkan di konsol (untuk pengujian)
+                console.log('Job Title:', jobTitle);
+                console.log('Job Description:', jobDescription);
+                if (jobImage) {
+                    console.log('Job Image:', jobImage.name); // Nama file gambar yang diupload
+                }
 
-    // Simulasikan pengiriman data
-    document.getElementById('successMessage').classList.remove('hidden');
-    this.reset();  // Reset form setelah submit
-    window.scrollTo({ top: 0, behavior: 'smooth' });  // Scroll ke atas
+                // Simulasikan pengiriman data
+                document.getElementById('successMessage').classList.remove('hidden');
+                this.reset(); // Reset form setelah submit
+                window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll ke atas
 
-    // Sembunyikan pesan sukses setelah 5 detik
-    setTimeout(() => {
-      document.getElementById('successMessage').classList.add('hidden');
-    }, 5000);
-  });
-
-  // Menangani validasi kuota minimum
-  document.getElementById('quota').addEventListener('input', function () {
-    this.setCustomValidity(this.value < 1 ? 'Kuota minimal 1 orang' : '');
-  });
-
-  // Format input gaji dengan menambahkan simbol 'Rp'
-  document.getElementById('salary').addEventListener('input', function () {
-    let value = this.value.replace(/[^\d\-\s]/g, '');  // Menghapus karakter selain angka dan spasi
-    if (value && !value.includes('Rp') && /^\d+$/.test(value.replace(/[\s\-]/g, ''))) {
-      this.value = 'Rp ' + value;  // Menambahkan prefix 'Rp'
-    }
-  });
-</script>
- <!-- Include Footer -->
-        <%- include('alumni-partials/footer') %>
- </body>
- </html>
- 
+                // Sembunyikan pesan sukses setelah 5 detik
+                setTimeout(() => {
+                    document.getElementById('successMessage').classList.add('hidden');
+                }, 5000);
+            });
+        </script>
+    </body>
+</html>
