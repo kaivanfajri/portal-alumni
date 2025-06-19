@@ -1,5 +1,5 @@
-<%- include('partials/header') %> <!-- Header umum -->
-<%- include('alumni/alumni-partials/navbar') %> <!-- Navbar alumni -->
+<%- include('../partials/header') %> <!-- Header umum -->
+<%- include('alumni-partials/navbar') %> <!-- Navbar alumni -->
 
 <!-- Hero Section -->
 <section id="beranda" class="hero min-h-screen hero-gradient">
@@ -12,9 +12,9 @@
                     <i class="fas fa-users mr-2"></i>
                     Lihat Profil Alumni
                 </a>
-                <a href="/auth/register" class="btn btn-outline btn-lg px-8" style="border-color: #2e7d32; color: #2e7d32">
-                    <i class="fas fa-user-plus mr-2"></i>
-                    Daftar Sebagai Alumni
+                <a href="/alumni/upload-job" class="btn btn-success btn-lg px-8">
+                    <i class="fas fa-upload mr-2"></i>
+                    Upload Lowongan Kerja
                 </a>
             </div>
         </div>
@@ -136,4 +136,4 @@
     </div>
 </section>
 
-<%- include('alumni/alumni-partials/footer') %> <!-- Footer -->
+<%- include('alumni-partials/footer') %> <!-- Footer -->

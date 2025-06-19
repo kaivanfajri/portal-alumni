@@ -14,4 +14,9 @@ router.get('/alumni/logout', (req, res) => {
     res.redirect('/auth/alumni/login');
 });
 
+// Register Alumni
+router.get('/register', (req, res) => {
+    res.render('auth/register', { error: null });
+});
+
 module.exports = router;

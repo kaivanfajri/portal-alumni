@@ -8,14 +8,14 @@
         <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet" type="text/css" />
     </head>
     <body class="bg-gradient-to-br from-green-50 to-green-100 min-h-screen p--1">
-<!-- Include Navbar -->
+        <!-- Include Navbar -->
         <%- include('alumni-partials/navbar') %>
 
         <div class="p-10">
             <!-- Judul Lowongan -->
             <div class="mb-10">
-                <h1 class="text-3xl font-bold">SPARTAN 2025</h1>
-                <h2 class="text-2xl font-semibold">(SPIL ACCELERATION TRAINEE PROGRAM)</h2>
+                <h1 class="text-3xl font-bold"><%= job.judul_lowongan %></h1>
+                <h2 class="text-2xl font-semibold"><%= job.deskripsi %></h2>
             </div>
 
             <div class="flex flex-col lg:flex-row gap-10">
@@ -23,31 +23,20 @@
                 <div class="flex-1">
                     <h3 class="font-bold mb-2">Deskripsi :</h3>
                     <p class="mb-4">
-                        Memanggil para lulusan baru berprestasi tinggi untuk bergabung dalam program trainee kami. Tingkatkan diri Anda dengan belajar langsung di lingkungan kerja nyata. Dalam program ini, Anda dapat mempelajari tentang
-                        operasi pengiriman & logistik, komersial, keuangan, sumber daya manusia, dan disiplin lainnya secara langsung dengan para ahli di SPIL.
+                        <%= job.deskripsi %>
                     </p>
-                    <p class="mb-4">
-                        Dengan bergabung dalam program ini, Anda juga akan memiliki kesempatan untuk bergabung dalam program percepatan karier SPIL di seluruh cabangnya setelah menyelesaikan program ini. Program ini akan dilaksanakan di
-                        seluruh lokasi SPIL pada bulan Agustus 2025.
-                    </p>
-
                     <!-- Tombol Simpan -->
                     <p class="mt-4 font-bold mb-1">Simpan Lowongan :</p>
                     <div class="mt-4">
                         <button id="saveButton" class="btn bg-yellow-500 text-black border-yellow-500">Simpan</button>
                     </div>
                 </div>
-
                 <!-- Kanan: Informasi Tambahan -->
                 <div class="w-full lg:w-96 bg-base-200 rounded-box shadow-md p-3 h-48">
-                    <!-- <h3 class="text-lg font-bold mb-2">Informasi Lainnya</h3>
-                    <hr class="mb-3" />
-                    <p class="mb-1"><span class="font-semibold">Tanggal Buka :</span> //</p>
-                    <p class="mb-1"><span class="font-semibold">Tanggal Tutup :</span> //</p>
-                    <p class="mb-1"><span class="font-semibold">Kuota :</span> //</p>
-                    <p class="mb-1"><span class="font-semibold">Salary :</span> Rp.00</p> -->
-                    <p>ini harusnya diganti</p>
-                    <img src="/images/background.jpg" alt="gambar" />
+                    <p><%= job.keterangan || '' %></p>
+                    <% if (job.gambar) { %>
+                        <img src="/<%= job.gambar %>" alt="gambar" />
+                    <% } %>
                 </div>
             </div>
         </div>
@@ -56,24 +45,18 @@
         <script>
             // Fungsi untuk menyimpan lowongan ke localStorage
             function saveJob() {
-                const jobTitle = 'SPARTAN 2025'; // Anda bisa mengganti dengan data dinamis
-                const jobDescription = 'SPIL ACCELERATION TRAINEE PROGRAM'; // Data lainnya
+                const jobTitle = '<%= job.judul_lowongan %>';
+                const jobDescription = '<%= job.deskripsi %>';
                 const jobData = {
                     title: jobTitle,
                     description: jobDescription,
                     datePosted: new Date().toISOString(),
                 };
-
-                // Simpan data lowongan ke localStorage
                 let savedJobs = JSON.parse(localStorage.getItem('savedJobs')) || [];
                 savedJobs.push(jobData);
                 localStorage.setItem('savedJobs', JSON.stringify(savedJobs));
-
-                // Tampilkan pesan alert
                 alert('Lowongan berhasil disimpan!');
             }
-
-            // Menambahkan event listener ke tombol Simpan
             document.getElementById('saveButton').addEventListener('click', saveJob);
         </script>
         <!-- Include Footer -->

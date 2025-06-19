@@ -164,4 +164,19 @@ router.get('/galeri', (req, res) => {
     });
 });
 
+// Route dashboard alumni
+router.get('/dashboard', (req, res) => {
+    res.render('alumni/dashboard', {
+        title: 'Dashboard Alumni',
+        layout: 'Alumni/layout',
+        user: req.user || null,
+    });
+});
+
+// Route untuk daftar lowongan kerja (list-job)
+router.get('/list-job', JobController.getAllJobs);
+
+// Route untuk detail lowongan kerja (detail-job/:id)
+router.get('/detail-job/:id', JobController.getJobDetail);
+
 module.exports = router;

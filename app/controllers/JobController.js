@@ -26,6 +26,7 @@ exports.createJob = async (req, res) => {
     const alumniId = req.user && req.user.id ? req.user.id : null;
     const kategoriId = 1; // default kategori jika tidak ada input kategori
 
+    
     // Validasi data yang diperlukan
     if (!jobTitle || !jobDescription || !jobImage || !alumniId) {
       return res.status(400).json({ message: 'Semua data harus diisi dengan lengkap!' });

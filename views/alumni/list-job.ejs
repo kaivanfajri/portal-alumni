@@ -20,39 +20,15 @@
 
             <!-- Grid Lowongan -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-20">
-                <!-- Card 1 -->
+                <% jobs.forEach(function(job) { %>
                 <div class="card bg-white shadow rounded-xl">
                     <div class="card-body">
-                        <h3 class="font-semibold">Judul lowongan</h3>
-                        <p class="text-sm text-gray-600">Deskripsi</p>
-                        <a href="/alumni/detail-job" class="text-green-700 text-sm font-medium mt-">Selengkapnya</a>
+                        <h3 class="font-semibold"><%= job.judul_lowongan %></h3>
+                        <p class="text-sm text-gray-600"><%= job.deskripsi.substring(0, 80) %>...</p>
+                        <a href="/alumni/detail-job/<%= job.id %>" class="text-green-700 text-sm font-medium mt-">Selengkapnya</a>
                     </div>
                 </div>
-                <!-- Card 2 -->
-                <div class="card bg-white shadow rounded-xl">
-                    <div class="card-body">
-                        <h3 class="font-semibold">Judul lowongan</h3>
-                        <p class="text-sm text-gray-600">Deskripsi</p>
-                        <a href="/alumni/detail-job" class="text-green-700 text-sm font-medium mt-">Selengkapnya</a>
-                    </div>
-                </div>
-                <!-- Card 3 -->
-                <div class="card bg-white shadow rounded-xl">
-                    <div class="card-body">
-                        <h3 class="font-semibold">Judul lowongan</h3>
-                        <p class="text-sm text-gray-600">Deskripsi</p>
-                        <a href="/alumni/detail-job" class="text-green-700 text-sm font-medium mt-">Selengkapnya</a>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="card bg-white shadow rounded-xl">
-                    <div class="card-body">
-                        <h3 class="font-semibold">Judul lowongan</h3>
-                        <p class="text-sm text-gray-600">Deskripsi</p>
-                        <a href="/alumni/detail-job" class="text-green-700 text-sm font-medium mt-">Selengkapnya</a>
-                    </div>
-                </div>
+                <% }); %>
             </div>
 
             <!-- Pagination -->

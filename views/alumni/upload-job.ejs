@@ -23,7 +23,7 @@
 
             <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
                 <h2 class="text-2xl font-bold text-green-800 text-center mb-6 border-b pb-3">Pengajuan Postingan Lowongan</h2>
-                <form id="jobForm" class="space-y-4" enctype="multipart/form-data">
+                <form id="jobForm" class="space-y-4" enctype="multipart/form-data" method="POST" action="/alumni/upload-job">
                     <!-- Judul Lowongan -->
                     <div class="form-control">
                         <label class="label">
@@ -56,49 +56,5 @@
                 </form>
             </div>
         </div>
-
-        <!-- JavaScript -->
-        <script>
-            // Fungsi untuk menangani form submission
-            document.getElementById('jobForm').addEventListener('submit', function (e) {
-                e.preventDefault(); // Menghentikan form dari pengiriman secara default
-
-                // Ambil data dari form
-                const jobTitle = document.getElementById('jobTitle').value;
-                const jobDescription = document.getElementById('jobDescription').value;
-                const jobImage = document.querySelector('input[type="file"]').files[0]; // Ambil file gambar yang diupload
-
-                // Validasi jika judul dan deskripsi tidak kosong
-                if (!jobTitle || !jobDescription) {
-                    alert('Judul Lowongan dan Deskripsi harus diisi!');
-                    return;
-                }
-
-                // Menyusun data yang akan dikirim
-                const formData = new FormData();
-                formData.append('jobTitle', jobTitle);
-                formData.append('jobDescription', jobDescription);
-                if (jobImage) {
-                    formData.append('jobImage', jobImage);
-                }
-
-                // Tampilkan data yang telah dimasukkan di konsol (untuk pengujian)
-                console.log('Job Title:', jobTitle);
-                console.log('Job Description:', jobDescription);
-                if (jobImage) {
-                    console.log('Job Image:', jobImage.name); // Nama file gambar yang diupload
-                }
-
-                // Simulasikan pengiriman data
-                document.getElementById('successMessage').classList.remove('hidden');
-                this.reset(); // Reset form setelah submit
-                window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll ke atas
-
-                // Sembunyikan pesan sukses setelah 5 detik
-                setTimeout(() => {
-                    document.getElementById('successMessage').classList.add('hidden');
-                }, 5000);
-            });
-        </script>
     </body>
 </html>
